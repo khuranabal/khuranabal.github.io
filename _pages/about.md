@@ -3,6 +3,14 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+Hello, I like working with data and coding.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+I have worked with SQL server, Azure data services including data lake, blob, data factory, databricks, ETL, SSIS, structured and semi-structured data.
+
+I am also Azure data engineer certified in DP-200
+
+I have worked on IaC using terraform, Azure pipelines for auto deployment, and have knowledge of distributing computing, hdfs, hadoop, hive, sqoop, worked on spark, pyspark and some python.
+
+I have worked in different software development methodologies like waterfall, Scrum. Mostly scrum in recent years and using gitops way for code management, testing and deployment.
+
+I have Master's in Technology(Software Systems) from BITS Pilani, India.
