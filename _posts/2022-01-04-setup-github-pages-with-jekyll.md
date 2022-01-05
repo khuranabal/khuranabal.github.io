@@ -19,7 +19,7 @@ Installation instructions [here][install]
 
 
 ### Prerequisite
-Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Clone repo from [here][template]
+Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Get all the content from [repo][template]
 
 Test if its working fine on local by executing below command and then browsing on localhost:4000
 ```sh
@@ -30,7 +30,7 @@ bundle exec jekyll serve
 Note: config/post can be modified/added as required, follow [docs][docs]
 
 
-### Deploy to github and configure pages
+### Configure pages and deploy to github
 
 1. make repo and configure github settings to enable pages, follow [here][pages]
 2. push code to the new created repo
