@@ -36,8 +36,15 @@ Note: config/post can be modified/added as required, follow [docs][docs]
 2. push code to the new created repo
 3. access githubpages url, if the repo created is `username.github.io` then url will be `https:\\username.github.io` 
 
+### Enabling feature to add comments in the blogs
+
+In order to enable comments feature we have mutiple options and here we have used github issues where all the comments in the blog will be stored.
+To enable, follow [here][comments]
+
+Note: It will not show comments locally, it will only work once pushed to github on githubpages url.
 
 [install]: https://jekyllrb.com/docs/installation/
 [template]: https://github.com/mmistakes/mm-github-pages-starter
 [docs]: https://mmistakes.github.io/minimal-mistakes/docs/configuration/
 [pages]: https://docs.github.com/en/pages/quickstart
+[comments]: https://mmistakes.github.io/minimal-mistakes/docs/configuration/#utterances-comments
