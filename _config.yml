@@ -119,6 +119,6 @@ tag_archive:
 comments:
   provider: "utterances"
   utterances:
-    theme: "github-dark"
+    theme: "github-light"
     issue_term: "pathname"
     label: "comment" # Optional - must be existing label.
