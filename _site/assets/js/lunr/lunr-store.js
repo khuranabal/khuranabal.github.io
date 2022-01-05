@@ -1,7 +1,7 @@
 var store = [{
-        "title": "Build static website using github pages and jekyll",
-        "excerpt":"Steps to build   Build on local   Deploy to github and configure pages    ","categories": ["blog"],
-        "tags": ["Jekyll","Github"],
+        "title": "Build and deploy static website using jekyll and github pages",
+        "excerpt":"Installation Following are required to be installed in order to build and test the static website locally. Installation instructions here ruby rubygems gcc make Prerequisite Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Clone repo from...","categories": ["blog"],
+        "tags": ["jekyll","github"],
         "url": "/blog/setup-github-pages-with-jekyll/",
         "teaser": null
       }]

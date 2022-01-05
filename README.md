@@ -7,5 +7,5 @@ Repo for technical blogs related to data space
 
 ```bash
 bundle install
-bundle exec jekyll serve
+make start-web
 ```

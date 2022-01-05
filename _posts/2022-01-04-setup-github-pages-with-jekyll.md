@@ -1,33 +1,43 @@
 ---
-title: "Build static website using github pages and jekyll"
+title: "Build and deploy static website using jekyll and github pages"
 date: 2022-01-04T15:00:00-00:00
 categories:
   - blog
 tags:
-  - Jekyll
-  - Github
+  - jekyll
+  - github
 ---
 
-## Steps to build
 
-### Build on local
+### Installation
+Following are required to be installed in order to build and test the static website locally.
+Installation instructions [here][install]
+1. ruby
+2. rubygems
+3. gcc
+4. make
+
+
+### Prerequisite
+Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Clone repo from [here][template]
+
+Test if its working fine on local by executing below command and then browsing on localhost:4000
+```sh
+bundle install
+bundle exec jekyll serve
+```
+
+Note: config/post can be modified/added as required, follow [docs][docs]
+
 
 ### Deploy to github and configure pages
 
-<!---
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+1. make repo and configure github settings to enable pages, follow [here][pages]
+2. push code to the new created repo
+3. access githubpages url, if the repo created is `username.github.io` then url will be `https:\\username.github.io` 
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
 
-This theme supports **link posts**, made famous by John Gruber. To use, just add `link: http://url-you-want-linked` to the post's YAML front matter and you're done.
-
-> And this is how a quote looks.
-
-Some [link](#) can also be shown.
-
-> Only one thing is impossible for God: To find any sense in any copyright law on the planet.
-  
-> <cite><a href="http://www.brainyquote.com/quotes/quotes/m/marktwain163473.html">Mark Twain</a></cite>
--->
+[install]: https://jekyllrb.com/docs/installation/
+[template]: https://github.com/mmistakes/mm-github-pages-starter
+[docs]: https://mmistakes.github.io/minimal-mistakes/docs/configuration/
+[pages]: https://docs.github.com/en/pages/quickstart
