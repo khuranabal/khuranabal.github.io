@@ -32,7 +32,7 @@ search: true
 # Build settings
 markdown: kramdown
 
-repository: khuranabal/khuranbal.github.io
+repository: khuranabal/khuranabal.github.io
 
 remote_theme: mmistakes/minimal-mistakes
 # Outputting
