@@ -9,6 +9,11 @@ tags:
 ---
 
 
+To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:
+* jekyll: static site generator, theme used is minimal mistakes
+* github pages: static website hosting service
+
+
 ### Installation
 Following are required to be installed in order to build and test the static website locally.
 Installation instructions [here][install]
