@@ -1,4 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-06T16:34:37+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">Build and deploy static website using jekyll and github pages</title><link href="http://localhost:4000/blog/setup-github-pages-with-jekyll/" rel="alternate" type="text/html" title="Build and deploy static website using jekyll and github pages" /><published>2022-01-04T16:00:00+01:00</published><updated>2022-01-04T16:00:00+01:00</updated><id>http://localhost:4000/blog/setup-github-pages-with-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/setup-github-pages-with-jekyll/">&lt;p&gt;To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-08T16:39:16+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hdfs architecture</title><link href="http://localhost:4000/blog/understand-hdfs/" rel="alternate" type="text/html" title="hdfs architecture" /><published>2022-01-08T14:45:00+01:00</published><updated>2022-01-08T14:45:00+01:00</updated><id>http://localhost:4000/blog/understand-hdfs</id><content type="html" xml:base="http://localhost:4000/blog/understand-hdfs/">&lt;p&gt;hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/hdfs/hdfs-architecture.png&quot; alt=&quot;hdfs architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s assume we have cluster(2 data node, 1 name node) and file of 250MB.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Default block size: 128MB&lt;/li&gt;
+  &lt;li&gt;Default replication factor: 3&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, there will be 2 blocks:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Block-1: 128MB&lt;/li&gt;
+  &lt;li&gt;Block-2: 122MB&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When data will be loaded then both the blocks will be loaded on different data node, behind the scene as per default setting each block will be replicated 3 times, in this case 1 node will have 2 copies of block and other node will have 1 copy of block.&lt;/p&gt;
+
+&lt;h3 id=&quot;metadata-stored-in-name-node&quot;&gt;Metadata stored in name node&lt;/h3&gt;
+&lt;p&gt;At high level below details are stored in metadata.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Filename&lt;/li&gt;
+  &lt;li&gt;Block&lt;/li&gt;
+  &lt;li&gt;Data node: All the data nodes which have the block&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;File name&lt;/td&gt;
+      &lt;td&gt;Block Number&lt;/td&gt;
+      &lt;td&gt;Data node 1&lt;/td&gt;
+      &lt;td&gt;Data Node 2&lt;/td&gt;
+      &lt;td&gt;Data Node 3&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;data-node-failure&quot;&gt;Data node failure&lt;/h3&gt;
+&lt;p&gt;In case of any failue in data node other data node will be responsible for serving requests and name node will maintain the copies as per replication factor.&lt;/p&gt;
+
+&lt;h4 id=&quot;heart-beat-to-know-data-node-failure&quot;&gt;Heart beat to know data node failure&lt;/h4&gt;
+&lt;p&gt;Each data node sends heart beat every 3 seconds to name node and if 10 consecutive times hear beat is not received from a data node then data node is treated as dead or running very slow.&lt;/p&gt;
+
+&lt;h3 id=&quot;name-node-failure&quot;&gt;Name node failure&lt;/h3&gt;
+&lt;p&gt;In case of failure of name node there will be no access to metadata. So in hadoop v1 it was single point of failure. In hadoop v2 it has secondary name node so it’s not single point of failure.
+Important metadata files:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;fsimage: snapshot of file system at a particular time&lt;/li&gt;
+  &lt;li&gt;edit logs: transaction logs that changes in hdfs file system&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Secondary name node is responsible for merging fsimage with edit logs and generating new fsimage, once merge is done it restes fsimage and edit logs to empty. This process is done every 30 sec.&lt;/p&gt;
+
+&lt;p&gt;So, when primary name node fails, secondary can become active and then we have to introduce secondary name node.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hdfs" /><summary type="html">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</summary></entry><entry><title type="html">Build and deploy static website using jekyll and github pages</title><link href="http://localhost:4000/blog/setup-github-pages-with-jekyll/" rel="alternate" type="text/html" title="Build and deploy static website using jekyll and github pages" /><published>2022-01-04T16:00:00+01:00</published><updated>2022-01-04T16:00:00+01:00</updated><id>http://localhost:4000/blog/setup-github-pages-with-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/setup-github-pages-with-jekyll/">&lt;p&gt;To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;jekyll: static site generator, theme used is minimal mistakes&lt;/li&gt;
   &lt;li&gt;github pages: static website hosting service&lt;/li&gt;
@@ -15,7 +71,7 @@ Installation instructions &lt;a href=&quot;https://jekyllrb.com/docs/installatio
 &lt;/ol&gt;
 
 &lt;h3 id=&quot;prerequisite&quot;&gt;Prerequisite&lt;/h3&gt;
-&lt;p&gt;Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Get all the content from &lt;a href=&quot;https://github.com/mmistakes/mm-github-pages-starter&quot;&gt;repo&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme as per need. Download &lt;a href=&quot;https://github.com/mmistakes/mm-github-pages-starter&quot;&gt;repo&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Test if its working fine on local by executing below command and then browsing on localhost:4000&lt;/p&gt;
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle &lt;span class=&quot;nb&quot;&gt;install
@@ -27,14 +83,14 @@ Installation instructions &lt;a href=&quot;https://jekyllrb.com/docs/installatio
 &lt;h3 id=&quot;configure-pages-and-deploy-to-github&quot;&gt;Configure pages and deploy to github&lt;/h3&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;make repo and configure github settings to enable pages, follow &lt;a href=&quot;https://docs.github.com/en/pages/quickstart&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;create new repo and configure github settings to enable pages, follow &lt;a href=&quot;https://docs.github.com/en/pages/quickstart&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;push code to the new created repo&lt;/li&gt;
   &lt;li&gt;access githubpages url, if the repo created is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;username.github.io&lt;/code&gt; then url will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https:\\username.github.io&lt;/code&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h3 id=&quot;enabling-feature-to-add-comments-in-the-blogs&quot;&gt;Enabling feature to add comments in the blogs&lt;/h3&gt;
 
-&lt;p&gt;In order to enable comments feature we have mutiple options and here we have used github issues where all the comments in the blog will be stored.
+&lt;p&gt;In order to enable comments feature we have different options and here we have used github issues where all the comments in the blog will be stored.
 To enable, follow &lt;a href=&quot;https://mmistakes.github.io/minimal-mistakes/docs/configuration/#utterances-comments&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Note: It will not show comments locally, it will only work once pushed to github on githubpages url.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="jekyll" /><category term="github" /><summary type="html">To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using: jekyll: static site generator, theme used is minimal mistakes github pages: static website hosting service</summary></entry></feed>

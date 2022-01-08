@@ -19,22 +19,19 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Posts by Category - Balpreet Singh</title>
-<meta name="description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
+<!-- begin _includes/seo.html --><title>hdfs architecture - Balpreet Singh</title>
+<meta name="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Posts by Category">
-<meta property="og:url" content="http://localhost:4000/categories/">
+<meta property="og:title" content="hdfs architecture">
+<meta property="og:url" content="http://localhost:4000/blog/understand-hdfs/">
 
 
-  <meta property="og:description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
-
-
-
+  <meta property="og:description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
 
 
 
@@ -42,9 +39,14 @@
 
 
 
+  <meta property="article:published_time" content="2022-01-08T14:45:00+01:00">
 
 
-<link rel="canonical" href="http://localhost:4000/categories/">
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/understand-hdfs/">
 
 
 
@@ -95,7 +97,7 @@
 
   </head>
 
-  <body class="layout--categories">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -263,56 +265,18 @@
 
 
 
-  <div class="archive">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="hdfs architecture">
+    <meta itemprop="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
+    <meta itemprop="datePublished" content="2022-01-08T14:45:00+01:00">
     
-      <h1 id="page-title" class="page__title">Posts by Category</h1>
-    
-    
 
-
-
-
-
-<ul class="taxonomy__index">
-  
-    
+    <div class="page__inner-wrap">
       
-        <li>
-          <a href="#blog">
-            <strong>blog</strong> <span class="taxonomy__count">2</span>
-          </a>
-        </li>
-      
-    
-  
-    
-      
-    
-  
-</ul>
-
-
-
-  
-    
-      <section id="blog" class="taxonomy__section">
-        <h2 class="archive__subtitle">blog</h2>
-        <div class="entries-list">
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">hdfs architecture
+</h1>
           
-            
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/understand-hdfs/" rel="permalink">hdfs architecture
-</a>
-      
-    </h2>
-    
 
   <p class="page__meta">
     
@@ -333,18 +297,143 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.
+        </header>
+      
 
-</p>
+      <section class="page__content" itemprop="text">
+        
+        <p>hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</p>
+
+<p><img src="/assets/images/hdfs/hdfs-architecture.png" alt="hdfs architecture" /></p>
+
+<p>Let’s assume we have cluster(2 data node, 1 name node) and file of 250MB.</p>
+<ul>
+  <li>Default block size: 128MB</li>
+  <li>Default replication factor: 3</li>
+</ul>
+
+<p>So, there will be 2 blocks:</p>
+<ul>
+  <li>Block-1: 128MB</li>
+  <li>Block-2: 122MB</li>
+</ul>
+
+<p>When data will be loaded then both the blocks will be loaded on different data node, behind the scene as per default setting each block will be replicated 3 times, in this case 1 node will have 2 copies of block and other node will have 1 copy of block.</p>
+
+<h3 id="metadata-stored-in-name-node">Metadata stored in name node</h3>
+<p>At high level below details are stored in metadata.</p>
+<ul>
+  <li>Filename</li>
+  <li>Block</li>
+  <li>Data node: All the data nodes which have the block</li>
+</ul>
+
+<p>Example:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>File name</td>
+      <td>Block Number</td>
+      <td>Data node 1</td>
+      <td>Data Node 2</td>
+      <td>Data Node 3</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="data-node-failure">Data node failure</h3>
+<p>In case of any failue in data node other data node will be responsible for serving requests and name node will maintain the copies as per replication factor.</p>
+
+<h4 id="heart-beat-to-know-data-node-failure">Heart beat to know data node failure</h4>
+<p>Each data node sends heart beat every 3 seconds to name node and if 10 consecutive times hear beat is not received from a data node then data node is treated as dead or running very slow.</p>
+
+<h3 id="name-node-failure">Name node failure</h3>
+<p>In case of failure of name node there will be no access to metadata. So in hadoop v1 it was single point of failure. In hadoop v2 it has secondary name node so it’s not single point of failure.
+Important metadata files:</p>
+<ul>
+  <li>fsimage: snapshot of file system at a particular time</li>
+  <li>edit logs: transaction logs that changes in hdfs file system</li>
+</ul>
+
+<p>Secondary name node is responsible for merging fsimage with edit logs and generating new fsimage, once merge is done it restes fsimage and edit logs to empty. This process is done every 30 sec.</p>
+
+<p>So, when primary name node fails, secondary can become active and then we have to introduce secondary name node.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#hdfs" class="page__taxonomy-item" rel="tag">hdfs</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-08T14:45:00+01:00">January 8, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/setup-github-pages-with-jekyll/" class="pagination--pager" title="Build and deploy static website using jekyll and github pages
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
   </article>
-</div>
 
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
           
-            
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -380,20 +469,13 @@
   </article>
 </div>
 
-          
-        </div>
-        <a href="#page-title" class="back-to-top">Back to Top &uarr;</a>
-      </section>
-    
+        
+      </div>
+    </div>
   
-
   
-    
-  
-
-
-  </div>
 </div>
+
     </div>
 
     
@@ -452,6 +534,30 @@
 <script src="/assets/js/lunr/lunr-en.js"></script>
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 
