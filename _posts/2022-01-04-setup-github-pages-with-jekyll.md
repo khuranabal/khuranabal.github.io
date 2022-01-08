@@ -24,7 +24,7 @@ Installation instructions [here][install]
 
 
 ### Prerequisite
-Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme if required. Get all the content from [repo][template]
+Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme as per need. Download [repo][template]
 
 Test if its working fine on local by executing below command and then browsing on localhost:4000
 ```sh
@@ -37,13 +37,13 @@ Note: config/post can be modified/added as required, follow [docs][docs]
 
 ### Configure pages and deploy to github
 
-1. make repo and configure github settings to enable pages, follow [here][pages]
+1. create new repo and configure github settings to enable pages, follow [here][pages]
 2. push code to the new created repo
 3. access githubpages url, if the repo created is `username.github.io` then url will be `https:\\username.github.io` 
 
 ### Enabling feature to add comments in the blogs
 
-In order to enable comments feature we have mutiple options and here we have used github issues where all the comments in the blog will be stored.
+In order to enable comments feature we have different options and here we have used github issues where all the comments in the blog will be stored.
 To enable, follow [here][comments]
 
 Note: It will not show comments locally, it will only work once pushed to github on githubpages url.
