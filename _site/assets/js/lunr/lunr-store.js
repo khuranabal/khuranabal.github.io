@@ -10,4 +10,10 @@ var store = [{
         "tags": ["hdfs"],
         "url": "/blog/understand-hdfs/",
         "teaser": null
+      },{
+        "title": "MapReduce working",
+        "excerpt":"MapReduce is programming model for processing big datsets. It consists of two stages: map reduce Both works on key value pairs. key value id 1 name abc Understanding with example Lets say we have a big file (size 100GB) and we need to find frequency of words. By default block...","categories": ["blog"],
+        "tags": ["mapreduce"],
+        "url": "/blog/map-reduce/",
+        "teaser": null
       }]
