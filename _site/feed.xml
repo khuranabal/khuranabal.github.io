@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-11T17:31:58+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">MapReduce working</title><link href="http://localhost:4000/blog/map-reduce/" rel="alternate" type="text/html" title="MapReduce working" /><published>2022-01-11T15:13:00+01:00</published><updated>2022-01-11T15:13:00+01:00</updated><id>http://localhost:4000/blog/map-reduce</id><content type="html" xml:base="http://localhost:4000/blog/map-reduce/">&lt;p&gt;MapReduce is programming model for processing big datsets. It consists of two stages:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-12T17:14:17+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">MapReduce working</title><link href="http://localhost:4000/blog/map-reduce/" rel="alternate" type="text/html" title="MapReduce working" /><published>2022-01-11T15:13:00+01:00</published><updated>2022-01-11T15:13:00+01:00</updated><id>http://localhost:4000/blog/map-reduce</id><content type="html" xml:base="http://localhost:4000/blog/map-reduce/">&lt;p&gt;MapReduce is programming model for processing big datsets. It consists of two stages:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;map&lt;/li&gt;
   &lt;li&gt;reduce&lt;/li&gt;
@@ -34,11 +34,11 @@ By default block size is 128MB so data will be divided as per block size and dis
 
 &lt;p&gt;Clearly the input is not in key value format, so here record reader is used to read input file and convert each line in key vaule pair. Here each line will be assigned a key by record reader and the vaule will be the actual line content.&lt;/p&gt;
 
-&lt;p&gt;Mapper logic: Just take the vaules, and split on space to find words and assign word as key and 1 as vaule.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Mapper logic&lt;/strong&gt;: Just take the vaules, and split on space to find words and assign word as key and 1 as vaule.&lt;/p&gt;
 
-&lt;p&gt;Shuffle &amp;amp; Sort: Transfer all the key vaule pairs on to single machine (reduer). Sorting will happen on keys, for example output will be in format: (key, {vaule, vaule, …})&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Shuffle &amp;amp; Sort&lt;/strong&gt;: Transfer all the key vaule pairs on to single machine (reduer). Sorting will happen on keys, for example output will be in format: (key, {vaule, vaule, …})&lt;/p&gt;
 
-&lt;p&gt;Reducer logic: Iterate over list of vaules in a key and sum it up.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Reducer logic&lt;/strong&gt;: Iterate over list of vaules in a key and sum it up.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/mapreduce/processing.png&quot; alt=&quot;processing&quot; /&gt;&lt;/p&gt;
 
@@ -47,7 +47,35 @@ By default block size is 128MB so data will be divided as per block size and dis
   &lt;li&gt;Number of mappers will be equal to number of data blocks.&lt;/li&gt;
   &lt;li&gt;Number of reducer is set by developer default is 1 but we can set to 0 or any higher number.&lt;/li&gt;
   &lt;li&gt;System take care of shuffle and sort operation.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="mapreduce" /><summary type="html">MapReduce is programming model for processing big datsets. It consists of two stages: map reduce</summary></entry><entry><title type="html">hdfs architecture</title><link href="http://localhost:4000/blog/understand-hdfs/" rel="alternate" type="text/html" title="hdfs architecture" /><published>2022-01-08T14:45:00+01:00</published><updated>2022-01-08T14:45:00+01:00</updated><id>http://localhost:4000/blog/understand-hdfs</id><content type="html" xml:base="http://localhost:4000/blog/understand-hdfs/">&lt;p&gt;hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.&lt;/p&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;optimization&quot;&gt;Optimization&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;More work on mappers&lt;/strong&gt;: It will optimize the processing as all mappers are executed parellely. More on this below in combiner section.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Increase reducer&lt;/strong&gt;: When we cannot put more work in the mapper then we can think of increasing reducer. Example: if all mappers take 1 min and reducer takes 4 min then we can consider increasing number of reducer in order to optimize the run time.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;No reducer&lt;/strong&gt;: Where no aggregation required, example: filtering.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;No shuffle and sort will be executed if reducer is not used.&lt;/li&gt;
+  &lt;li&gt;If we have more than one reducer then output of each mapper is divided in n partitions if n reducers are in cluster, partition 1 from each mapper goes to reducer 1 and so on. Hash function is used to route which key value goes to which partition. Hash function is consistent so as all same keys are in the same reducer.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;combiner&quot;&gt;Combiner&lt;/h4&gt;
+
+&lt;p&gt;In some cases, when work is moved more on the mapper that means we can have some aggreation work on mapper. Like if we need max value of the key then that can be performed on mapper as well. And the aggregation which is done on mapper is done by combiner process, it is executed on mapper machines itself.&lt;/p&gt;
+
+&lt;p&gt;But avoid using in case where data can change when executing on one machine compared to multiple machine like avg.&lt;/p&gt;
+
+&lt;p&gt;Note: Combiner logic is same as reducer logic in this case for example: max, min, sum.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="mapreduce" /><summary type="html">MapReduce is programming model for processing big datsets. It consists of two stages: map reduce</summary></entry><entry><title type="html">hdfs architecture</title><link href="http://localhost:4000/blog/understand-hdfs/" rel="alternate" type="text/html" title="hdfs architecture" /><published>2022-01-08T14:45:00+01:00</published><updated>2022-01-08T14:45:00+01:00</updated><id>http://localhost:4000/blog/understand-hdfs</id><content type="html" xml:base="http://localhost:4000/blog/understand-hdfs/">&lt;p&gt;hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/hdfs/hdfs-architecture.png&quot; alt=&quot;hdfs architecture&quot; /&gt;&lt;/p&gt;
 
