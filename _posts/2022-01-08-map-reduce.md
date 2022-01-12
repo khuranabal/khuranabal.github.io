@@ -43,6 +43,8 @@ Note:
 * Number of mappers will be equal to number of data blocks.
 * Number of reducer is set by developer default is 1 but we can set to 0 or any higher number.
 * System take care of shuffle and sort operation.
+* Record reader works on mapper machine.
+* If number of reducers are 0 then shuffle and sort will not execute.
 
 
 ### Optimization
@@ -66,3 +68,7 @@ In some cases, when work is moved more on the mapper that means we can have some
 But avoid using in case where data can change when executing on one machine compared to multiple machine like avg.
 
 Note: Combiner logic is same as reducer logic in this case for example: max, min, sum.
+
+### Flow of data
+
+record reader -> mapper -> combiner -> partitioner -> shuffle & sort -> reducer

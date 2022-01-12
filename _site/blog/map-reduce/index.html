@@ -351,6 +351,8 @@ By default block size is 128MB so data will be divided as per block size and dis
   <li>Number of mappers will be equal to number of data blocks.</li>
   <li>Number of reducer is set by developer default is 1 but we can set to 0 or any higher number.</li>
   <li>System take care of shuffle and sort operation.</li>
+  <li>Record reader works on mapper machine.</li>
+  <li>If number of reducers are 0 then shuffle and sort will not execute.</li>
 </ul>
 
 <h3 id="optimization">Optimization</h3>
@@ -380,6 +382,10 @@ By default block size is 128MB so data will be divided as per block size and dis
 <p>But avoid using in case where data can change when executing on one machine compared to multiple machine like avg.</p>
 
 <p>Note: Combiner logic is same as reducer logic in this case for example: max, min, sum.</p>
+
+<h3 id="flow-of-data">Flow of data</h3>
+
+<p>record reader -&gt; mapper -&gt; combiner -&gt; partitioner -&gt; shuffle &amp; sort -&gt; reducer</p>
 
         
       </section>
