@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-13T16:45:03+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs. Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-13T17:12:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs. Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;sqoop import: transfer from rdbms to hdfs&lt;/li&gt;
@@ -43,6 +43,43 @@ docker run &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt;&lt;span clas
 &lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;--query&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;select * from retail_db.customers limit 5&quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;import-one-table&quot;&gt;import one table&lt;/h3&gt;
+&lt;p&gt;It will run mapreduce job where only mappers will work. Default four mappers will run but can be changed. It divide work based on primary key. If no primary key then command will failm in that case we have two options:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;change number of mapper to one: use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-m 1&lt;/code&gt; parameter&lt;/li&gt;
+  &lt;li&gt;use split by column.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Example: Here &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;orders&lt;/code&gt; table has primary key and we testing import on this table.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop import &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306/retail_db&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--table&lt;/span&gt; orders &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--target-dir&lt;/span&gt; /result
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run below command after above import command to check files produced by import command, default number of mappers are 4 so thats why it will have four part-m files.&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hadoop fs &lt;span class=&quot;nt&quot;&gt;-ls&lt;/span&gt; /result
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;import-all-tables&quot;&gt;import all tables&lt;/h3&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop-import-all-tables &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306/retail_db&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--table&lt;/span&gt; orders &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--warehouse-dir&lt;/span&gt; /result
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;target-dir: files will directly be stored in the directory mentioned in command.&lt;/li&gt;
+  &lt;li&gt;warehouse-dir: files will be stored in the subdirectory (same as tablename) of the directory mentioned in command.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;Note: sqoop is retired as of June 2021&lt;/p&gt;
 

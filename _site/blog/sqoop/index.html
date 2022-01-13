@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -347,6 +347,43 @@ docker run <span class="nt">--hostname</span><span class="o">=</span>quickstart.
 <span class="nt">--password</span> cloudera <span class="se">\</span>
 <span class="nt">--query</span> <span class="s2">"select * from retail_db.customers limit 5"</span>
 </code></pre></div></div>
+
+<h3 id="import-one-table">import one table</h3>
+<p>It will run mapreduce job where only mappers will work. Default four mappers will run but can be changed. It divide work based on primary key. If no primary key then command will failm in that case we have two options:</p>
+<ol>
+  <li>change number of mapper to one: use <code class="language-plaintext highlighter-rouge">-m 1</code> parameter</li>
+  <li>use split by column.</li>
+</ol>
+
+<p>Example: Here <code class="language-plaintext highlighter-rouge">orders</code> table has primary key and we testing import on this table.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqoop import <span class="se">\</span>
+<span class="nt">--connect</span> <span class="s2">"jdbc:mysql://quickstart.cloudera:3306/retail_db"</span> <span class="se">\</span>
+<span class="nt">--username</span> root <span class="se">\</span>
+<span class="nt">--password</span> cloudera <span class="se">\</span>
+<span class="nt">--table</span> orders <span class="se">\</span>
+<span class="nt">--target-dir</span> /result
+</code></pre></div></div>
+
+<p>Run below command after above import command to check files produced by import command, default number of mappers are 4 so thats why it will have four part-m files.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop fs <span class="nt">-ls</span> /result
+</code></pre></div></div>
+
+<h3 id="import-all-tables">import all tables</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqoop-import-all-tables <span class="se">\</span>
+<span class="nt">--connect</span> <span class="s2">"jdbc:mysql://quickstart.cloudera:3306/retail_db"</span> <span class="se">\</span>
+<span class="nt">--username</span> root <span class="se">\</span>
+<span class="nt">--password</span> cloudera <span class="se">\</span>
+<span class="nt">--table</span> orders <span class="se">\</span>
+<span class="nt">--warehouse-dir</span> /result
+</code></pre></div></div>
+
+<p>Note:</p>
+<ul>
+  <li>target-dir: files will directly be stored in the directory mentioned in command.</li>
+  <li>warehouse-dir: files will be stored in the subdirectory (same as tablename) of the directory mentioned in command.</li>
+</ul>
 
 <p>Note: sqoop is retired as of June 2021</p>
 
