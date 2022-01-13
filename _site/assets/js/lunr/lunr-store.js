@@ -18,7 +18,7 @@ var store = [{
         "teaser": null
       },{
         "title": "sqoop working",
-        "excerpt":"It is used to transfer data between rdbms to hdfs and vice versa. sqoop import: transfer from rdbms to hdfs sqoop export: transfer from hdfs to rdbms sqoop eval: to run queries on databases Commands list databases sqoop-list-databases \\ --connect \"jdbc:mysql://quickstart.cloudera:3306\" \\ --username root \\ --password cloudera list tables sqoop-list-tables...","categories": ["blog"],
+        "excerpt":"It is used to transfer data between rdbms to hdfs and vice versa. sqoop import: transfer from rdbms to hdfs sqoop export: transfer from hdfs to rdbms sqoop eval: to run queries on databases Setup cloudera quickstart machine on local We have multiple ways to setup cloudera machine either as...","categories": ["blog"],
         "tags": ["sqoop"],
         "url": "/blog/sqoop/",
         "teaser": null

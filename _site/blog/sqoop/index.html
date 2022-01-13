@@ -310,6 +310,17 @@
   <li>sqoop eval: to run queries on databases</li>
 </ul>
 
+<h2 id="setup-cloudera-quickstart-machine-on-local">Setup cloudera quickstart machine on local</h2>
+<p>We have multiple ways to setup cloudera machine either as VM or docker image, in this case we will use docker and local machine is ubuntu. So, prerequisite is to:</p>
+<ul>
+  <li>setup docker, follow <a href="https://docs.docker.com/engine/install/ubuntu/">here</a></li>
+  <li>run below to pull cloudera quickstart image and then run image which will setup cloudera machine to interact via terminal</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull cloudera/quickstart:latest
+docker run <span class="nt">--hostname</span><span class="o">=</span>quickstart.cloudera <span class="nt">--privileged</span><span class="o">=</span><span class="nb">true</span> <span class="nt">-t</span> <span class="nt">-i</span> <span class="nt">-p</span> 8888:8888 <span class="nt">-p</span> 80:80 <span class="nt">-p</span> 8080:8080 cloudera/quickstart /usr/bin/docker-quickstart
+</code></pre></div></div>
+
 <h2 id="commands">Commands</h2>
 
 <h3 id="list-databases">list databases</h3>
@@ -323,7 +334,7 @@
 <h3 id="list-tables">list tables</h3>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqoop-list-tables <span class="se">\</span>
-<span class="nt">--connect</span> <span class="s2">"jdbc:mysql://quickstart.cloudera:3306</span><span class="se">\r</span><span class="s2">etail_db"</span> <span class="se">\</span>
+<span class="nt">--connect</span> <span class="s2">"jdbc:mysql://quickstart.cloudera:3306/retail_db"</span> <span class="se">\</span>
 <span class="nt">--username</span> root <span class="se">\</span>
 <span class="nt">--password</span> cloudera
 </code></pre></div></div>
@@ -337,7 +348,13 @@
 <span class="nt">--query</span> <span class="s2">"select * from retail_db.customers limit 5"</span>
 </code></pre></div></div>
 
-<p>Sources: Cloudera quickstart VM or docker image for testing.</p>
+<p>Note: sqoop is retired as of June 2021</p>
+
+<p>Sources:</p>
+<ul>
+  <li>Cloudera quickstart docker image for testing, <a href="https://hub.docker.com/r/cloudera/quickstart/">source</a></li>
+</ul>
+
 
         
       </section>
