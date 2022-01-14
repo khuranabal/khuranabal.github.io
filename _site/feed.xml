@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-13T17:12:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs. Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-14T18:43:20+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs. Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">file formats for big data</title><link href="http://localhost:4000/blog/file-formats/" rel="alternate" type="text/html" title="file formats for big data" /><published>2022-01-14T16:33:00+01:00</published><updated>2022-01-14T16:33:00+01:00</updated><id>http://localhost:4000/blog/file-formats</id><content type="html" xml:base="http://localhost:4000/blog/file-formats/">&lt;p&gt;There are certain parameters to consider when chossing a file format.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;save storage&lt;/li&gt;
+  &lt;li&gt;fast processing&lt;/li&gt;
+  &lt;li&gt;less io&lt;/li&gt;
+  &lt;li&gt;fast read&lt;/li&gt;
+  &lt;li&gt;fast write&lt;/li&gt;
+  &lt;li&gt;data can be split in files&lt;/li&gt;
+  &lt;li&gt;schema evolution&lt;/li&gt;
+  &lt;li&gt;advanced compression&lt;/li&gt;
+  &lt;li&gt;compatible with framework like hive/spark etc.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;file-types&quot;&gt;file types&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;row based&lt;/strong&gt;: write is simple but read will have to read full row even if subset of column is read.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;column based&lt;/strong&gt;: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;file-formats&quot;&gt;file formats&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;csv&lt;/strong&gt;:
+key points:
+    &lt;ul&gt;
+      &lt;li&gt;all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.&lt;/li&gt;
+      &lt;li&gt;processing will be slow as conversion need to be done.&lt;/li&gt;
+      &lt;li&gt;io will be slow as data storage is more so will do more io.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;xml&lt;/strong&gt;:
+key points:
+    &lt;ul&gt;
+      &lt;li&gt;semi structure&lt;/li&gt;
+      &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
+      &lt;li&gt;these files can not split.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;json&lt;/strong&gt;:
+key points:
+    &lt;ul&gt;
+      &lt;li&gt;semi structure&lt;/li&gt;
+      &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;avro&lt;/strong&gt;: 
+key points:
+    &lt;ul&gt;
+      &lt;li&gt;row based storage&lt;/li&gt;
+      &lt;li&gt;faster write as its row based&lt;/li&gt;
+      &lt;li&gt;slow read for subset of columns&lt;/li&gt;
+      &lt;li&gt;schema of file is stored in json&lt;/li&gt;
+      &lt;li&gt;data is self describing because schema is embeded as part of data&lt;/li&gt;
+      &lt;li&gt;actual data is in binary format&lt;/li&gt;
+      &lt;li&gt;general file format, programming language agnostic can used in many languages&lt;/li&gt;
+      &lt;li&gt;matuare in schema evolution&lt;/li&gt;
+      &lt;li&gt;serialization format&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;orc&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;parquet&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;delta&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Note:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;serialization is converting data into a form which can be easily transferred over the network and stored in file system.&lt;/li&gt;
+  &lt;li&gt;there is no other file format better than avro for schema evolution.&lt;/li&gt;
+  &lt;li&gt;can be best fit for landing in data lake as raw data.&lt;/li&gt;
+  &lt;li&gt;in avro, orc, parquet any compression can be used, compression code is stored in metadata, so reader can get to know compression code from metadata.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="csv" /><category term="xml" /><category term="json" /><category term="avro" /><category term="orc" /><category term="parquet" /><category term="delta" /><summary type="html">There are certain parameters to consider when chossing a file format.</summary></entry><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;sqoop import: transfer from rdbms to hdfs&lt;/li&gt;
@@ -86,7 +166,7 @@ docker run &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt;&lt;span clas
 &lt;p&gt;Sources:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Cloudera quickstart docker image for testing, &lt;a href=&quot;https://hub.docker.com/r/cloudera/quickstart/&quot;&gt;source&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="sqoop" /><summary type="html">It is used to transfer data between rdbms to hdfs and vice versa.</summary></entry><entry><title type="html">MapReduce working</title><link href="http://localhost:4000/blog/map-reduce/" rel="alternate" type="text/html" title="MapReduce working" /><published>2022-01-11T15:13:00+01:00</published><updated>2022-01-11T15:13:00+01:00</updated><id>http://localhost:4000/blog/map-reduce</id><content type="html" xml:base="http://localhost:4000/blog/map-reduce/">&lt;p&gt;MapReduce is programming model for processing big datsets. It consists of two stages:&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="sqoop" /><category term="hdfs" /><summary type="html">It is used to transfer data between rdbms to hdfs and vice versa.</summary></entry><entry><title type="html">MapReduce working</title><link href="http://localhost:4000/blog/map-reduce/" rel="alternate" type="text/html" title="MapReduce working" /><published>2022-01-11T15:13:00+01:00</published><updated>2022-01-11T15:13:00+01:00</updated><id>http://localhost:4000/blog/map-reduce</id><content type="html" xml:base="http://localhost:4000/blog/map-reduce/">&lt;p&gt;MapReduce is programming model for processing big datsets. It consists of two stages:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;map&lt;/li&gt;
   &lt;li&gt;reduce&lt;/li&gt;
@@ -169,7 +249,7 @@ By default block size is 128MB so data will be divided as per block size and dis
 
 &lt;h3 id=&quot;flow-of-data&quot;&gt;Flow of data&lt;/h3&gt;
 
-&lt;p&gt;record reader -&amp;gt; mapper -&amp;gt; combiner -&amp;gt; partitioner -&amp;gt; shuffle &amp;amp; sort -&amp;gt; reducer&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="mapreduce" /><summary type="html">MapReduce is programming model for processing big datsets. It consists of two stages: map reduce</summary></entry><entry><title type="html">hdfs architecture</title><link href="http://localhost:4000/blog/understand-hdfs/" rel="alternate" type="text/html" title="hdfs architecture" /><published>2022-01-08T14:45:00+01:00</published><updated>2022-01-08T14:45:00+01:00</updated><id>http://localhost:4000/blog/understand-hdfs</id><content type="html" xml:base="http://localhost:4000/blog/understand-hdfs/">&lt;p&gt;hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.&lt;/p&gt;
+&lt;p&gt;record reader -&amp;gt; mapper -&amp;gt; combiner -&amp;gt; partitioner -&amp;gt; shuffle &amp;amp; sort -&amp;gt; reducer&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="mapreduce" /><category term="hadoop" /><summary type="html">MapReduce is programming model for processing big datsets. It consists of two stages: map reduce</summary></entry><entry><title type="html">hdfs architecture</title><link href="http://localhost:4000/blog/understand-hdfs/" rel="alternate" type="text/html" title="hdfs architecture" /><published>2022-01-08T14:45:00+01:00</published><updated>2022-01-08T14:45:00+01:00</updated><id>http://localhost:4000/blog/understand-hdfs</id><content type="html" xml:base="http://localhost:4000/blog/understand-hdfs/">&lt;p&gt;hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/hdfs/hdfs-architecture.png&quot; alt=&quot;hdfs architecture&quot; /&gt;&lt;/p&gt;
 
@@ -244,7 +324,7 @@ Important metadata files:&lt;/p&gt;
 
 &lt;p&gt;Three journal nodes are used and metadata is copied over from active name node and here secondary is called as standby name node and still does the same checkpointing work to combine fsimage snaphot with edit log reading from journal nodes. Standby keeps lock on jk(zookeeper) and always check if its locked or not, if not then takes lock and becomes active.&lt;/p&gt;
 
-&lt;p&gt;Note: Three journal nodes are used to tolerate single machine failure. The system can tolerate at most (N-1) / 2 failures when running with N JournalNodes.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hdfs" /><summary type="html">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</summary></entry><entry><title type="html">Build and deploy static website using jekyll and github pages</title><link href="http://localhost:4000/blog/setup-github-pages-with-jekyll/" rel="alternate" type="text/html" title="Build and deploy static website using jekyll and github pages" /><published>2022-01-04T16:00:00+01:00</published><updated>2022-01-04T16:00:00+01:00</updated><id>http://localhost:4000/blog/setup-github-pages-with-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/setup-github-pages-with-jekyll/">&lt;p&gt;To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:&lt;/p&gt;
+&lt;p&gt;Note: Three journal nodes are used to tolerate single machine failure. The system can tolerate at most (N-1) / 2 failures when running with N JournalNodes.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hdfs" /><category term="hadoop" /><summary type="html">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</summary></entry><entry><title type="html">Build and deploy static website</title><link href="http://localhost:4000/blog/setup-github-pages-with-jekyll/" rel="alternate" type="text/html" title="Build and deploy static website" /><published>2022-01-04T16:00:00+01:00</published><updated>2022-01-04T16:00:00+01:00</updated><id>http://localhost:4000/blog/setup-github-pages-with-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/setup-github-pages-with-jekyll/">&lt;p&gt;To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;jekyll: static site generator, theme used is minimal mistakes&lt;/li&gt;
   &lt;li&gt;github pages: static website hosting service&lt;/li&gt;

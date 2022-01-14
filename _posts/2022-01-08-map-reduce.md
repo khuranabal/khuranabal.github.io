@@ -5,6 +5,7 @@ categories:
   - blog
 tags:
   - mapreduce
+  - hadoop
 ---
 
 

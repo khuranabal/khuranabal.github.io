@@ -1,5 +1,5 @@
 ---
-title: "Build and deploy static website using jekyll and github pages"
+title: "Build and deploy static website"
 date: 2022-01-04T15:00:00-00:00
 categories:
   - blog

@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>hdfs architecture - Balpreet Singh</title>
-<meta name="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
+<!-- begin _includes/seo.html --><title>file formats for big data - Balpreet Singh</title>
+<meta name="description" content="There are certain parameters to consider when chossing a file format.">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="hdfs architecture">
-<meta property="og:url" content="http://localhost:4000/blog/understand-hdfs/">
+<meta property="og:title" content="file formats for big data">
+<meta property="og:url" content="http://localhost:4000/blog/file-formats/">
 
 
-  <meta property="og:description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-08T14:45:00+01:00">
+  <meta property="og:description" content="There are certain parameters to consider when chossing a file format.">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/understand-hdfs/">
+
+  <meta property="article:published_time" content="2022-01-14T16:33:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/file-formats/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="hdfs architecture">
-    <meta itemprop="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
-    <meta itemprop="datePublished" content="2022-01-08T14:45:00+01:00">
+    <meta itemprop="headline" content="file formats for big data">
+    <meta itemprop="description" content="There are certain parameters to consider when chossing a file format.">
+    <meta itemprop="datePublished" content="2022-01-14T16:33:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">hdfs architecture
+          <h1 id="page-title" class="page__title" itemprop="headline">file formats for big data
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          1 minute read
         
       </span>
     
@@ -302,82 +302,88 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</p>
+        <p>There are certain parameters to consider when chossing a file format.</p>
 
-<p><img src="/assets/images/hdfs/hdfs-architecture.png" alt="hdfs architecture" /></p>
-
-<p>Let’s assume we have cluster(2 data node, 1 name node) and file of 250MB.</p>
 <ul>
-  <li>Default block size: 128MB</li>
-  <li>Default replication factor: 3</li>
+  <li>save storage</li>
+  <li>fast processing</li>
+  <li>less io</li>
+  <li>fast read</li>
+  <li>fast write</li>
+  <li>data can be split in files</li>
+  <li>schema evolution</li>
+  <li>advanced compression</li>
+  <li>compatible with framework like hive/spark etc.</li>
 </ul>
 
-<p>So, there will be 2 blocks:</p>
-<ul>
-  <li>Block-1: 128MB</li>
-  <li>Block-2: 122MB</li>
-</ul>
+<h3 id="file-types">file types</h3>
 
-<p>When data will be loaded then both the blocks will be loaded on different data node, behind the scene as per default setting each block will be replicated 3 times, in this case 1 node will have 2 copies of block and other node will have 1 copy of block.</p>
+<ol>
+  <li>
+    <p><strong>row based</strong>: write is simple but read will have to read full row even if subset of column is read.</p>
+  </li>
+  <li>
+    <p><strong>column based</strong>: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.</p>
+  </li>
+</ol>
+
+<h3 id="file-formats">file formats</h3>
+
+<ol>
+  <li><strong>csv</strong>:
+key points:
+    <ul>
+      <li>all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.</li>
+      <li>processing will be slow as conversion need to be done.</li>
+      <li>io will be slow as data storage is more so will do more io.</li>
+    </ul>
+  </li>
+  <li><strong>xml</strong>:
+key points:
+    <ul>
+      <li>semi structure</li>
+      <li>all negative of csv applies here as well.</li>
+      <li>these files can not split.</li>
+    </ul>
+  </li>
+  <li><strong>json</strong>:
+key points:
+    <ul>
+      <li>semi structure</li>
+      <li>all negative of csv applies here as well.</li>
+    </ul>
+  </li>
+  <li><strong>avro</strong>: 
+key points:
+    <ul>
+      <li>row based storage</li>
+      <li>faster write as its row based</li>
+      <li>slow read for subset of columns</li>
+      <li>schema of file is stored in json</li>
+      <li>data is self describing because schema is embeded as part of data</li>
+      <li>actual data is in binary format</li>
+      <li>general file format, programming language agnostic can used in many languages</li>
+      <li>matuare in schema evolution</li>
+      <li>serialization format</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>orc</strong></p>
+  </li>
+  <li>
+    <p><strong>parquet</strong></p>
+  </li>
+  <li><strong>delta</strong></li>
+</ol>
 
 <p>Note:</p>
 <ul>
-  <li>last block might have less than 128MB depending on the size of file, but space is not wasted as remaining space will free up and is used by other blocks.</li>
-  <li>one data block cannot be shared by two files, so last block of one file is not used by other file bock</li>
+  <li>serialization is converting data into a form which can be easily transferred over the network and stored in file system.</li>
+  <li>there is no other file format better than avro for schema evolution.</li>
+  <li>can be best fit for landing in data lake as raw data.</li>
+  <li>in avro, orc, parquet any compression can be used, compression code is stored in metadata, so reader can get to know compression code from metadata.</li>
 </ul>
 
-<h3 id="metadata-stored-in-name-node">Metadata stored in name node</h3>
-<p>At high level below details are stored in metadata.</p>
-<ul>
-  <li>Filename</li>
-  <li>Block</li>
-  <li>Data node: All the data nodes which have the block</li>
-</ul>
-
-<p>Example:</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>File name</td>
-      <td>Block Number</td>
-      <td>Data node 1</td>
-      <td>Data Node 2</td>
-      <td>Data Node 3</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="data-node-failure">Data node failure</h3>
-<p>In case of any failue in data node other data node will be responsible for serving requests and name node will maintain the copies as per replication factor.</p>
-
-<h4 id="1-dead-data-node">1. Dead data node</h4>
-<p>Each data node sends heart beat every 3 seconds to name node and if 10 consecutive times hear beat is not received from a data node then data node is treated as dead or running very slow.</p>
-
-<h4 id="2-corrupt-data-node">2. Corrupt data node</h4>
-<p>Each data node sends block report using which name node can identify if block is corrupted then will replicate the block from known good replica and mark the corrupted one for delete.</p>
-
-<h3 id="name-node-failure">Name node failure</h3>
-<p>In case of failure of name node there will be no access to metadata. So in hadoop v1 it was single point of failure. In hadoop v2 it has secondary name node so it’s not single point of failure.
-Important metadata files:</p>
-<ul>
-  <li>fsimage: snapshot of file system at a particular time</li>
-  <li>edit logs: transaction logs that changes in hdfs file system</li>
-</ul>
-
-<p>Secondary name node is responsible for merging fsimage with edit logs and generating new fsimage, once merge is done it restes fsimage and edit logs to empty. This process is done every 30 sec.</p>
-
-<p>So, when primary name node fails, secondary can become active and then we have to introduce secondary name node.</p>
-
-<h3 id="block-size">Block size</h3>
-<p>In hadoop v2 default block size is 128MB, if it is increased then we might have less blocks to process then nodes so cluster might be under utilized, if block size is decreased then we might have a lot of blocks which will increse burden on name node to keep track of metadata and handling it.</p>
-
-<h3 id="hadoop-ha">Hadoop HA</h3>
-<p>High availibility is achieved by two name nodes primary and hot standby. If primary goes down then standby takes overs. It can be achieved using quorum journal manager.</p>
-
-<p>Three journal nodes are used and metadata is copied over from active name node and here secondary is called as standby name node and still does the same checkpointing work to combine fsimage snaphot with edit log reading from journal nodes. Standby keeps lock on jk(zookeeper) and always check if its locked or not, if not then takes lock and becomes active.</p>
-
-<p>Note: Three journal nodes are used to tolerate single machine failure. The system can tolerate at most (N-1) / 2 failures when running with N JournalNodes.</p>
 
         
       </section>
@@ -394,9 +400,19 @@ Important metadata files:</p>
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
+      <a href="/tags/#avro" class="page__taxonomy-item" rel="tag">avro</a><span class="sep">, </span>
     
-      <a href="/tags/#hdfs" class="page__taxonomy-item" rel="tag">hdfs</a>
+      <a href="/tags/#csv" class="page__taxonomy-item" rel="tag">csv</a><span class="sep">, </span>
+    
+      <a href="/tags/#delta" class="page__taxonomy-item" rel="tag">delta</a><span class="sep">, </span>
+    
+      <a href="/tags/#json" class="page__taxonomy-item" rel="tag">json</a><span class="sep">, </span>
+    
+      <a href="/tags/#orc" class="page__taxonomy-item" rel="tag">orc</a><span class="sep">, </span>
+    
+      <a href="/tags/#parquet" class="page__taxonomy-item" rel="tag">parquet</a><span class="sep">, </span>
+    
+      <a href="/tags/#xml" class="page__taxonomy-item" rel="tag">xml</a>
     
     </span>
   </p>
@@ -421,7 +437,7 @@ Important metadata files:</p>
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-08T14:45:00+01:00">January 8, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-14T16:33:00+01:00">January 14, 2022</time></p>
 
 
       </footer>
@@ -431,12 +447,11 @@ Important metadata files:</p>
       
   <nav class="pagination">
     
-      <a href="/blog/setup-github-pages-with-jekyll/" class="pagination--pager" title="Build and deploy static website
+      <a href="/blog/sqoop/" class="pagination--pager" title="sqoop working
 ">Previous</a>
     
     
-      <a href="/blog/map-reduce/" class="pagination--pager" title="MapReduce working
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -450,47 +465,6 @@ Important metadata files:</p>
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/file-formats/" rel="permalink">file formats for big data
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">There are certain parameters to consider when chossing a file format.
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -572,6 +546,47 @@ Important metadata files:</p>
   map
   reduce
 
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/understand-hdfs/" rel="permalink">hdfs architecture
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.
 
 </p>
   </article>
