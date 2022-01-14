@@ -27,7 +27,7 @@ There are certain parameters to consider when chossing a file format.
 * compatible with framework like hive/spark etc.
 
 
-### file types
+### ways in which data can be stored
 
 1. **row based**: write is simple but read will have to read full row even if subset of column is read.
 
