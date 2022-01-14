@@ -12,6 +12,8 @@ bundle install
 make start-web
 ```
 
+This needs to be done before pushing code to github as it will generate all the required web pages.
+
 
 ## Publish
 

@@ -75,7 +75,7 @@ key points:
 Note: 
 * serialization is converting data into a form which can be easily transferred over the network and stored in file system.
 * there is no other file format better than avro for schema evolution.
-* can be best fit for landing in data lake as raw data.
+* avo can be best fit for landing in data lake as raw data.
 * in avro, orc, parquet any compression can be used, compression code is stored in metadata, so reader can get to know compression code from metadata.
 
 
