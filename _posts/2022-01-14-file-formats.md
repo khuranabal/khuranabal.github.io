@@ -90,6 +90,44 @@ There are certain parameters to consider when chossing a file format.
   * supports schema evolution adding/removing columns in the end
 
 
+### orc storage internals
+
+Data is stored as shown in the below image. Mainly it has below sections:
+**Header**
+It contains text `ORC`
+
+**Body**
+In it data is divided in multiple stripes (default size is 250MB) and each stripe has-
+  * Index data: max, min, count of each column in every row group in the stripe
+  * Row data: data is broken in row groups each row group has 10000 rows by default
+  * Stripe footer: stores encoding used
+
+**Footer**
+  * File footer: contains metadata at file and stripe level like max, min, count.
+  * Postscript: stores which compression is used like snappy/gzip, postscipt is never compressed
+
+![orc internals](/assets/images/fileformats/orc.png)
+
+Note: Flow is like header is read to identify orc file and then postscript is read to get compression used and then file footer then stripes and row data.
+
+
+### parquet storage internals
+
+Data is stored as shown in the below image. Mainly it has below sections:
+**Header**
+It contains text `PAR1`
+
+**Row group**
+In it data is divided in column chunks which is further divided in pages.   
+
+**Footer**
+  * File metadata: encoding, schema, etc.
+  * Lenght of file metadata
+  * Magic number `PAR1`
+
+![parquet internals](/assets/images/fileformats/parquet.png)
+
+
 ### compression
 
 **dictionary encoding**
@@ -104,11 +142,9 @@ Suppose we have int column in the dateset, for that column if the vaule is less 
 
 Suppose we have timestamp column in dataset then first timestamp is stored and then for next column vaule it can store difference only. Example vaule is 123456 and next vaule is 123457 then base vaule stored can be 123456 and next value 1.
 
-**run lenght encoding**
+**run length encoding**
 
 Suppose we have column in dataset which has value dddddfffgg then the vaule stored is d5f3g2
-
-
 
 
 Note: 
@@ -118,4 +154,7 @@ Note:
 * in avro, orc, parquet any compression can be used, compression code is stored in metadata, so reader can get to know compression code from metadata.
 
 
+### Sources
 
+* https://orc.apache.org/specification/ORCv2/
+* https://parquet.apache.org/documentation/latest/
