@@ -92,35 +92,43 @@ There are certain parameters to consider when chossing a file format.
 
 ### orc storage internals
 
-Data is stored as shown in the below image. Mainly it has below sections:
+Data is stored as shown in the below image. Mainly it has below sections.
+
 **Header**
+
 It contains text `ORC`
 
 **Body**
+
 In it data is divided in multiple stripes (default size is 250MB) and each stripe has-
   * Index data: max, min, count of each column in every row group in the stripe
   * Row data: data is broken in row groups each row group has 10000 rows by default
   * Stripe footer: stores encoding used
 
 **Footer**
+
   * File footer: contains metadata at file and stripe level like max, min, count.
   * Postscript: stores which compression is used like snappy/gzip, postscipt is never compressed
 
 ![orc internals](/assets/images/fileformats/orc.png)
 
-Note: Flow is like header is read to identify orc file and then postscript is read to get compression used and then file footer then stripes and row data.
+**Note**: Flow is like header is read to identify orc file and then postscript is read to get compression used and then file footer then stripes and row data.
 
 
 ### parquet storage internals
 
-Data is stored as shown in the below image. Mainly it has below sections:
+Data is stored as shown in the below image. Mainly it has below sections.
+
 **Header**
+
 It contains text `PAR1`
 
 **Row group**
+
 In it data is divided in column chunks which is further divided in pages.   
 
 **Footer**
+
   * File metadata: encoding, schema, etc.
   * Lenght of file metadata
   * Magic number `PAR1`
@@ -147,7 +155,7 @@ Suppose we have timestamp column in dataset then first timestamp is stored and t
 Suppose we have column in dataset which has value dddddfffgg then the vaule stored is d5f3g2
 
 
-Note: 
+**Note**: 
 * serialization is converting data into a form which can be easily transferred over the network and stored in file system.
 * there is no other file format better than avro for schema evolution.
 * avo can be best fit for landing in data lake as raw data.

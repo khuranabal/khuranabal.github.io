@@ -390,12 +390,15 @@
 
 <h3 id="orc-storage-internals">orc storage internals</h3>
 
-<p>Data is stored as shown in the below image. Mainly it has below sections:
-<strong>Header</strong>
-It contains text <code class="language-plaintext highlighter-rouge">ORC</code></p>
+<p>Data is stored as shown in the below image. Mainly it has below sections.</p>
 
-<p><strong>Body</strong>
-In it data is divided in multiple stripes (default size is 250MB) and each stripe has-</p>
+<p><strong>Header</strong></p>
+
+<p>It contains text <code class="language-plaintext highlighter-rouge">ORC</code></p>
+
+<p><strong>Body</strong></p>
+
+<p>In it data is divided in multiple stripes (default size is 250MB) and each stripe has-</p>
 <ul>
   <li>Index data: max, min, count of each column in every row group in the stripe</li>
   <li>Row data: data is broken in row groups each row group has 10000 rows by default</li>
@@ -403,6 +406,7 @@ In it data is divided in multiple stripes (default size is 250MB) and each strip
 </ul>
 
 <p><strong>Footer</strong></p>
+
 <ul>
   <li>File footer: contains metadata at file and stripe level like max, min, count.</li>
   <li>Postscript: stores which compression is used like snappy/gzip, postscipt is never compressed</li>
@@ -410,18 +414,22 @@ In it data is divided in multiple stripes (default size is 250MB) and each strip
 
 <p><img src="/assets/images/fileformats/orc.png" alt="orc internals" /></p>
 
-<p>Note: Flow is like header is read to identify orc file and then postscript is read to get compression used and then file footer then stripes and row data.</p>
+<p><strong>Note</strong>: Flow is like header is read to identify orc file and then postscript is read to get compression used and then file footer then stripes and row data.</p>
 
 <h3 id="parquet-storage-internals">parquet storage internals</h3>
 
-<p>Data is stored as shown in the below image. Mainly it has below sections:
-<strong>Header</strong>
-It contains text <code class="language-plaintext highlighter-rouge">PAR1</code></p>
+<p>Data is stored as shown in the below image. Mainly it has below sections.</p>
 
-<p><strong>Row group</strong>
-In it data is divided in column chunks which is further divided in pages.</p>
+<p><strong>Header</strong></p>
+
+<p>It contains text <code class="language-plaintext highlighter-rouge">PAR1</code></p>
+
+<p><strong>Row group</strong></p>
+
+<p>In it data is divided in column chunks which is further divided in pages.</p>
 
 <p><strong>Footer</strong></p>
+
 <ul>
   <li>File metadata: encoding, schema, etc.</li>
   <li>Lenght of file metadata</li>
@@ -448,7 +456,7 @@ In it data is divided in column chunks which is further divided in pages.</p>
 
 <p>Suppose we have column in dataset which has value dddddfffgg then the vaule stored is d5f3g2</p>
 
-<p>Note:</p>
+<p><strong>Note</strong>:</p>
 <ul>
   <li>serialization is converting data into a form which can be easily transferred over the network and stored in file system.</li>
   <li>there is no other file format better than avro for schema evolution.</li>
