@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -318,63 +318,94 @@
 
 <h3 id="ways-in-which-data-can-be-stored">ways in which data can be stored</h3>
 
-<ol>
-  <li>
-    <p><strong>row based</strong>: write is simple but read will have to read full row even if subset of column is read.</p>
-  </li>
-  <li>
-    <p><strong>column based</strong>: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.</p>
-  </li>
-</ol>
+<p><strong>row based</strong>: write is simple but read will have to read full row even if subset of column is read.</p>
+
+<p><strong>column based</strong>: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.</p>
 
 <h3 id="file-formats">file formats</h3>
 
-<ol>
-  <li><strong>csv</strong>:
-key points:
-    <ul>
-      <li>all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.</li>
-      <li>processing will be slow as conversion need to be done.</li>
-      <li>io will be slow as data storage is more so will do more io.</li>
-    </ul>
-  </li>
-  <li><strong>xml</strong>:
-key points:
-    <ul>
-      <li>semi structure</li>
-      <li>all negative of csv applies here as well.</li>
-      <li>these files can not split.</li>
-    </ul>
-  </li>
-  <li><strong>json</strong>:
-key points:
-    <ul>
-      <li>semi structure</li>
-      <li>all negative of csv applies here as well.</li>
-    </ul>
-  </li>
-  <li><strong>avro</strong>: 
-key points:
-    <ul>
-      <li>row based storage</li>
-      <li>faster write as its row based</li>
-      <li>slow read for subset of columns</li>
-      <li>schema of file is stored in json</li>
-      <li>data is self describing because schema is embeded as part of data</li>
-      <li>actual data is in binary format</li>
-      <li>general file format, programming language agnostic can used in many languages</li>
-      <li>matuare in schema evolution</li>
-      <li>serialization format</li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>orc</strong></p>
-  </li>
-  <li>
-    <p><strong>parquet</strong></p>
-  </li>
-  <li><strong>delta</strong></li>
-</ol>
+<p><strong>csv</strong>:</p>
+
+<ul>
+  <li>all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.</li>
+  <li>processing will be slow as conversion need to be done.</li>
+  <li>io will be slow as data storage is more so will do more io.</li>
+</ul>
+
+<p><strong>xml</strong>:</p>
+
+<ul>
+  <li>semi structure</li>
+  <li>all negative of csv applies here as well.</li>
+  <li>these files can not split.</li>
+</ul>
+
+<p><strong>json</strong>:</p>
+
+<ul>
+  <li>semi structure</li>
+  <li>all negative of csv applies here as well.</li>
+</ul>
+
+<p><strong>avro</strong>:</p>
+
+<ul>
+  <li>row based storage</li>
+  <li>faster write as its row based</li>
+  <li>slow read for subset of columns</li>
+  <li>schema of file is stored in json</li>
+  <li>data is self describing because schema is embeded as part of data</li>
+  <li>actual data is in binary format</li>
+  <li>general file format, programming language agnostic can used in many languages</li>
+  <li>matuare in schema evolution</li>
+  <li>serialization format</li>
+</ul>
+
+<p><strong>orc</strong></p>
+
+<ul>
+  <li>optimized row columnar</li>
+  <li>write are not effecient</li>
+  <li>effecient reads</li>
+  <li>highly effecient in terms of storage</li>
+  <li>compression (dictionary encoding, bit packing, delta encoding, run length encoding along with generalzed compression like snappy/gzip)</li>
+  <li>predicate pushdown</li>
+  <li>best fit for hive, supports all datatypes including complex used in hive</li>
+  <li>initially specially designed for hive</li>
+  <li>supports schema evolution, not matuare as avro</li>
+  <li>self describing, as stores metadata(using protocol buffers) in the end of file itself</li>
+</ul>
+
+<p><strong>parquet</strong></p>
+
+<ul>
+  <li>column based storage</li>
+  <li>writes are not effecient</li>
+  <li>effecient reads</li>
+  <li>shares many design patterns as of orc, but more general purpose</li>
+  <li>very good in handling nested data</li>
+  <li>compression is effecient</li>
+  <li>self describing, as stores metadata in the end of file itself</li>
+  <li>supports schema evolution adding/removing columns in the end</li>
+</ul>
+
+<h3 id="compression">compression</h3>
+
+<p><strong>dictionary encoding</strong></p>
+
+<p>Suppose we have sales data where product name column, customer name column exist then that will have same values for a lot of rows. For this dictonary encoding helps by having dictionary where distinct vaules are stored and then referenced.</p>
+
+<p><strong>bit packing</strong></p>
+
+<p>Suppose we have int column in the dateset, for that column if the vaule is less than bit packing can help by representing same number with less bits.</p>
+
+<p><strong>delta encoding</strong></p>
+
+<p>Suppose we have timestamp column in dataset then first timestamp is stored and then for next column vaule it can store difference only. Example vaule is 123456 and next vaule is 123457 then base vaule stored can be 123456 and next value 1.</p>
+
+<p><strong>run lenght encoding</strong></p>
+
+<p>Suppose we have column in dataset which has value dddddfffgg then the vaule stored is d5f3g2</p>
 
 <p>Note:</p>
 <ul>

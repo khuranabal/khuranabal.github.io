@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-14T18:51:00+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL Balpreet Singh</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">file formats for big data</title><link href="http://localhost:4000/blog/file-formats/" rel="alternate" type="text/html" title="file formats for big data" /><published>2022-01-14T16:33:00+01:00</published><updated>2022-01-14T16:33:00+01:00</updated><id>http://localhost:4000/blog/file-formats</id><content type="html" xml:base="http://localhost:4000/blog/file-formats/">&lt;p&gt;There are certain parameters to consider when chossing a file format.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-15T14:14:54+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Data Engineer blogs Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes, SQL, Python, HCL Balpreet Singh</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">file formats for big data</title><link href="http://localhost:4000/blog/file-formats/" rel="alternate" type="text/html" title="file formats for big data" /><published>2022-01-14T16:33:00+01:00</published><updated>2022-01-14T16:33:00+01:00</updated><id>http://localhost:4000/blog/file-formats</id><content type="html" xml:base="http://localhost:4000/blog/file-formats/">&lt;p&gt;There are certain parameters to consider when chossing a file format.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;save storage&lt;/li&gt;
@@ -14,63 +14,94 @@
 
 &lt;h3 id=&quot;ways-in-which-data-can-be-stored&quot;&gt;ways in which data can be stored&lt;/h3&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;row based&lt;/strong&gt;: write is simple but read will have to read full row even if subset of column is read.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;column based&lt;/strong&gt;: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;row based&lt;/strong&gt;: write is simple but read will have to read full row even if subset of column is read.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;column based&lt;/strong&gt;: all columns values are stored together. Write will be slower comparatively. But read will be efficient. In this we can get good compression as well.&lt;/p&gt;
 
 &lt;h3 id=&quot;file-formats&quot;&gt;file formats&lt;/h3&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;csv&lt;/strong&gt;:
-key points:
-    &lt;ul&gt;
-      &lt;li&gt;all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.&lt;/li&gt;
-      &lt;li&gt;processing will be slow as conversion need to be done.&lt;/li&gt;
-      &lt;li&gt;io will be slow as data storage is more so will do more io.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;xml&lt;/strong&gt;:
-key points:
-    &lt;ul&gt;
-      &lt;li&gt;semi structure&lt;/li&gt;
-      &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
-      &lt;li&gt;these files can not split.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;json&lt;/strong&gt;:
-key points:
-    &lt;ul&gt;
-      &lt;li&gt;semi structure&lt;/li&gt;
-      &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;avro&lt;/strong&gt;: 
-key points:
-    &lt;ul&gt;
-      &lt;li&gt;row based storage&lt;/li&gt;
-      &lt;li&gt;faster write as its row based&lt;/li&gt;
-      &lt;li&gt;slow read for subset of columns&lt;/li&gt;
-      &lt;li&gt;schema of file is stored in json&lt;/li&gt;
-      &lt;li&gt;data is self describing because schema is embeded as part of data&lt;/li&gt;
-      &lt;li&gt;actual data is in binary format&lt;/li&gt;
-      &lt;li&gt;general file format, programming language agnostic can used in many languages&lt;/li&gt;
-      &lt;li&gt;matuare in schema evolution&lt;/li&gt;
-      &lt;li&gt;serialization format&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;orc&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;parquet&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;delta&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;csv&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;all data stored as text so takes a lot of storage for example if column has integer value then that consumes more storage because its stored as text.&lt;/li&gt;
+  &lt;li&gt;processing will be slow as conversion need to be done.&lt;/li&gt;
+  &lt;li&gt;io will be slow as data storage is more so will do more io.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;xml&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;semi structure&lt;/li&gt;
+  &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
+  &lt;li&gt;these files can not split.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;json&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;semi structure&lt;/li&gt;
+  &lt;li&gt;all negative of csv applies here as well.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;avro&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;row based storage&lt;/li&gt;
+  &lt;li&gt;faster write as its row based&lt;/li&gt;
+  &lt;li&gt;slow read for subset of columns&lt;/li&gt;
+  &lt;li&gt;schema of file is stored in json&lt;/li&gt;
+  &lt;li&gt;data is self describing because schema is embeded as part of data&lt;/li&gt;
+  &lt;li&gt;actual data is in binary format&lt;/li&gt;
+  &lt;li&gt;general file format, programming language agnostic can used in many languages&lt;/li&gt;
+  &lt;li&gt;matuare in schema evolution&lt;/li&gt;
+  &lt;li&gt;serialization format&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;orc&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;optimized row columnar&lt;/li&gt;
+  &lt;li&gt;write are not effecient&lt;/li&gt;
+  &lt;li&gt;effecient reads&lt;/li&gt;
+  &lt;li&gt;highly effecient in terms of storage&lt;/li&gt;
+  &lt;li&gt;compression (dictionary encoding, bit packing, delta encoding, run length encoding along with generalzed compression like snappy/gzip)&lt;/li&gt;
+  &lt;li&gt;predicate pushdown&lt;/li&gt;
+  &lt;li&gt;best fit for hive, supports all datatypes including complex used in hive&lt;/li&gt;
+  &lt;li&gt;initially specially designed for hive&lt;/li&gt;
+  &lt;li&gt;supports schema evolution, not matuare as avro&lt;/li&gt;
+  &lt;li&gt;self describing, as stores metadata(using protocol buffers) in the end of file itself&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;parquet&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;column based storage&lt;/li&gt;
+  &lt;li&gt;writes are not effecient&lt;/li&gt;
+  &lt;li&gt;effecient reads&lt;/li&gt;
+  &lt;li&gt;shares many design patterns as of orc, but more general purpose&lt;/li&gt;
+  &lt;li&gt;very good in handling nested data&lt;/li&gt;
+  &lt;li&gt;compression is effecient&lt;/li&gt;
+  &lt;li&gt;self describing, as stores metadata in the end of file itself&lt;/li&gt;
+  &lt;li&gt;supports schema evolution adding/removing columns in the end&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;compression&quot;&gt;compression&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;dictionary encoding&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Suppose we have sales data where product name column, customer name column exist then that will have same values for a lot of rows. For this dictonary encoding helps by having dictionary where distinct vaules are stored and then referenced.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;bit packing&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Suppose we have int column in the dateset, for that column if the vaule is less than bit packing can help by representing same number with less bits.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;delta encoding&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Suppose we have timestamp column in dataset then first timestamp is stored and then for next column vaule it can store difference only. Example vaule is 123456 and next vaule is 123457 then base vaule stored can be 123456 and next value 1.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;run lenght encoding&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Suppose we have column in dataset which has value dddddfffgg then the vaule stored is d5f3g2&lt;/p&gt;
 
 &lt;p&gt;Note:&lt;/p&gt;
 &lt;ul&gt;
