@@ -16,12 +16,11 @@ tags:
 
 There are certain parameters to consider when chossing a file format.
 
-* save storage
-* fast processing
-* less io
-* fast read
-* fast write
-* data can be split in files
+* storage space consumption
+* processing time
+* io consumption
+* read/write speed
+* if data can be split in files
 * schema evolution
 * advanced compression
 * compatible with framework like hive/spark etc.
