@@ -10,7 +10,6 @@ tags:
   - avro
   - orc
   - parquet
-  - delta
 ---
 
 
@@ -22,7 +21,7 @@ There are certain parameters to consider when chossing a file format.
 * read/write speed
 * if data can be split in files
 * schema evolution
-* advanced compression
+* compression
 * compatible with framework like hive/spark etc.
 
 
@@ -158,7 +157,7 @@ Suppose we have column in dataset which has value dddddfffgg then the vaule stor
 **Note**: 
 * serialization is converting data into a form which can be easily transferred over the network and stored in file system.
 * there is no other file format better than avro for schema evolution.
-* avo can be best fit for landing in data lake as raw data.
+* avro can be best fit for landing raw data in data lake.
 * in avro, orc, parquet any compression can be used, compression code is stored in metadata, so reader can get to know compression code from metadata.
 
 

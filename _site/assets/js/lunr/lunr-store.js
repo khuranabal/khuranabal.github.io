@@ -24,8 +24,8 @@ var store = [{
         "teaser": null
       },{
         "title": "file formats for big data",
-        "excerpt":"There are certain parameters to consider when chossing a file format. storage space consumption processing time io consumption read/write speed if data can be split in files schema evolution advanced compression compatible with framework like hive/spark etc. ways in which data can be stored row based: write is simple but...","categories": ["blog"],
-        "tags": ["csv","xml","json","avro","orc","parquet","delta"],
+        "excerpt":"There are certain parameters to consider when chossing a file format. storage space consumption processing time io consumption read/write speed if data can be split in files schema evolution compression compatible with framework like hive/spark etc. ways in which data can be stored row based: write is simple but read...","categories": ["blog"],
+        "tags": ["csv","xml","json","avro","orc","parquet"],
         "url": "/blog/file-formats/",
         "teaser": null
       }]
