@@ -25,7 +25,19 @@ var store = [{
       },{
         "title": "file formats for big data",
         "excerpt":"There are certain parameters to consider when chossing a file format. storage space consumption processing time io consumption read/write speed if data can be split in files schema evolution compression compatible with framework like hive/spark etc. ways in which data can be stored row based: write is simple but read...","categories": ["blog"],
-        "tags": ["csv","xml","json","avro","orc","parquet"],
+        "tags": ["csv","xml","json","avro","orc","parquet","compression"],
         "url": "/blog/file-formats/",
+        "teaser": null
+      },{
+        "title": "compression in hadoop",
+        "excerpt":"Compression will help to: save storage reduce io cost Note: compression and uncompression adds some cost as cpu resources will be used but io cost is saved more comparatively. Compression techniques some compression codes are optimized for: storage speed snappy: fast compression codec optimized for speed rather than storage by...","categories": ["blog"],
+        "tags": ["compression","hadoop"],
+        "url": "/blog/compression-in-hadoop/",
+        "teaser": null
+      },{
+        "title": "hive optimizations",
+        "excerpt":"Vectorization It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows. To use vectorization data should be in orc format. And need to enable below parameter,...","categories": ["blog"],
+        "tags": ["hive","optimization"],
+        "url": "/blog/hive-optimizations/",
         "teaser": null
       }]

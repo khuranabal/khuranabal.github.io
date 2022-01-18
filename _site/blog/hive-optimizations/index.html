@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Build and deploy static website - Balpreet Singh</title>
-<meta name="description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:    jekyll: static site generator, theme used is minimal mistakes   github pages: static website hosting service">
+<!-- begin _includes/seo.html --><title>hive optimizations - Balpreet Singh</title>
+<meta name="description" content="Vectorization">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Build and deploy static website">
-<meta property="og:url" content="http://localhost:4000/blog/setup-github-pages-with-jekyll/">
+<meta property="og:title" content="hive optimizations">
+<meta property="og:url" content="http://localhost:4000/blog/hive-optimizations/">
 
 
-  <meta property="og:description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:    jekyll: static site generator, theme used is minimal mistakes   github pages: static website hosting service">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-04T16:00:00+01:00">
+  <meta property="og:description" content="Vectorization">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/setup-github-pages-with-jekyll/">
+
+  <meta property="article:published_time" content="2022-01-18T16:56:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/hive-optimizations/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Build and deploy static website">
-    <meta itemprop="description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:  jekyll: static site generator, theme used is minimal mistakes  github pages: static website hosting service">
-    <meta itemprop="datePublished" content="2022-01-04T16:00:00+01:00">
+    <meta itemprop="headline" content="hive optimizations">
+    <meta itemprop="description" content="Vectorization">
+    <meta itemprop="datePublished" content="2022-01-18T16:56:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Build and deploy static website
+          <h1 id="page-title" class="page__title" itemprop="headline">hive optimizations
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          less than 1 minute read
         
       </span>
     
@@ -302,47 +302,37 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:</p>
+        <h3 id="vectorization">Vectorization</h3>
+
+<p>It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows.</p>
+
+<p>To use vectorization data should be in orc format. And need to enable below parameter, it is not enabled by default.</p>
+
+<p><code class="language-plaintext highlighter-rouge">set hive.vectorized.execution.enabled = true</code></p>
+
+<p>Example:</p>
+
+<ol>
+  <li>create table: <code class="language-plaintext highlighter-rouge">create table v1(a int, b int) stored as orc;</code></li>
+  <li>enable vectorization</li>
+  <li>expalin query <code class="language-plaintext highlighter-rouge">explain select * from v1;</code> We should be able to see <code class="language-plaintext highlighter-rouge">execution mode: vectorized</code></li>
+</ol>
+
+<h3 id="change-hive-engine">Change hive engine</h3>
+
+<p>It supports three engines. We can check which one is in use by below command.</p>
+
+<p><code class="language-plaintext highlighter-rouge">set hive.execution.engine</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">set hive.execution.engine=spark;</code></p>
+
 <ul>
-  <li>jekyll: static site generator, theme used is minimal mistakes</li>
-  <li>github pages: static website hosting service</li>
+  <li>mr</li>
+  <li>tez</li>
+  <li>spark</li>
 </ul>
 
-<h3 id="installation">Installation</h3>
-<p>Following are required to be installed in order to build and test the static website locally.
-Installation instructions <a href="https://jekyllrb.com/docs/installation/">here</a></p>
-<ol>
-  <li>ruby</li>
-  <li>rubygems</li>
-  <li>gcc</li>
-  <li>make</li>
-</ol>
-
-<h3 id="prerequisite">Prerequisite</h3>
-<p>Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme as per need. Download <a href="https://github.com/mmistakes/mm-github-pages-starter">repo</a></p>
-
-<p>Test if its working fine on local by executing below command and then browsing on localhost:4000</p>
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install
-</span>bundle <span class="nb">exec </span>jekyll serve
-</code></pre></div></div>
-
-<p>Note: config/post can be modified/added as required, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/configuration/">docs</a></p>
-
-<h3 id="configure-pages-and-deploy-to-github">Configure pages and deploy to github</h3>
-
-<ol>
-  <li>create new repo and configure github settings to enable pages, follow <a href="https://docs.github.com/en/pages/quickstart">here</a></li>
-  <li>push code to the new created repo</li>
-  <li>access githubpages url, if the repo created is <code class="language-plaintext highlighter-rouge">username.github.io</code> then url will be <code class="language-plaintext highlighter-rouge">https:\\username.github.io</code></li>
-</ol>
-
-<h3 id="enabling-feature-to-add-comments-in-the-blogs">Enabling feature to add comments in the blogs</h3>
-
-<p>In order to enable comments feature we have different options and here we have used github issues where all the comments in the blog will be stored.
-To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/configuration/#utterances-comments">here</a></p>
-
-<p>Note: It will not show comments locally, it will only work once pushed to github on githubpages url.</p>
-
+<p><strong>Note</strong>: mr is defult selected</p>
 
         
       </section>
@@ -359,9 +349,9 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#github" class="page__taxonomy-item" rel="tag">github</a><span class="sep">, </span>
+      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a><span class="sep">, </span>
     
-      <a href="/tags/#jekyll" class="page__taxonomy-item" rel="tag">jekyll</a>
+      <a href="/tags/#optimization" class="page__taxonomy-item" rel="tag">optimization</a>
     
     </span>
   </p>
@@ -386,7 +376,7 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-04T16:00:00+01:00">January 4, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-18T16:56:00+01:00">January 18, 2022</time></p>
 
 
       </footer>
@@ -396,11 +386,11 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/blog/compression-in-hadoop/" class="pagination--pager" title="compression in hadoop
+">Previous</a>
     
     
-      <a href="/blog/understand-hdfs/" class="pagination--pager" title="hdfs architecture
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -414,47 +404,6 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/hive-optimizations/" rel="permalink">hive optimizations
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Vectorization
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -483,7 +432,7 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          less than 1 minute read
         
       </span>
     
@@ -528,7 +477,7 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          3 minute read
         
       </span>
     
@@ -577,6 +526,51 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
 
 
     <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/map-reduce/" rel="permalink">MapReduce working
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">MapReduce is programming model for processing big datsets. It consists of two stages:
+
+  map
+  reduce
+
 
 </p>
   </article>

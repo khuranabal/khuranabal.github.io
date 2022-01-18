@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-17T18:15:22+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">file formats for big data</title><link href="http://localhost:4000/blog/file-formats/" rel="alternate" type="text/html" title="file formats for big data" /><published>2022-01-14T16:33:00+01:00</published><updated>2022-01-14T16:33:00+01:00</updated><id>http://localhost:4000/blog/file-formats</id><content type="html" xml:base="http://localhost:4000/blog/file-formats/">&lt;p&gt;There are certain parameters to consider when chossing a file format.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-18T18:20:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive optimizations</title><link href="http://localhost:4000/blog/hive-optimizations/" rel="alternate" type="text/html" title="hive optimizations" /><published>2022-01-18T16:56:00+01:00</published><updated>2022-01-18T16:56:00+01:00</updated><id>http://localhost:4000/blog/hive-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/hive-optimizations/">&lt;h3 id=&quot;vectorization&quot;&gt;Vectorization&lt;/h3&gt;
+
+&lt;p&gt;It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows.&lt;/p&gt;
+
+&lt;p&gt;To use vectorization data should be in orc format. And need to enable below parameter, it is not enabled by default.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set hive.vectorized.execution.enabled = true&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;create table: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create table v1(a int, b int) stored as orc;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;enable vectorization&lt;/li&gt;
+  &lt;li&gt;expalin query &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;explain select * from v1;&lt;/code&gt; We should be able to see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;execution mode: vectorized&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;change-hive-engine&quot;&gt;Change hive engine&lt;/h3&gt;
+
+&lt;p&gt;It supports three engines. We can check which one is in use by below command.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set hive.execution.engine&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set hive.execution.engine=spark;&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;mr&lt;/li&gt;
+  &lt;li&gt;tez&lt;/li&gt;
+  &lt;li&gt;spark&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: mr is defult selected&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="optimization" /><summary type="html">Vectorization</summary></entry><entry><title type="html">compression in hadoop</title><link href="http://localhost:4000/blog/compression-in-hadoop/" rel="alternate" type="text/html" title="compression in hadoop" /><published>2022-01-18T16:29:00+01:00</published><updated>2022-01-18T16:29:00+01:00</updated><id>http://localhost:4000/blog/compression-in-hadoop</id><content type="html" xml:base="http://localhost:4000/blog/compression-in-hadoop/">&lt;p&gt;Compression will help to:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;save storage&lt;/li&gt;
+  &lt;li&gt;reduce io cost&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: compression and uncompression adds some cost as cpu resources will be used but io cost is saved more comparatively.&lt;/p&gt;
+
+&lt;h3 id=&quot;compression-techniques&quot;&gt;Compression techniques&lt;/h3&gt;
+
+&lt;p&gt;some compression codes are optimized for:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;storage&lt;/li&gt;
+  &lt;li&gt;speed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;snappy&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;fast compression codec&lt;/li&gt;
+  &lt;li&gt;optimized for speed rather than storage&lt;/li&gt;
+  &lt;li&gt;by default is not splittable but file format like avro/orc/parquet takes care of splits. So snappy can be used with these file formats.&lt;/li&gt;
+  &lt;li&gt;distributed with hadoop&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;lzo&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;optimized for speed rather than storage&lt;/li&gt;
+  &lt;li&gt;it is splittable but requires additional indexing step&lt;/li&gt;
+  &lt;li&gt;good for plain text files&lt;/li&gt;
+  &lt;li&gt;is not distributed with hadoop, requires seperate install&lt;/li&gt;
+  &lt;li&gt;compratively slower than snappy&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;gzip&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;optimized for storage, 2.5x times compression compared to snappy&lt;/li&gt;
+  &lt;li&gt;not splittable but can be used with container file formats like snappy&lt;/li&gt;
+  &lt;li&gt;processing is slow, as compression is more it will have less blocks, can reduce block size to increase parellelism which will process faster&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;bzip2&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;excellent storage, compress around 9% more comparitively to gzip&lt;/li&gt;
+  &lt;li&gt;significantly slower, around 10x comparitively to gzip&lt;/li&gt;
+  &lt;li&gt;splittable&lt;/li&gt;
+  &lt;li&gt;might be used for archival&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: snappy is used in mostly, as it provides good trade off between speed and size.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="compression" /><category term="hadoop" /><summary type="html">Compression will help to: save storage reduce io cost</summary></entry><entry><title type="html">file formats for big data</title><link href="http://localhost:4000/blog/file-formats/" rel="alternate" type="text/html" title="file formats for big data" /><published>2022-01-14T16:33:00+01:00</published><updated>2022-01-14T16:33:00+01:00</updated><id>http://localhost:4000/blog/file-formats</id><content type="html" xml:base="http://localhost:4000/blog/file-formats/">&lt;p&gt;There are certain parameters to consider when chossing a file format.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;storage space consumption&lt;/li&gt;
@@ -165,7 +248,7 @@
 &lt;ul&gt;
   &lt;li&gt;https://orc.apache.org/specification/ORCv2/&lt;/li&gt;
   &lt;li&gt;https://parquet.apache.org/documentation/latest/&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="csv" /><category term="xml" /><category term="json" /><category term="avro" /><category term="orc" /><category term="parquet" /><summary type="html">There are certain parameters to consider when chossing a file format.</summary></entry><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="csv" /><category term="xml" /><category term="json" /><category term="avro" /><category term="orc" /><category term="parquet" /><category term="compression" /><summary type="html">There are certain parameters to consider when chossing a file format.</summary></entry><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;sqoop import: transfer from rdbms to hdfs&lt;/li&gt;

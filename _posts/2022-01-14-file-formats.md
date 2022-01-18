@@ -10,6 +10,7 @@ tags:
   - avro
   - orc
   - parquet
+  - compression
 ---
 
 

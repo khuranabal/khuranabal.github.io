@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Build and deploy static website - Balpreet Singh</title>
-<meta name="description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:    jekyll: static site generator, theme used is minimal mistakes   github pages: static website hosting service">
+<!-- begin _includes/seo.html --><title>compression in hadoop - Balpreet Singh</title>
+<meta name="description" content="Compression will help to:    save storage   reduce io cost">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Build and deploy static website">
-<meta property="og:url" content="http://localhost:4000/blog/setup-github-pages-with-jekyll/">
+<meta property="og:title" content="compression in hadoop">
+<meta property="og:url" content="http://localhost:4000/blog/compression-in-hadoop/">
 
 
-  <meta property="og:description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:    jekyll: static site generator, theme used is minimal mistakes   github pages: static website hosting service">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-04T16:00:00+01:00">
+  <meta property="og:description" content="Compression will help to:    save storage   reduce io cost">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/setup-github-pages-with-jekyll/">
+
+  <meta property="article:published_time" content="2022-01-18T16:29:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/compression-in-hadoop/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Build and deploy static website">
-    <meta itemprop="description" content="To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:  jekyll: static site generator, theme used is minimal mistakes  github pages: static website hosting service">
-    <meta itemprop="datePublished" content="2022-01-04T16:00:00+01:00">
+    <meta itemprop="headline" content="compression in hadoop">
+    <meta itemprop="description" content="Compression will help to:  save storage  reduce io cost">
+    <meta itemprop="datePublished" content="2022-01-18T16:29:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Build and deploy static website
+          <h1 id="page-title" class="page__title" itemprop="headline">compression in hadoop
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          less than 1 minute read
         
       </span>
     
@@ -302,47 +302,60 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:</p>
+        <p>Compression will help to:</p>
 <ul>
-  <li>jekyll: static site generator, theme used is minimal mistakes</li>
-  <li>github pages: static website hosting service</li>
+  <li>save storage</li>
+  <li>reduce io cost</li>
 </ul>
 
-<h3 id="installation">Installation</h3>
-<p>Following are required to be installed in order to build and test the static website locally.
-Installation instructions <a href="https://jekyllrb.com/docs/installation/">here</a></p>
-<ol>
-  <li>ruby</li>
-  <li>rubygems</li>
-  <li>gcc</li>
-  <li>make</li>
-</ol>
+<p><strong>Note</strong>: compression and uncompression adds some cost as cpu resources will be used but io cost is saved more comparatively.</p>
 
-<h3 id="prerequisite">Prerequisite</h3>
-<p>Use template repo to get started, we are using minimal-mistakes theme of jeykell, feel free to use any other theme as per need. Download <a href="https://github.com/mmistakes/mm-github-pages-starter">repo</a></p>
+<h3 id="compression-techniques">Compression techniques</h3>
 
-<p>Test if its working fine on local by executing below command and then browsing on localhost:4000</p>
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bundle <span class="nb">install
-</span>bundle <span class="nb">exec </span>jekyll serve
-</code></pre></div></div>
+<p>some compression codes are optimized for:</p>
 
-<p>Note: config/post can be modified/added as required, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/configuration/">docs</a></p>
+<ul>
+  <li>storage</li>
+  <li>speed</li>
+</ul>
 
-<h3 id="configure-pages-and-deploy-to-github">Configure pages and deploy to github</h3>
+<p><strong>snappy</strong>:</p>
 
-<ol>
-  <li>create new repo and configure github settings to enable pages, follow <a href="https://docs.github.com/en/pages/quickstart">here</a></li>
-  <li>push code to the new created repo</li>
-  <li>access githubpages url, if the repo created is <code class="language-plaintext highlighter-rouge">username.github.io</code> then url will be <code class="language-plaintext highlighter-rouge">https:\\username.github.io</code></li>
-</ol>
+<ul>
+  <li>fast compression codec</li>
+  <li>optimized for speed rather than storage</li>
+  <li>by default is not splittable but file format like avro/orc/parquet takes care of splits. So snappy can be used with these file formats.</li>
+  <li>distributed with hadoop</li>
+</ul>
 
-<h3 id="enabling-feature-to-add-comments-in-the-blogs">Enabling feature to add comments in the blogs</h3>
+<p><strong>lzo</strong>:</p>
 
-<p>In order to enable comments feature we have different options and here we have used github issues where all the comments in the blog will be stored.
-To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/configuration/#utterances-comments">here</a></p>
+<ul>
+  <li>optimized for speed rather than storage</li>
+  <li>it is splittable but requires additional indexing step</li>
+  <li>good for plain text files</li>
+  <li>is not distributed with hadoop, requires seperate install</li>
+  <li>compratively slower than snappy</li>
+</ul>
 
-<p>Note: It will not show comments locally, it will only work once pushed to github on githubpages url.</p>
+<p><strong>gzip</strong>:</p>
 
+<ul>
+  <li>optimized for storage, 2.5x times compression compared to snappy</li>
+  <li>not splittable but can be used with container file formats like snappy</li>
+  <li>processing is slow, as compression is more it will have less blocks, can reduce block size to increase parellelism which will process faster</li>
+</ul>
+
+<p><strong>bzip2</strong>:</p>
+
+<ul>
+  <li>excellent storage, compress around 9% more comparitively to gzip</li>
+  <li>significantly slower, around 10x comparitively to gzip</li>
+  <li>splittable</li>
+  <li>might be used for archival</li>
+</ul>
+
+<p><strong>Note</strong>: snappy is used in mostly, as it provides good trade off between speed and size.</p>
 
         
       </section>
@@ -359,9 +372,9 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#github" class="page__taxonomy-item" rel="tag">github</a><span class="sep">, </span>
+      <a href="/tags/#compression" class="page__taxonomy-item" rel="tag">compression</a><span class="sep">, </span>
     
-      <a href="/tags/#jekyll" class="page__taxonomy-item" rel="tag">jekyll</a>
+      <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a>
     
     </span>
   </p>
@@ -386,7 +399,7 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-04T16:00:00+01:00">January 4, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-18T16:29:00+01:00">January 18, 2022</time></p>
 
 
       </footer>
@@ -396,10 +409,11 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/blog/file-formats/" class="pagination--pager" title="file formats for big data
+">Previous</a>
     
     
-      <a href="/blog/understand-hdfs/" class="pagination--pager" title="hdfs architecture
+      <a href="/blog/hive-optimizations/" class="pagination--pager" title="hive optimizations
 ">Next</a>
     
   </nav>
@@ -465,51 +479,6 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/compression-in-hadoop/" rel="permalink">compression in hadoop
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Compression will help to:
-
-  save storage
-  reduce io cost
-
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
         <a href="/blog/file-formats/" rel="permalink">file formats for big data
 </a>
       
@@ -528,7 +497,7 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          3 minute read
         
       </span>
     
@@ -577,6 +546,51 @@ To enable, follow <a href="https://mmistakes.github.io/minimal-mistakes/docs/con
 
 
     <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/map-reduce/" rel="permalink">MapReduce working
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">MapReduce is programming model for processing big datsets. It consists of two stages:
+
+  map
+  reduce
+
 
 </p>
   </article>
