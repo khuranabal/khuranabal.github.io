@@ -1,4 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-18T18:20:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive optimizations</title><link href="http://localhost:4000/blog/hive-optimizations/" rel="alternate" type="text/html" title="hive optimizations" /><published>2022-01-18T16:56:00+01:00</published><updated>2022-01-18T16:56:00+01:00</updated><id>http://localhost:4000/blog/hive-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/hive-optimizations/">&lt;h3 id=&quot;vectorization&quot;&gt;Vectorization&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-19T18:52:24+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive features</title><link href="http://localhost:4000/blog/hive-advanced/" rel="alternate" type="text/html" title="hive features" /><published>2022-01-19T16:43:00+01:00</published><updated>2022-01-19T16:43:00+01:00</updated><id>http://localhost:4000/blog/hive-advanced</id><content type="html" xml:base="http://localhost:4000/blog/hive-advanced/">&lt;h3 id=&quot;hive-server--thrift-server&quot;&gt;hive server / thrift server&lt;/h3&gt;
+
+&lt;p&gt;Its like bridge service, where code can be written in any language and executed remotely on hive using apache thrift server/service.&lt;/p&gt;
+
+&lt;p&gt;In hive context, we can write code in java to query on hive using thrift service.&lt;/p&gt;
+
+&lt;h3 id=&quot;msck-repair&quot;&gt;msck repair&lt;/h3&gt;
+
+&lt;p&gt;Assume we have hive external table, and partitions are added to the directory. In this case metadata in hive will not be updated automatically. We have to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;msck&lt;/code&gt; to update metadata.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;create external table
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create external table v1(a int, b int)
+partitioned by (state char(2))
+location '/data';
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;create directory
+    &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hadoop fs &lt;span class=&quot;nt&quot;&gt;-mkdir&lt;/span&gt; /data
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;add couple of partitions data in directory &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/data&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;check partitions, it will not show any partitions
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;show partitions v1;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;use below command to build metadata
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;msck repair table v1;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;check partitions again, it will show partitions added
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;show partitions v1;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;no_drop-feature&quot;&gt;no_drop feature&lt;/h3&gt;
+
+&lt;p&gt;We can enable no drop feature so as it is protected by accidental drop command. Same way we can disable if required.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;enable no drop: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alter table v1 enable no_drop;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;test drop, it will error out: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;drop table v1;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It can even be enabled on particular partition.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alter table v1 partition (country='DK') enable no_drop;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;offline-feature&quot;&gt;offline feature&lt;/h3&gt;
+
+&lt;p&gt;We can enable offline feature so as table will be restricted to be queried.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alter table v1 enable offline;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;skip-rows&quot;&gt;skip rows&lt;/h3&gt;
+
+&lt;p&gt;To skip n top rows, we have to create table with special tblproperties.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create table v2(a int, b int)
+tblproperties(&quot;skip.header.line.count&quot;=&quot;3&quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note: same way we can skip footer property is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;skip.footer.line.count&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;immutable-feature&quot;&gt;immutable feature&lt;/h3&gt;
+
+&lt;p&gt;If enabled then we cannot change data like append or modify, it only allows data to be loaded one time. However we can overwrite.&lt;/p&gt;
+
+&lt;p&gt;Property to enable: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tblproperties(&quot;immutable&quot;=&quot;true&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;drop-vs-truncate-vs-purge&quot;&gt;drop vs truncate vs purge&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;drop&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;for managed table data and metadata both are deleted&lt;/li&gt;
+  &lt;li&gt;for external table only metedata is deleted&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;truncate&lt;/strong&gt;: all the data is deleted, metadata will not be deleted&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;purge&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;if set to true, data will be permanently deleted&lt;/li&gt;
+  &lt;li&gt;if set to false, data can be recovered&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;empty-string&quot;&gt;empty string&lt;/h3&gt;
+
+&lt;p&gt;When value is missing in the column of dataset in a file, it is empty string &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;&quot;&lt;/code&gt; not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NULL&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;There is table property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tblproperties(&quot;serialization.null.format&quot;=&quot;&quot;)&lt;/code&gt; to convert any empty value to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NULL&lt;/code&gt;&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><summary type="html">hive server / thrift server</summary></entry><entry><title type="html">hive optimizations</title><link href="http://localhost:4000/blog/hive-optimizations/" rel="alternate" type="text/html" title="hive optimizations" /><published>2022-01-18T16:56:00+01:00</published><updated>2022-01-18T16:56:00+01:00</updated><id>http://localhost:4000/blog/hive-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/hive-optimizations/">&lt;h3 id=&quot;vectorization&quot;&gt;Vectorization&lt;/h3&gt;
 
 &lt;p&gt;It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows.&lt;/p&gt;
 

@@ -19,22 +19,19 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Balpreet Singh</title>
-<meta name="description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
+<!-- begin _includes/seo.html --><title>hive features - Balpreet Singh</title>
+<meta name="description" content="hive server / thrift server">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Balpreet Singh">
-<meta property="og:url" content="http://localhost:4000/">
+<meta property="og:title" content="hive features">
+<meta property="og:url" content="http://localhost:4000/blog/hive-advanced/">
 
 
-  <meta property="og:description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
-
-
-
+  <meta property="og:description" content="hive server / thrift server">
 
 
 
@@ -42,13 +39,16 @@
 
 
 
+  <meta property="article:published_time" content="2022-01-19T16:43:00+01:00">
 
 
-<link rel="canonical" href="http://localhost:4000/">
 
 
 
-  <link rel="next" href="http://localhost:4000/page2/">
+
+<link rel="canonical" href="http://localhost:4000/blog/hive-advanced/">
+
+
 
 
 <script type="application/ld+json">
@@ -97,7 +97,7 @@
 
   </head>
 
-  <body class="layout--home">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -265,33 +265,18 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title"></h1>
-    
-    
-
-<h3 class="archive__subtitle">Recent Posts</h3>
-
-
-
-
-<div class="entries-list">
-  
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="hive features">
+    <meta itemprop="description" content="hive server / thrift server">
+    <meta itemprop="datePublished" content="2022-01-19T16:43:00+01:00">
     
 
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
+    <div class="page__inner-wrap">
       
-        <a href="/blog/hive-advanced/" rel="permalink">hive features
-</a>
-      
-    </h2>
-    
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">hive features
+</h1>
+          
 
   <p class="page__meta">
     
@@ -312,18 +297,182 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">hive server / thrift server
+        </header>
+      
 
-</p>
-  </article>
-</div>
+      <section class="page__content" itemprop="text">
+        
+        <h3 id="hive-server--thrift-server">hive server / thrift server</h3>
+
+<p>Its like bridge service, where code can be written in any language and executed remotely on hive using apache thrift server/service.</p>
+
+<p>In hive context, we can write code in java to query on hive using thrift service.</p>
+
+<h3 id="msck-repair">msck repair</h3>
+
+<p>Assume we have hive external table, and partitions are added to the directory. In this case metadata in hive will not be updated automatically. We have to use <code class="language-plaintext highlighter-rouge">msck</code> to update metadata.</p>
+
+<p>Example:</p>
+
+<ol>
+  <li>create external table
+    <pre><code class="language-hive">create external table v1(a int, b int)
+partitioned by (state char(2))
+location '/data';
+</code></pre>
+  </li>
+  <li>create directory
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop fs <span class="nt">-mkdir</span> /data
+</code></pre></div>    </div>
+  </li>
+  <li>add couple of partitions data in directory <code class="language-plaintext highlighter-rouge">/data</code></li>
+  <li>check partitions, it will not show any partitions
+    <pre><code class="language-hive">show partitions v1;
+</code></pre>
+  </li>
+  <li>use below command to build metadata
+    <pre><code class="language-hive">msck repair table v1;
+</code></pre>
+  </li>
+  <li>check partitions again, it will show partitions added
+    <pre><code class="language-hive">show partitions v1;
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="no_drop-feature">no_drop feature</h3>
+
+<p>We can enable no drop feature so as it is protected by accidental drop command. Same way we can disable if required.</p>
+
+<ol>
+  <li>enable no drop: <code class="language-plaintext highlighter-rouge">alter table v1 enable no_drop;</code></li>
+  <li>test drop, it will error out: <code class="language-plaintext highlighter-rouge">drop table v1;</code></li>
+</ol>
+
+<p>It can even be enabled on particular partition.</p>
+
+<p><code class="language-plaintext highlighter-rouge">alter table v1 partition (country='DK') enable no_drop;</code></p>
+
+<h3 id="offline-feature">offline feature</h3>
+
+<p>We can enable offline feature so as table will be restricted to be queried.</p>
+
+<p><code class="language-plaintext highlighter-rouge">alter table v1 enable offline;</code></p>
+
+<h3 id="skip-rows">skip rows</h3>
+
+<p>To skip n top rows, we have to create table with special tblproperties.</p>
+
+<pre><code class="language-hive">create table v2(a int, b int)
+tblproperties("skip.header.line.count"="3");
+</code></pre>
+
+<p>Note: same way we can skip footer property is <code class="language-plaintext highlighter-rouge">skip.footer.line.count</code></p>
+
+<h3 id="immutable-feature">immutable feature</h3>
+
+<p>If enabled then we cannot change data like append or modify, it only allows data to be loaded one time. However we can overwrite.</p>
+
+<p>Property to enable: <code class="language-plaintext highlighter-rouge">tblproperties("immutable"="true")</code></p>
+
+<h3 id="drop-vs-truncate-vs-purge">drop vs truncate vs purge</h3>
+
+<p><strong>drop</strong>:</p>
+
+<ul>
+  <li>for managed table data and metadata both are deleted</li>
+  <li>for external table only metedata is deleted</li>
+</ul>
+
+<p><strong>truncate</strong>: all the data is deleted, metadata will not be deleted</p>
+
+<p><strong>purge</strong>:</p>
+
+<ul>
+  <li>if set to true, data will be permanently deleted</li>
+  <li>if set to false, data can be recovered</li>
+</ul>
+
+<h3 id="empty-string">empty string</h3>
+
+<p>When value is missing in the column of dataset in a file, it is empty string <code class="language-plaintext highlighter-rouge">""</code> not <code class="language-plaintext highlighter-rouge">NULL</code></p>
+
+<p>There is table property <code class="language-plaintext highlighter-rouge">tblproperties("serialization.null.format"="")</code> to convert any empty value to <code class="language-plaintext highlighter-rouge">NULL</code></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
 
   
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
     
+      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a>
+    
+    </span>
+  </p>
 
 
 
-<div class="list__item">
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-19T16:43:00+01:00">January 19, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/hive-optimizations/" class="pagination--pager" title="hive optimizations
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -359,12 +508,12 @@
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -404,12 +553,12 @@
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -445,12 +594,12 @@
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -486,50 +635,13 @@
   </article>
 </div>
 
+        
+      </div>
+    </div>
+  
   
 </div>
 
-
-<nav class="pagination">
-  
-  <ul>
-    
-    
-    <li><a href="#" class="disabled"><span aria-hidden="true">Previous</span></a></li>
-    
-
-    
-    
-      <li><a href="#" class="disabled current">1</a></li>
-    
-
-    
-    
-
-    
-    
-    
-
-    
-
-    
-    
-
-    
-      <li><a href="/page2/">2</a></li>
-    
-
-    
-    
-      <li><a href="/page2/">Next</a></li>
-    
-  </ul>
-</nav>
-
-
-
-  </div>
-</div>
     </div>
 
     
@@ -588,6 +700,30 @@
 <script src="/assets/js/lunr/lunr-en.js"></script>
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 

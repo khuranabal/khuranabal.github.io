@@ -40,4 +40,10 @@ var store = [{
         "tags": ["hive","optimization"],
         "url": "/blog/hive-optimizations/",
         "teaser": null
+      },{
+        "title": "hive features",
+        "excerpt":"hive server / thrift server Its like bridge service, where code can be written in any language and executed remotely on hive using apache thrift server/service. In hive context, we can write code in java to query on hive using thrift service. msck repair Assume we have hive external table,...","categories": ["blog"],
+        "tags": ["hive"],
+        "url": "/blog/hive-advanced/",
+        "teaser": null
       }]
