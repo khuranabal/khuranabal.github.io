@@ -104,3 +104,46 @@ Property to enable: `tblproperties("immutable"="true")`
 When value is missing in the column of dataset in a file, it is empty string `""` not `NULL`
 
 There is table property `tblproperties("serialization.null.format"="")` to convert any empty value to `NULL`
+
+
+### dfs command from hive
+
+We can run below command from terminal to check files in hdfs.
+```sh
+hadoop fs -ls /user/username
+```
+
+If we are connected to hive then we can use `dfs`command to check files.
+```hive
+dfs -ls /user/username;
+```
+
+
+### executing linux command from hive
+
+It can be executed by prefixing command with `!`
+
+Example: `!ls /home/user;`
+
+
+### hivevar
+
+It is used to have variable in hive. Example:
+```hive
+set hivevar:var1=1;
+select * from v1 where a=${var1};
+```
+
+
+### print headers along with data
+
+Use below to print header in output from hive.
+
+`set hive.cli.prnt.header=true;`
+
+
+### cartesian product
+
+Join all rows one table with all rows of other table.
+
+`select * from t1,t2`

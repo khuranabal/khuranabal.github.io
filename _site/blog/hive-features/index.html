@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -398,6 +398,41 @@ tblproperties("skip.header.line.count"="3");
 <p>When value is missing in the column of dataset in a file, it is empty string <code class="language-plaintext highlighter-rouge">""</code> not <code class="language-plaintext highlighter-rouge">NULL</code></p>
 
 <p>There is table property <code class="language-plaintext highlighter-rouge">tblproperties("serialization.null.format"="")</code> to convert any empty value to <code class="language-plaintext highlighter-rouge">NULL</code></p>
+
+<h3 id="dfs-command-from-hive">dfs command from hive</h3>
+
+<p>We can run below command from terminal to check files in hdfs.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop fs <span class="nt">-ls</span> /user/username
+</code></pre></div></div>
+
+<p>If we are connected to hive then we can use <code class="language-plaintext highlighter-rouge">dfs</code>command to check files.</p>
+<pre><code class="language-hive">dfs -ls /user/username;
+</code></pre>
+
+<h3 id="executing-linux-command-from-hive">executing linux command from hive</h3>
+
+<p>It can be executed by prefixing command with <code class="language-plaintext highlighter-rouge">!</code></p>
+
+<p>Example: <code class="language-plaintext highlighter-rouge">!ls /home/user;</code></p>
+
+<h3 id="hivevar">hivevar</h3>
+
+<p>It is used to have variable in hive. Example:</p>
+<pre><code class="language-hive">set hivevar:var1=1;
+select * from v1 where a=${var1};
+</code></pre>
+
+<h3 id="print-headers-along-with-data">print headers along with data</h3>
+
+<p>Use below to print header in output from hive.</p>
+
+<p><code class="language-plaintext highlighter-rouge">set hive.cli.prnt.header=true;</code></p>
+
+<h3 id="cartesian-product">cartesian product</h3>
+
+<p>Join all rows one table with all rows of other table.</p>
+
+<p><code class="language-plaintext highlighter-rouge">select * from t1,t2</code></p>
 
         
       </section>

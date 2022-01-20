@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-19T18:53:07+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive features</title><link href="http://localhost:4000/blog/hive-features/" rel="alternate" type="text/html" title="hive features" /><published>2022-01-19T16:43:00+01:00</published><updated>2022-01-19T16:43:00+01:00</updated><id>http://localhost:4000/blog/hive-features</id><content type="html" xml:base="http://localhost:4000/blog/hive-features/">&lt;h3 id=&quot;hive-server--thrift-server&quot;&gt;hive server / thrift server&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-20T17:26:17+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive features</title><link href="http://localhost:4000/blog/hive-features/" rel="alternate" type="text/html" title="hive features" /><published>2022-01-19T16:43:00+01:00</published><updated>2022-01-19T16:43:00+01:00</updated><id>http://localhost:4000/blog/hive-features</id><content type="html" xml:base="http://localhost:4000/blog/hive-features/">&lt;h3 id=&quot;hive-server--thrift-server&quot;&gt;hive server / thrift server&lt;/h3&gt;
 
 &lt;p&gt;Its like bridge service, where code can be written in any language and executed remotely on hive using apache thrift server/service.&lt;/p&gt;
 
@@ -93,7 +93,42 @@ tblproperties(&quot;skip.header.line.count&quot;=&quot;3&quot;);
 
 &lt;p&gt;When value is missing in the column of dataset in a file, it is empty string &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;&quot;&lt;/code&gt; not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NULL&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;There is table property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tblproperties(&quot;serialization.null.format&quot;=&quot;&quot;)&lt;/code&gt; to convert any empty value to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NULL&lt;/code&gt;&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><summary type="html">hive server / thrift server</summary></entry><entry><title type="html">hive optimizations</title><link href="http://localhost:4000/blog/hive-optimizations/" rel="alternate" type="text/html" title="hive optimizations" /><published>2022-01-18T16:56:00+01:00</published><updated>2022-01-18T16:56:00+01:00</updated><id>http://localhost:4000/blog/hive-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/hive-optimizations/">&lt;h3 id=&quot;vectorization&quot;&gt;Vectorization&lt;/h3&gt;
+&lt;p&gt;There is table property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tblproperties(&quot;serialization.null.format&quot;=&quot;&quot;)&lt;/code&gt; to convert any empty value to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NULL&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;dfs-command-from-hive&quot;&gt;dfs command from hive&lt;/h3&gt;
+
+&lt;p&gt;We can run below command from terminal to check files in hdfs.&lt;/p&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hadoop fs &lt;span class=&quot;nt&quot;&gt;-ls&lt;/span&gt; /user/username
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we are connected to hive then we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dfs&lt;/code&gt;command to check files.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;dfs -ls /user/username;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;executing-linux-command-from-hive&quot;&gt;executing linux command from hive&lt;/h3&gt;
+
+&lt;p&gt;It can be executed by prefixing command with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;!ls /home/user;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;hivevar&quot;&gt;hivevar&lt;/h3&gt;
+
+&lt;p&gt;It is used to have variable in hive. Example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;set hivevar:var1=1;
+select * from v1 where a=${var1};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;print-headers-along-with-data&quot;&gt;print headers along with data&lt;/h3&gt;
+
+&lt;p&gt;Use below to print header in output from hive.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set hive.cli.prnt.header=true;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;cartesian-product&quot;&gt;cartesian product&lt;/h3&gt;
+
+&lt;p&gt;Join all rows one table with all rows of other table.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;select * from t1,t2&lt;/code&gt;&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><summary type="html">hive server / thrift server</summary></entry><entry><title type="html">hive optimizations</title><link href="http://localhost:4000/blog/hive-optimizations/" rel="alternate" type="text/html" title="hive optimizations" /><published>2022-01-18T16:56:00+01:00</published><updated>2022-01-18T16:56:00+01:00</updated><id>http://localhost:4000/blog/hive-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/hive-optimizations/">&lt;h3 id=&quot;vectorization&quot;&gt;Vectorization&lt;/h3&gt;
 
 &lt;p&gt;It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows.&lt;/p&gt;
 
