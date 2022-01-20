@@ -334,6 +334,22 @@
 
 <p><strong>Note</strong>: mr is defult selected</p>
 
+<h3 id="udf">UDF</h3>
+
+<p>UDF’s are not very optimized. And filters in hive are evaluated from left to right so in case we have udf then we should put that in last in the filter. Example:</p>
+
+<p><code class="language-plaintext highlighter-rouge">where col1=1 and udf_name(col2)=2</code></p>
+
+<h3 id="cost-based-optimization-cbo">cost based optimization (CBO)</h3>
+
+<p>It is open source and generates effecient plan by checking cost of query, which is collected by ANALYZE statements. And it is enabled by default. Properties related to it:</p>
+
+<pre><code class="language-hive">set hive.cbo.enable
+set hive.compute.query.using.stats
+set hive.stats.fetch.column.stats
+set hive.stats.fetch.partition.stats
+</code></pre>
+
         
       </section>
 

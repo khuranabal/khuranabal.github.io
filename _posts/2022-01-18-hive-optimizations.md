@@ -36,3 +36,22 @@ It supports three engines. We can check which one is in use by below command.
   * spark
 
 **Note**: mr is defult selected
+
+
+### UDF
+
+UDF's are not very optimized. And filters in hive are evaluated from left to right so in case we have udf then we should put that in last in the filter. Example:
+
+`where col1=1 and udf_name(col2)=2`
+
+
+### cost based optimization (CBO)
+
+It is open source and generates effecient plan by checking cost of query, which is collected by ANALYZE statements. And it is enabled by default. Properties related to it:
+
+```hive
+set hive.cbo.enable
+set hive.compute.query.using.stats
+set hive.stats.fetch.column.stats
+set hive.stats.fetch.partition.stats
+```
