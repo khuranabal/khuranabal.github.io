@@ -19,22 +19,19 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Posts by Year - Balpreet Singh</title>
-<meta name="description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
+<!-- begin _includes/seo.html --><title>slowly changing dimensions - Balpreet Singh</title>
+<meta name="description" content="It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Posts by Year">
-<meta property="og:url" content="http://localhost:4000/posts/">
+<meta property="og:title" content="slowly changing dimensions">
+<meta property="og:url" content="http://localhost:4000/blog/scd/">
 
 
-  <meta property="og:description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
-
-
-
+  <meta property="og:description" content="It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs">
 
 
 
@@ -42,9 +39,14 @@
 
 
 
+  <meta property="article:published_time" content="2022-01-20T16:42:00+01:00">
 
 
-<link rel="canonical" href="http://localhost:4000/posts/">
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/scd/">
 
 
 
@@ -95,7 +97,7 @@
 
   </head>
 
-  <body class="layout--posts">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -263,36 +265,144 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title">Posts by Year</h1>
-    
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="slowly changing dimensions">
+    <meta itemprop="description" content="It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs">
+    <meta itemprop="datePublished" content="2022-01-20T16:42:00+01:00">
     
 
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">slowly changing dimensions
+</h1>
+          
 
-<ul class="taxonomy__index">
-  
-  
-    <li>
-      <a href="#2022">
-        <strong>2022</strong> <span class="taxonomy__count">10</span>
-      </a>
-    </li>
-  
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs</p>
+
+<h3 id="type-of-scd">Type of SCD</h3>
+
+<h4 id="scd-type-1">SCD Type 1</h4>
+
+<p>History is not maintained, data is overwritten.</p>
+
+<h4 id="scd-type-2">SCD Type 2</h4>
+
+<p>Maintain history. It can be done in below three ways, lets take emaple of product data. All products are stored in products table then:</p>
+
+<ul>
+  <li>
+    <p><strong>version</strong>: maintain multiple version (increasing int value) of same product latest version is the latest details of the product</p>
+  </li>
+  <li>
+    <p><strong>flag</strong>: keep flag representing latest details of the product</p>
+  </li>
+  <li>
+    <p><strong>effective date</strong>: maintain start date and end date, this way we can keep track of the product details over period of time.</p>
+  </li>
 </ul>
 
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#datawarehouse" class="page__taxonomy-item" rel="tag">datawarehouse</a><span class="sep">, </span>
+    
+      <a href="/tags/#scd" class="page__taxonomy-item" rel="tag">scd</a>
+    
+    </span>
+  </p>
 
 
 
-  <section id="2022" class="taxonomy__section">
-    <h2 class="archive__subtitle">2022</h2>
-    <div class="entries-list">
-      
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
         
 
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-20T16:42:00+01:00">January 20, 2022</time></p>
 
 
-<div class="list__item">
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/hive-features/" class="pagination--pager" title="hive features
+">Previous</a>
+    
+    
+      <a href="/blog/hbase/" class="pagination--pager" title="hbase
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -328,53 +438,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/scd/" rel="permalink">slowly changing dimensions
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -410,12 +479,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -451,12 +520,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -496,223 +565,13 @@
   </article>
 </div>
 
-      
         
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/file-formats/" rel="permalink">file formats for big data
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">There are certain parameters to consider when chossing a file format.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/sqoop/" rel="permalink">sqoop working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/map-reduce/" rel="permalink">MapReduce working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">MapReduce is programming model for processing big datsets. It consists of two stages:
-
-  map
-  reduce
-
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/understand-hdfs/" rel="permalink">hdfs architecture
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/setup-github-pages-with-jekyll/" rel="permalink">Build and deploy static website
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:
-
-  je...</p>
-  </article>
-</div>
-
-      
+      </div>
     </div>
-    <a href="#page-title" class="back-to-top">Back to Top &uarr;</a>
-  </section>
-
-
-  </div>
+  
+  
 </div>
+
     </div>
 
     
@@ -771,6 +630,30 @@
 <script src="/assets/js/lunr/lunr-en.js"></script>
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 

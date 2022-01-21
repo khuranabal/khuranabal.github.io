@@ -19,22 +19,19 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Posts by Year - Balpreet Singh</title>
-<meta name="description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
+<!-- begin _includes/seo.html --><title>hbase - Balpreet Singh</title>
+<meta name="description" content="rdbms properties">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Posts by Year">
-<meta property="og:url" content="http://localhost:4000/posts/">
+<meta property="og:title" content="hbase">
+<meta property="og:url" content="http://localhost:4000/blog/hbase/">
 
 
-  <meta property="og:description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
-
-
-
+  <meta property="og:description" content="rdbms properties">
 
 
 
@@ -42,9 +39,14 @@
 
 
 
+  <meta property="article:published_time" content="2022-01-21T17:01:00+01:00">
 
 
-<link rel="canonical" href="http://localhost:4000/posts/">
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/hbase/">
 
 
 
@@ -95,7 +97,7 @@
 
   </head>
 
-  <body class="layout--posts">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -263,45 +265,18 @@
 
 
 
-  <div class="archive">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="hbase">
+    <meta itemprop="description" content="rdbms properties">
+    <meta itemprop="datePublished" content="2022-01-21T17:01:00+01:00">
     
-      <h1 id="page-title" class="page__title">Posts by Year</h1>
-    
-    
 
-
-<ul class="taxonomy__index">
-  
-  
-    <li>
-      <a href="#2022">
-        <strong>2022</strong> <span class="taxonomy__count">10</span>
-      </a>
-    </li>
-  
-</ul>
-
-
-
-
-  <section id="2022" class="taxonomy__section">
-    <h2 class="archive__subtitle">2022</h2>
-    <div class="entries-list">
+    <div class="page__inner-wrap">
       
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/hbase/" rel="permalink">hbase
-</a>
-      
-    </h2>
-    
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">hbase
+</h1>
+          
 
   <p class="page__meta">
     
@@ -322,18 +297,189 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">rdbms properties
-
-</p>
-  </article>
-</div>
-
+        </header>
       
+
+      <section class="page__content" itemprop="text">
+        
+        <h3 id="rdbms-properties">rdbms properties</h3>
+
+<ul>
+  <li>structured</li>
+  <li>random access</li>
+  <li>low latency</li>
+  <li>ACID
+    <ul>
+      <li>Atomic: full transaction either completes or fail</li>
+      <li>Consistency: updates should not violate constraints</li>
+      <li>Isolation: multiple concurrent sessions can work on database in some sequence using locking</li>
+      <li>Durability: data is stored and recoverable even after failure</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="limitations-of-hadoop">limitations of hadoop</h3>
+
+<ul>
+  <li>unstructured data</li>
+  <li>no random access</li>
+  <li>high latency</li>
+  <li>no ACID compliance</li>
+</ul>
+
+<h3 id="bigtablehbase">bigtable/hbase</h3>
+
+<p>bigtable paper is published by google, it is distributed storage system for structured data. hbase is implementation of the same.</p>
+
+<p>hbase is distributed database management system on top of hadoop. So is:</p>
+<ul>
+  <li>distributed</li>
+  <li>scalable</li>
+  <li>fault tolerant</li>
+</ul>
+
+<h4 id="hbase-properties">hbase properties</h4>
+
+<ul>
+  <li>loose structured: as each row can can different number of columns</li>
+  <li>low latency: uses row keys to fetch data</li>
+  <li>random access: uses row keys to fetch data</li>
+  <li>somewhat ACID: as it provides ACID at row level only, not if multiple rows are updated</li>
+</ul>
+
+<p>It provides batch processing using mapreduce and real time processing using row keys.</p>
+
+<h3 id="storage-in-hbase">storage in hbase</h3>
+
+<p>It stores data in columnar format as shown below.</p>
+
+<p><img src="/assets/images/hbase/hbase.png" alt="hbase" /></p>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>sparse data: In case there is no data for some of the columns then those columns will be skipped while storing</li>
+  <li>dynamic attributes: can have data with more or less columns</li>
+</ul>
+
+<h3 id="hbase-vs-rdbms">hbase vs rdbms</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>rdbms</td>
+      <td>hbase</td>
+    </tr>
+    <tr>
+      <td>data is arranged in rows and columns</td>
+      <td>data is in columnar format</td>
+    </tr>
+    <tr>
+      <td>sql</td>
+      <td>nosql</td>
+    </tr>
+    <tr>
+      <td>supports groupping, joins, etc</td>
+      <td>supports only CRUD</td>
+    </tr>
+    <tr>
+      <td>normalized data to reduce redundancy</td>
+      <td>denaormalized (self contained) to reduce disk seek</td>
+    </tr>
+    <tr>
+      <td>ACID compliant</td>
+      <td>ACID compliant at row level</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Note</strong>:</p>
+
+<ul>
+  <li>all data is stored in byte array in form of bytes in hbase, there is no concept of data types in it</li>
+  <li>row keys are stored in sorted asc order, so as binary search can be done to find value</li>
+  <li>column families are fix and defined when creating table</li>
+  <li>columns can be more or less</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
+    
+      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
+    
+      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
         
 
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-21T17:01:00+01:00">January 21, 2022</time></p>
 
 
-<div class="list__item">
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/scd/" class="pagination--pager" title="slowly changing dimensions
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -369,12 +515,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -410,12 +556,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -451,12 +597,12 @@
   </article>
 </div>
 
-      
         
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
@@ -496,223 +642,13 @@
   </article>
 </div>
 
-      
         
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/file-formats/" rel="permalink">file formats for big data
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">There are certain parameters to consider when chossing a file format.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/sqoop/" rel="permalink">sqoop working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/map-reduce/" rel="permalink">MapReduce working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">MapReduce is programming model for processing big datsets. It consists of two stages:
-
-  map
-  reduce
-
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/understand-hdfs/" rel="permalink">hdfs architecture
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.
-
-</p>
-  </article>
-</div>
-
-      
-        
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/setup-github-pages-with-jekyll/" rel="permalink">Build and deploy static website
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">To host website we have different ways and for this blog we are focussing on a use case where we need to have a website for blogging, and we are using:
-
-  je...</p>
-  </article>
-</div>
-
-      
+      </div>
     </div>
-    <a href="#page-title" class="back-to-top">Back to Top &uarr;</a>
-  </section>
-
-
-  </div>
+  
+  
 </div>
+
     </div>
 
     
@@ -771,6 +707,30 @@
 <script src="/assets/js/lunr/lunr-en.js"></script>
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 

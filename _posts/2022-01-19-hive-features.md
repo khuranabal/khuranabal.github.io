@@ -146,4 +146,13 @@ Use below to print header in output from hive.
 
 Join all rows one table with all rows of other table.
 
-`select * from t1,t2`
+`select * from t1,t2;`
+
+
+### plan of queries
+
+To check plan of queries below can be used:
+
+`EXPLAIN select * from t1;`
+
+`EXPLAIN EXTENDED select * from t1;`

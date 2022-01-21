@@ -46,4 +46,16 @@ var store = [{
         "tags": ["hive"],
         "url": "/blog/hive-features/",
         "teaser": null
+      },{
+        "title": "slowly changing dimensions",
+        "excerpt":"It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs Type of SCD SCD Type 1 History is not maintained, data is overwritten. SCD Type 2 Maintain history. It can be done in below three ways, lets take emaple...","categories": ["blog"],
+        "tags": ["scd","datawarehouse"],
+        "url": "/blog/scd/",
+        "teaser": null
+      },{
+        "title": "hbase",
+        "excerpt":"rdbms properties structured random access low latency ACID Atomic: full transaction either completes or fail Consistency: updates should not violate constraints Isolation: multiple concurrent sessions can work on database in some sequence using locking Durability: data is stored and recoverable even after failure limitations of hadoop unstructured data no random...","categories": ["blog"],
+        "tags": ["hbase","nosql","database"],
+        "url": "/blog/hbase/",
+        "teaser": null
       }]

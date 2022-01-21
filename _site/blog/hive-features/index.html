@@ -432,7 +432,15 @@ select * from v1 where a=${var1};
 
 <p>Join all rows one table with all rows of other table.</p>
 
-<p><code class="language-plaintext highlighter-rouge">select * from t1,t2</code></p>
+<p><code class="language-plaintext highlighter-rouge">select * from t1,t2;</code></p>
+
+<h3 id="plan-of-queries">plan of queries</h3>
+
+<p>To check plan of queries below can be used:</p>
+
+<p><code class="language-plaintext highlighter-rouge">EXPLAIN select * from t1;</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">EXPLAIN EXTENDED select * from t1;</code></p>
 
         
       </section>
@@ -488,7 +496,8 @@ select * from v1 where a=${var1};
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/blog/scd/" class="pagination--pager" title="slowly changing dimensions
+">Next</a>
     
   </nav>
 
@@ -502,6 +511,88 @@ select * from v1 where a=${var1};
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/hbase/" rel="permalink">hbase
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">rdbms properties
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/scd/" rel="permalink">slowly changing dimensions
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs
+
+</p>
+  </article>
+</div>
+
         
           
 
@@ -583,88 +674,6 @@ select * from v1 where a=${var1};
   save storage
   reduce io cost
 
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/file-formats/" rel="permalink">file formats for big data
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">There are certain parameters to consider when chossing a file format.
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/sqoop/" rel="permalink">sqoop working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
 
 </p>
   </article>
