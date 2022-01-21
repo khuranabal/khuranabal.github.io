@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-21T18:33:42+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-21T18:48:04+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;structured&lt;/li&gt;
@@ -86,8 +86,47 @@
       &lt;td&gt;ACID compliant&lt;/td&gt;
       &lt;td&gt;ACID compliant at row level&lt;/td&gt;
     &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2 dimiensional (row &amp;amp; column)&lt;/td&gt;
+      &lt;td&gt;4 dimensional&lt;/td&gt;
+    &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;h3 id=&quot;4-dimensional-model-in-hbase&quot;&gt;4 dimensional model in hbase&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;row key
+    &lt;ul&gt;
+      &lt;li&gt;uniquely identifies row&lt;/li&gt;
+      &lt;li&gt;represented internally as byte array&lt;/li&gt;
+      &lt;li&gt;sorted in asc order&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;column family
+    &lt;ul&gt;
+      &lt;li&gt;all rows have same set of column family&lt;/li&gt;
+      &lt;li&gt;setup at definition&lt;/li&gt;
+      &lt;li&gt;can have different columns for different rows&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;column
+    &lt;ul&gt;
+      &lt;li&gt;exist in one of the column family&lt;/li&gt;
+      &lt;li&gt;can be dynamic&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;timestamp
+    &lt;ul&gt;
+      &lt;li&gt;used for versioning&lt;/li&gt;
+      &lt;li&gt;vaule for old version can also be accessed&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Below shows all the four dimesnions and how data is stored. Like for col2 all the historic vaules will be stored with the timestamp and by default it gives latest but can be queried old data as well.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-storage.png&quot; alt=&quot;hbase storage&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
 

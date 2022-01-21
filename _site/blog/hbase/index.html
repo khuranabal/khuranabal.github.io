@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -390,8 +390,47 @@
       <td>ACID compliant</td>
       <td>ACID compliant at row level</td>
     </tr>
+    <tr>
+      <td>2 dimiensional (row &amp; column)</td>
+      <td>4 dimensional</td>
+    </tr>
   </tbody>
 </table>
+
+<h3 id="4-dimensional-model-in-hbase">4 dimensional model in hbase</h3>
+
+<ul>
+  <li>row key
+    <ul>
+      <li>uniquely identifies row</li>
+      <li>represented internally as byte array</li>
+      <li>sorted in asc order</li>
+    </ul>
+  </li>
+  <li>column family
+    <ul>
+      <li>all rows have same set of column family</li>
+      <li>setup at definition</li>
+      <li>can have different columns for different rows</li>
+    </ul>
+  </li>
+  <li>column
+    <ul>
+      <li>exist in one of the column family</li>
+      <li>can be dynamic</li>
+    </ul>
+  </li>
+  <li>timestamp
+    <ul>
+      <li>used for versioning</li>
+      <li>vaule for old version can also be accessed</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Below shows all the four dimesnions and how data is stored. Like for col2 all the historic vaules will be stored with the timestamp and by default it gives latest but can be queried old data as well.</p>
+
+<p><img src="/assets/images/hbase/hbase-storage.png" alt="hbase storage" /></p>
 
 <p><strong>Note</strong>:</p>
 
