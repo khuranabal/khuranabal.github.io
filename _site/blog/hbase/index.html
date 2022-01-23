@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          4 minute read
         
       </span>
     
@@ -439,6 +439,81 @@
   <li>row keys are stored in sorted asc order, so as binary search can be done to find value</li>
   <li>column families are fix and defined when creating table</li>
   <li>columns can be more or less</li>
+</ul>
+
+<h3 id="hbase-architecture">hbase architecture</h3>
+
+<p>hbase table is collection of rows and columns that are sorted based on row key. This table is distributed according to fix size, each portion of table is called region.</p>
+
+<p><strong>region</strong>:</p>
+<ul>
+  <li>sorted data is stored based on row keys</li>
+  <li>column families are stored in seperate files</li>
+  <li>assume 1 million rows in table and we have 4 regions then .25 million will go in each region</li>
+</ul>
+
+<p><strong>region server</strong>:</p>
+<ul>
+  <li>can have multiple region stored in one region server</li>
+  <li>if 4 data nodes and typically 4 region server is good practice</li>
+  <li>each region server contain wal, block cache</li>
+</ul>
+
+<p><strong>wal</strong>:</p>
+<ul>
+  <li>write ahead log, also known as hlog</li>
+  <li>in case of region server failure, and data is still in memstore. In order to prevent data loss, log is written to permanent store (hdfs)</li>
+</ul>
+
+<p><strong>block cache</strong>: whenever read is done data is cached in memory, so next read can be done directly by cache</p>
+
+<p><strong>memstore</strong>:</p>
+<ul>
+  <li>every insert is appended in memstore, after threshold is reached then data is flushed to disk with a new file created and this new file is called hfile</li>
+  <li>for each region there will be memstore per column family</li>
+</ul>
+
+<p><strong>zookeeper</strong>:</p>
+<ul>
+  <li>it is cordinating service for various distributed system</li>
+  <li>hold location for metatable</li>
+  <li>every system send heartbeat</li>
+  <li>metatable hold mapping of rowkey, region and region servers</li>
+  <li>metatable is present on one of region server and zoopkeep knows which region server hold it.</li>
+</ul>
+
+<p><strong>hmaster</strong>:</p>
+<ul>
+  <li>is master and region servers are slaves</li>
+  <li>can have one or more master node but only one will be active at a time</li>
+  <li>assign region servers</li>
+  <li>in case of failure/load it will balance among region servers</li>
+  <li>perform admin stuff like ddl (creating/deleting tables)</li>
+</ul>
+
+<p><strong>hfiles</strong>:</p>
+<ul>
+  <li>stored in hdfs</li>
+  <li>stores hbase table data as sorted key-value pairs</li>
+  <li>immutable</li>
+  <li>large in size depends on memstore flush size</li>
+  <li>stores data as set of blocks, which helps reading particular block</li>
+  <li>default block size 64KB</li>
+</ul>
+
+<p>Example: consider hfile of 250MB and block size of 64KB, then just 64KB need to be scanned if we search for a particular row key, And also in that block, binary search is applied to get particular row as data is stored sorted.</p>
+
+<p><strong>metatable</strong>:</p>
+<ul>
+  <li>stores location of regions along with region servers</li>
+  <li>helps user identify the region server and its corresponding regions where specific range data is stored</li>
+  <li>stored in one of region server and its location is stored in zookeeper</li>
+</ul>
+
+<p><strong>Note</strong>:</p>
+<ul>
+  <li>wal and block cache is one per region server</li>
+  <li>client intreacts directly with the region server to perform read/write operations</li>
 </ul>
 
         

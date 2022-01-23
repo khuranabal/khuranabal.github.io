@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-21T18:48:04+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-23T17:49:11+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;structured&lt;/li&gt;
@@ -135,6 +135,81 @@
   &lt;li&gt;row keys are stored in sorted asc order, so as binary search can be done to find value&lt;/li&gt;
   &lt;li&gt;column families are fix and defined when creating table&lt;/li&gt;
   &lt;li&gt;columns can be more or less&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;hbase-architecture&quot;&gt;hbase architecture&lt;/h3&gt;
+
+&lt;p&gt;hbase table is collection of rows and columns that are sorted based on row key. This table is distributed according to fix size, each portion of table is called region.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;sorted data is stored based on row keys&lt;/li&gt;
+  &lt;li&gt;column families are stored in seperate files&lt;/li&gt;
+  &lt;li&gt;assume 1 million rows in table and we have 4 regions then .25 million will go in each region&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;region server&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;can have multiple region stored in one region server&lt;/li&gt;
+  &lt;li&gt;if 4 data nodes and typically 4 region server is good practice&lt;/li&gt;
+  &lt;li&gt;each region server contain wal, block cache&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;wal&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;write ahead log, also known as hlog&lt;/li&gt;
+  &lt;li&gt;in case of region server failure, and data is still in memstore. In order to prevent data loss, log is written to permanent store (hdfs)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;block cache&lt;/strong&gt;: whenever read is done data is cached in memory, so next read can be done directly by cache&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;memstore&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;every insert is appended in memstore, after threshold is reached then data is flushed to disk with a new file created and this new file is called hfile&lt;/li&gt;
+  &lt;li&gt;for each region there will be memstore per column family&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;zookeeper&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;it is cordinating service for various distributed system&lt;/li&gt;
+  &lt;li&gt;hold location for metatable&lt;/li&gt;
+  &lt;li&gt;every system send heartbeat&lt;/li&gt;
+  &lt;li&gt;metatable hold mapping of rowkey, region and region servers&lt;/li&gt;
+  &lt;li&gt;metatable is present on one of region server and zoopkeep knows which region server hold it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;hmaster&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;is master and region servers are slaves&lt;/li&gt;
+  &lt;li&gt;can have one or more master node but only one will be active at a time&lt;/li&gt;
+  &lt;li&gt;assign region servers&lt;/li&gt;
+  &lt;li&gt;in case of failure/load it will balance among region servers&lt;/li&gt;
+  &lt;li&gt;perform admin stuff like ddl (creating/deleting tables)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;hfiles&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;stored in hdfs&lt;/li&gt;
+  &lt;li&gt;stores hbase table data as sorted key-value pairs&lt;/li&gt;
+  &lt;li&gt;immutable&lt;/li&gt;
+  &lt;li&gt;large in size depends on memstore flush size&lt;/li&gt;
+  &lt;li&gt;stores data as set of blocks, which helps reading particular block&lt;/li&gt;
+  &lt;li&gt;default block size 64KB&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example: consider hfile of 250MB and block size of 64KB, then just 64KB need to be scanned if we search for a particular row key, And also in that block, binary search is applied to get particular row as data is stored sorted.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;metatable&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;stores location of regions along with region servers&lt;/li&gt;
+  &lt;li&gt;helps user identify the region server and its corresponding regions where specific range data is stored&lt;/li&gt;
+  &lt;li&gt;stored in one of region server and its location is stored in zookeeper&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;wal and block cache is one per region server&lt;/li&gt;
+  &lt;li&gt;client intreacts directly with the region server to perform read/write operations&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry><entry><title type="html">slowly changing dimensions</title><link href="http://localhost:4000/blog/scd/" rel="alternate" type="text/html" title="slowly changing dimensions" /><published>2022-01-20T16:42:00+01:00</published><updated>2022-01-20T16:42:00+01:00</updated><id>http://localhost:4000/blog/scd</id><content type="html" xml:base="http://localhost:4000/blog/scd/">&lt;p&gt;It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs&lt;/p&gt;
 
 &lt;h3 id=&quot;type-of-scd&quot;&gt;Type of SCD&lt;/h3&gt;
