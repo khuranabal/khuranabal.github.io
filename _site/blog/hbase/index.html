@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          5 minute read
         
       </span>
     
@@ -445,6 +445,8 @@
 
 <p>hbase table is collection of rows and columns that are sorted based on row key. This table is distributed according to fix size, each portion of table is called region.</p>
 
+<p><img src="/assets/images/hbase/hbase-architecture.png" alt="hbase architecture" /></p>
+
 <p><strong>region</strong>:</p>
 <ul>
   <li>sorted data is stored based on row keys</li>
@@ -480,6 +482,8 @@
   <li>every system send heartbeat</li>
   <li>metatable hold mapping of rowkey, region and region servers</li>
   <li>metatable is present on one of region server and zoopkeep knows which region server hold it.</li>
+  <li>in case of hmaster failue, zookeeper assign other master as new master</li>
+  <li>in case region server fails, zookeeper notify hmaster then hmaster reassigns regions of failed region server to other region server</li>
 </ul>
 
 <p><strong>hmaster</strong>:</p>
@@ -515,6 +519,50 @@
   <li>wal and block cache is one per region server</li>
   <li>client intreacts directly with the region server to perform read/write operations</li>
 </ul>
+
+<h3 id="readwrite-operation">read/write operation</h3>
+
+<p><img src="/assets/images/hbase/hbase-read-write.png" alt="hbase read write" /></p>
+
+<h4 id="read">read</h4>
+
+<ol>
+  <li>region server checks the block cache.</li>
+  <li>if not in block cache them memstore is checked</li>
+  <li>if not in memstore then hfile</li>
+  <li>in hfile particular block will be scanned based on row key and in order to find row key binary search is done in the block</li>
+</ol>
+
+<h4 id="write">write</h4>
+
+<ol>
+  <li>data is first written in wal</li>
+  <li>then to memstore</li>
+  <li>once memstore is filled, content is flushed to hdfs in new hfile</li>
+</ol>
+
+<h3 id="compaction">compaction</h3>
+
+<p>flush to hfile from memstore create multiple hfiles, especially on frequent write, which leads to slow read. To solve this we can use compactions:</p>
+
+<p><strong>minor</strong>: smaller hfiles are processed and rewritten into few larger files</p>
+
+<p><strong>major</strong>: all hfiles are picked and rewritten into single large hfile</p>
+
+<p><strong>Note</strong>: major compaction is more resource intensive</p>
+
+<h3 id="data-updatedelete">data update/delete</h3>
+
+<p><strong>update</strong>:</p>
+<ul>
+  <li>update is done based on timestamp</li>
+  <li>versions are maintained</li>
+</ul>
+
+<p><strong>delete</strong>:
+delete is special type of update where vaules of deleted data is not deleted immediatly rather are marked by assigning tombstone marker. Request to read the deleted data then returns null because of tombstone marker which identifyies that data is deleted.</p>
+
+<p>Reason for this is hfiles are immutable as these are hdfs files. All vaules with tombstone markers are deleted in next major compaction.</p>
 
         
       </section>

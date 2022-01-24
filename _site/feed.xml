@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-23T17:49:11+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-24T22:35:02+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;structured&lt;/li&gt;
@@ -141,6 +141,8 @@
 
 &lt;p&gt;hbase table is collection of rows and columns that are sorted based on row key. This table is distributed according to fix size, each portion of table is called region.&lt;/p&gt;
 
+&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-architecture.png&quot; alt=&quot;hbase architecture&quot; /&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;sorted data is stored based on row keys&lt;/li&gt;
@@ -176,6 +178,8 @@
   &lt;li&gt;every system send heartbeat&lt;/li&gt;
   &lt;li&gt;metatable hold mapping of rowkey, region and region servers&lt;/li&gt;
   &lt;li&gt;metatable is present on one of region server and zoopkeep knows which region server hold it.&lt;/li&gt;
+  &lt;li&gt;in case of hmaster failue, zookeeper assign other master as new master&lt;/li&gt;
+  &lt;li&gt;in case region server fails, zookeeper notify hmaster then hmaster reassigns regions of failed region server to other region server&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;hmaster&lt;/strong&gt;:&lt;/p&gt;
@@ -210,7 +214,51 @@
 &lt;ul&gt;
   &lt;li&gt;wal and block cache is one per region server&lt;/li&gt;
   &lt;li&gt;client intreacts directly with the region server to perform read/write operations&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry><entry><title type="html">slowly changing dimensions</title><link href="http://localhost:4000/blog/scd/" rel="alternate" type="text/html" title="slowly changing dimensions" /><published>2022-01-20T16:42:00+01:00</published><updated>2022-01-20T16:42:00+01:00</updated><id>http://localhost:4000/blog/scd</id><content type="html" xml:base="http://localhost:4000/blog/scd/">&lt;p&gt;It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs&lt;/p&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;readwrite-operation&quot;&gt;read/write operation&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-read-write.png&quot; alt=&quot;hbase read write&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;read&quot;&gt;read&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;region server checks the block cache.&lt;/li&gt;
+  &lt;li&gt;if not in block cache them memstore is checked&lt;/li&gt;
+  &lt;li&gt;if not in memstore then hfile&lt;/li&gt;
+  &lt;li&gt;in hfile particular block will be scanned based on row key and in order to find row key binary search is done in the block&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;write&quot;&gt;write&lt;/h4&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;data is first written in wal&lt;/li&gt;
+  &lt;li&gt;then to memstore&lt;/li&gt;
+  &lt;li&gt;once memstore is filled, content is flushed to hdfs in new hfile&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;compaction&quot;&gt;compaction&lt;/h3&gt;
+
+&lt;p&gt;flush to hfile from memstore create multiple hfiles, especially on frequent write, which leads to slow read. To solve this we can use compactions:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;minor&lt;/strong&gt;: smaller hfiles are processed and rewritten into few larger files&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;major&lt;/strong&gt;: all hfiles are picked and rewritten into single large hfile&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: major compaction is more resource intensive&lt;/p&gt;
+
+&lt;h3 id=&quot;data-updatedelete&quot;&gt;data update/delete&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;update&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;update is done based on timestamp&lt;/li&gt;
+  &lt;li&gt;versions are maintained&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;delete&lt;/strong&gt;:
+delete is special type of update where vaules of deleted data is not deleted immediatly rather are marked by assigning tombstone marker. Request to read the deleted data then returns null because of tombstone marker which identifyies that data is deleted.&lt;/p&gt;
+
+&lt;p&gt;Reason for this is hfiles are immutable as these are hdfs files. All vaules with tombstone markers are deleted in next major compaction.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry><entry><title type="html">slowly changing dimensions</title><link href="http://localhost:4000/blog/scd/" rel="alternate" type="text/html" title="slowly changing dimensions" /><published>2022-01-20T16:42:00+01:00</published><updated>2022-01-20T16:42:00+01:00</updated><id>http://localhost:4000/blog/scd</id><content type="html" xml:base="http://localhost:4000/blog/scd/">&lt;p&gt;It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs&lt;/p&gt;
 
 &lt;h3 id=&quot;type-of-scd&quot;&gt;Type of SCD&lt;/h3&gt;
 
