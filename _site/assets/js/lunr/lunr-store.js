@@ -58,4 +58,16 @@ var store = [{
         "tags": ["hbase","nosql","database"],
         "url": "/blog/hbase/",
         "teaser": null
+      },{
+        "title": "cap theorem",
+        "excerpt":"It is for distributed databases. And says that we can have only two out of three gurantees. C(Consistency): every node returns same recent data A(Availibility): every request gets response P(Partition tolerance): system functions despite of partition/network failure Options: CA: rdbms CP: single master or active/passive master, distributed database. ex:hbase AP:...","categories": ["blog"],
+        "tags": ["cap theorem","nosql","database"],
+        "url": "/blog/cap/",
+        "teaser": null
+      },{
+        "title": "cassandra",
+        "excerpt":"features distributed column oriented database highly performant scalable transactional low latency retrieval availibilty and partition tolerance guarentees with tunable consistency no master, multi master decentralized architecure highly available for communication among peers use gossip protocol Example: where eventual consistency is fine like social media comments/likes tunable consistency In default setup,...","categories": ["blog"],
+        "tags": ["cassandra","nosql","hbase","database"],
+        "url": "/blog/cassandra/",
+        "teaser": null
       }]

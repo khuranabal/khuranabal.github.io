@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>hive optimizations - Balpreet Singh</title>
-<meta name="description" content="Vectorization">
+<!-- begin _includes/seo.html --><title>cassandra - Balpreet Singh</title>
+<meta name="description" content="features">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="hive optimizations">
-<meta property="og:url" content="http://localhost:4000/blog/hive-optimizations/">
+<meta property="og:title" content="cassandra">
+<meta property="og:url" content="http://localhost:4000/blog/cassandra/">
 
 
-  <meta property="og:description" content="Vectorization">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-18T16:56:00+01:00">
+  <meta property="og:description" content="features">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/hive-optimizations/">
+
+  <meta property="article:published_time" content="2022-01-26T15:25:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/cassandra/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="hive optimizations">
-    <meta itemprop="description" content="Vectorization">
-    <meta itemprop="datePublished" content="2022-01-18T16:56:00+01:00">
+    <meta itemprop="headline" content="cassandra">
+    <meta itemprop="description" content="features">
+    <meta itemprop="datePublished" content="2022-01-26T15:25:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">hive optimizations
+          <h1 id="page-title" class="page__title" itemprop="headline">cassandra
 </h1>
           
 
@@ -302,53 +302,81 @@
 
       <section class="page__content" itemprop="text">
         
-        <h3 id="vectorization">Vectorization</h3>
-
-<p>It is hive feature which reduces cpu usage for query execution. Usually it processes one row at a time. Vectorized query streamlines operations by processing 1024 rows at a time like bacth of rows.</p>
-
-<p>To use vectorization data should be in orc format. And need to enable below parameter, it is not enabled by default.</p>
-
-<p><code class="language-plaintext highlighter-rouge">set hive.vectorized.execution.enabled = true</code></p>
-
-<p>Example:</p>
-
-<ol>
-  <li>create table: <code class="language-plaintext highlighter-rouge">create table v1(a int, b int) stored as orc;</code></li>
-  <li>enable vectorization</li>
-  <li>expalin query <code class="language-plaintext highlighter-rouge">explain select * from v1;</code> We should be able to see <code class="language-plaintext highlighter-rouge">execution mode: vectorized</code></li>
-</ol>
-
-<h3 id="change-hive-engine">Change hive engine</h3>
-
-<p>It supports three engines. We can check which one is in use by below command.</p>
-
-<p><code class="language-plaintext highlighter-rouge">set hive.execution.engine</code></p>
-
-<p><code class="language-plaintext highlighter-rouge">set hive.execution.engine=spark;</code></p>
+        <h3 id="features">features</h3>
 
 <ul>
-  <li>mr</li>
-  <li>tez</li>
-  <li>spark</li>
+  <li>distributed column oriented database</li>
+  <li>highly performant</li>
+  <li>scalable</li>
+  <li>transactional</li>
+  <li>low latency retrieval</li>
+  <li>availibilty and partition tolerance guarentees with tunable consistency</li>
+  <li>no master, multi master</li>
+  <li>decentralized architecure</li>
+  <li>highly available</li>
+  <li>for communication among peers use gossip protocol</li>
 </ul>
 
-<p><strong>Note</strong>: mr is defult selected</p>
+<p>Example: where eventual consistency is fine like social media comments/likes</p>
 
-<h3 id="udf">UDF</h3>
+<h3 id="tunable-consistency">tunable consistency</h3>
 
-<p>UDF’s are not very optimized. And filters in hive are evaluated from left to right so in case we have udf then we should put that in last in the filter. Example:</p>
+<p>In default setup, it uses eventual consistency. Below are the steps which will be performed when a request is submitted by client to cassandra.</p>
 
-<p><code class="language-plaintext highlighter-rouge">where col1=1 and udf_name(col2)=2</code></p>
+<ol>
+  <li>client send request to get some data</li>
+  <li>request is received by a machine in cassandra cluster lets say node2</li>
+  <li>node2 will get data from the nodes which have data lets say node1</li>
+  <li>node2 will return the response to client</li>
+</ol>
 
-<h3 id="cost-based-optimization-cbo">cost based optimization (CBO)</h3>
+<p>But we can tune consistency to:</p>
 
-<p>It is open source and generates effecient plan by checking cost of query, which is collected by ANALYZE statements. And it is enabled by default. Properties related to it:</p>
+<ul>
+  <li>check all node: all machines in cluster agrees on the same result</li>
+  <li>check quorum: certain number of machine agrees on the same result</li>
+</ul>
 
-<pre><code class="language-hive">set hive.cbo.enable
-set hive.compute.query.using.stats
-set hive.stats.fetch.column.stats
-set hive.stats.fetch.partition.stats
-</code></pre>
+<h3 id="hbase-vs-cassandra">hbase vs cassandra</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>hbase</td>
+      <td>cassandra</td>
+    </tr>
+    <tr>
+      <td>nosql</td>
+      <td>nosql</td>
+    </tr>
+    <tr>
+      <td>scalable</td>
+      <td>scalable</td>
+    </tr>
+    <tr>
+      <td>transactional</td>
+      <td>transactional</td>
+    </tr>
+    <tr>
+      <td>low latency</td>
+      <td>low latency</td>
+    </tr>
+    <tr>
+      <td>master slave architecture</td>
+      <td>no single master, muti master</td>
+    </tr>
+    <tr>
+      <td>CP guarentee</td>
+      <td>AP guarentee, with tunable consistency</td>
+    </tr>
+    <tr>
+      <td>runs on hadoop cluster</td>
+      <td>dedicated cluster required</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Note</strong>: cassandra has its own query language cql, its similar to sql</p>
 
         
       </section>
@@ -365,9 +393,13 @@ set hive.stats.fetch.partition.stats
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a><span class="sep">, </span>
+      <a href="/tags/#cassandra" class="page__taxonomy-item" rel="tag">cassandra</a><span class="sep">, </span>
     
-      <a href="/tags/#optimization" class="page__taxonomy-item" rel="tag">optimization</a>
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
+    
+      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
+    
+      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
     
     </span>
   </p>
@@ -392,7 +424,7 @@ set hive.stats.fetch.partition.stats
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-18T16:56:00+01:00">January 18, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-26T15:25:00+01:00">January 26, 2022</time></p>
 
 
       </footer>
@@ -402,12 +434,11 @@ set hive.stats.fetch.partition.stats
       
   <nav class="pagination">
     
-      <a href="/blog/compression-in-hadoop/" class="pagination--pager" title="compression in hadoop
+      <a href="/blog/cap/" class="pagination--pager" title="cap theorem
 ">Previous</a>
     
     
-      <a href="/blog/hive-features/" class="pagination--pager" title="hive features
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -421,47 +452,6 @@ set hive.stats.fetch.partition.stats
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/cassandra/" rel="permalink">cassandra
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">features
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -580,6 +570,47 @@ set hive.stats.fetch.partition.stats
 
 
     <p class="archive__item-excerpt" itemprop="description">It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/hive-features/" rel="permalink">hive features
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">hive server / thrift server
 
 </p>
   </article>

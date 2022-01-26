@@ -41,6 +41,14 @@
 <lastmod>2022-01-21T17:01:00+01:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/blog/cap/</loc>
+<lastmod>2022-01-26T15:10:00+01:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/blog/cassandra/</loc>
+<lastmod>2022-01-26T15:25:00+01:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -57,6 +65,9 @@
 </url>
 <url>
 <loc>http://localhost:4000/page2/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page3/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/googlec9037182ce8a646c.html</loc>
