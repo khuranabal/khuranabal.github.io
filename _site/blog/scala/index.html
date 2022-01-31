@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>cassandra - Balpreet Singh</title>
-<meta name="description" content="features">
+<!-- begin _includes/seo.html --><title>scala - Balpreet Singh</title>
+<meta name="description" content="spark code can be written in different languages: scala, python, java, r">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="cassandra">
-<meta property="og:url" content="http://localhost:4000/blog/cassandra/">
+<meta property="og:title" content="scala">
+<meta property="og:url" content="http://localhost:4000/blog/scala/">
 
 
-  <meta property="og:description" content="features">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-26T15:25:00+01:00">
+  <meta property="og:description" content="spark code can be written in different languages: scala, python, java, r">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/cassandra/">
+
+  <meta property="article:published_time" content="2022-01-28T17:27:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/scala/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="cassandra">
-    <meta itemprop="description" content="features">
-    <meta itemprop="datePublished" content="2022-01-26T15:25:00+01:00">
+    <meta itemprop="headline" content="scala">
+    <meta itemprop="description" content="spark code can be written in different languages: scala, python, java, r">
+    <meta itemprop="datePublished" content="2022-01-28T17:27:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">cassandra
+          <h1 id="page-title" class="page__title" itemprop="headline">scala
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -302,81 +302,359 @@
 
       <section class="page__content" itemprop="text">
         
-        <h3 id="features">features</h3>
+        <p>spark code can be written in different languages: scala, python, java, r</p>
+
+<h3 id="why-scala">why scala</h3>
 
 <ul>
-  <li>distributed column oriented database</li>
-  <li>highly performant</li>
-  <li>scalable</li>
-  <li>transactional</li>
-  <li>low latency retrieval</li>
-  <li>availibilty and partition tolerance guarentees with tunable consistency</li>
-  <li>no master, multi master</li>
-  <li>decentralized architecure</li>
-  <li>highly available</li>
-  <li>for communication among peers use gossip protocol</li>
+  <li>scala gives best performance as directly scala code can work in jvm, no seperate process required. However in python, a process intreacts with jvm, so an extra layer. In java, bulky code.</li>
+  <li>whenever new release happen it is avaialble in scala first then in other languages</li>
+  <li>spark is also written in scala</li>
 </ul>
 
-<p>Example: where eventual consistency is fine like social media comments/likes</p>
+<h3 id="scala-basics">scala basics</h3>
 
-<h3 id="tunable-consistency">tunable consistency</h3>
+<h4 id="val--var">val &amp; var</h4>
 
-<p>In default setup, it uses eventual consistency. Below are the steps which will be performed when a request is submitted by client to cassandra.</p>
+<p>val: constant, cannot be changed once declared
+<code class="language-plaintext highlighter-rouge">val a: Int = 2</code></p>
 
-<ol>
-  <li>client send request to get some data</li>
-  <li>request is received by a machine in cassandra cluster lets say node2</li>
-  <li>node2 will get data from the nodes which have data lets say node1</li>
-  <li>node2 will return the response to client</li>
-</ol>
+<p>var: variable, can be changed
+<code class="language-plaintext highlighter-rouge">var a: Int = 2</code></p>
 
-<p>But we can tune consistency to:</p>
+<p><strong>type inference</strong>: if data type is not mentioned then scala will infer data type
+<code class="language-plaintext highlighter-rouge">var a = 2</code></p>
 
-<ul>
-  <li>check all node: all machines in cluster agrees on the same result</li>
-  <li>check quorum: certain number of machine agrees on the same result</li>
-</ul>
-
-<h3 id="hbase-vs-cassandra">hbase vs cassandra</h3>
+<h4 id="data-types">data types</h4>
 
 <table>
   <tbody>
     <tr>
-      <td>hbase</td>
-      <td>cassandra</td>
+      <td>Int</td>
+      <td>4 bytes</td>
     </tr>
     <tr>
-      <td>nosql</td>
-      <td>nosql</td>
+      <td>String</td>
+      <td>sequence of chars</td>
     </tr>
     <tr>
-      <td>scalable</td>
-      <td>scalable</td>
+      <td>Boolean</td>
+      <td>true/false</td>
     </tr>
     <tr>
-      <td>transactional</td>
-      <td>transactional</td>
+      <td>Char</td>
+      <td>2 byte</td>
     </tr>
     <tr>
-      <td>low latency</td>
-      <td>low latency</td>
+      <td>Double</td>
+      <td>8 bytes</td>
     </tr>
     <tr>
-      <td>master slave architecture</td>
-      <td>no single master, muti master</td>
+      <td>Float</td>
+      <td>4 bytes</td>
     </tr>
     <tr>
-      <td>CP guarentee</td>
-      <td>AP guarentee, with tunable consistency</td>
+      <td>Long</td>
+      <td>8 bytes</td>
     </tr>
     <tr>
-      <td>runs on hadoop cluster</td>
-      <td>dedicated cluster required</td>
+      <td>Byte</td>
+      <td>1 byte</td>
     </tr>
   </tbody>
 </table>
 
-<p><strong>Note</strong>: cassandra has its own query language cql, its similar to sql</p>
+<p><strong>Note</strong>:</p>
+<ul>
+  <li>after the value, have to give f in float and l in long</li>
+  <li>concat is done using <code class="language-plaintext highlighter-rouge">+</code> can even do with mixed data types</li>
+</ul>
+
+<h4 id="interpolation">interpolation</h4>
+
+<p><strong>s interpolation (string interpolation)</strong>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">name</span><span class="k">:</span><span class="kt">String</span> <span class="o">=</span> <span class="s">"abc"</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">s</span><span class="s">"hello $name"</span><span class="o">)</span> <span class="c1">//output: 'hello abc'</span>
+</code></pre></div></div>
+
+<p><strong>f interpolation</strong>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">v</span><span class="k">:</span><span class="kt">Float</span> <span class="o">=</span> <span class="mf">3.145</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">f</span><span class="s">"value is $v%.2f"</span><span class="o">)</span> <span class="c1">//output: value is 3.14</span>
+</code></pre></div></div>
+
+<p><strong>raw interpolation</strong>:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">println</span><span class="o">(</span><span class="s">"value is \n 10"</span><span class="o">)</span> <span class="c1">//it will give new line</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">raw</span><span class="s">"value is \n 10"</span><span class="o">)</span> <span class="c1">//it will give as is text with \n in print</span>
+</code></pre></div></div>
+
+<!---
+### collections
+
+Array
+val a = Array(1,2,3,4)
+println(a.mkString(","))
+
+for (i <- a) println(i)
+
+start from index 0
+array is muttable
+searching on index is fast
+adding new element is inefficient
+it is val but still array can be changed if we try to assign new Array then it will not allow
+
+List
+val b = List(1,2,3,4)
+println(b.head) //it will give 1
+println(b.tail) //it will give everything other then head, List(2,3,4) 
+for (i <- b) println(i)
+
+b.reverse
+
+holds element in singly linked list, searching is not effecient but adding a new element at start of list is effecient.
+ex: 
+10 :: b will add 10 in start of list
+
+
+Tuple
+val c = ("abc",1000,true)
+println(c._1) // this will retrun the first element
+
+can treat like record in table
+can have diff data type
+it start with index 1
+if tuple has only 2 element then it can treated as key value pair
+
+Range
+val r = 1 to 10 // this gives including 10 we can also use until to exculde the last vaule
+for (i <- r) println(i)
+
+Set
+hold only distinct vaules
+order is not maintained
+val s = Set(1,1,2,2,2,3,4) // it will save only distinct values un ordered
+min, max, sum like functions can be used on it
+
+
+Note: only array is muttable others are immuttable in collections
+Array, List, Tuple order is maintained
+
+Map
+val m = Map(1 -> "abc", 2 -> "def")
+m.get(2)
+
+collection of key value pair
+with key can search vaule
+hold unique key only if repeating the latest one will be used
+
+
+scala
+its hybrib (oops + functional)
+
+why scala
+
+functional
+scripting way, concise code
+
+ways to write code:
+REPL: do directly in scala terminal, to view result intractively
+IDE: clispase, vs code etc.
+
+functional:
+supports pure functions and immutable values
+natural fit for library design and data crunching thats why spark libraries are written in scala
+
+function: relates input to output like maths sqrt
+
+### pure function
+
+input determines output: ex: dollar to rs conversion func accespts only dollar then it has to be depndent on some conversion if not passed then its impue func
+function does not change input vaule: ex: input to func if changed in the function then impure
+no side effects: ex: if println used in func then impure, need to check more on it
+
+if all three properties satisfy then func is pure
+
+easy way to check if func is pure:
+referential transparency- if replacing the func with vaule do not impact result. ex: sqrt(4) where called can be replaced with 2
+
+### first class function
+a.
+whatever we can do with values in traditional languages, same should be able to do with func, treat function like values.
+ex: val a: Int = 1
+
+def sample(i: Int): Int = {
+  i * 2
+}
+
+val a = sample(_)
+
+a(5) // this should return 10
+
+b.
+should be able to pass func as param to func
+def func(i: Int): Int = { i * 3 }
+
+def func2(i: Int, f:Int => Int) = {
+  f(i)
+}
+
+c.
+return func from func
+def func = {
+  x: Int => x*x
+}
+
+Note: by default all func are first class in scala
+
+### higher order func
+func which either takes func as input param or returns another func as output
+
+ex: map function
+
+map: if n input rows then we get n output rows
+ex- 
+var a = 1 to 10
+
+def sample(i: Int): {i * 2}
+
+a.map(sample) # this will double all the rows
+
+### anonymous func
+without name func
+ex-
+
+same previous example can be done by
+var a = 1 to 10
+a.map(x => x * 2)
+// similar to lambda in python
+mostly used with higher order func as shown in ex map
+
+### immutability
+val is prffered over var because of immutability
+
+### loop vs recursion vs tail recursion
+find factorial using loop:
+def factorial(i: Int): Int = {
+  var result: Int = 1
+  for(i <- 1 to i)
+  {
+    result = result * 1
+  }
+}
+here we are mutating result and i, in scala val are preffered over var
+
+find factorial using recursion:
+def factorial(i: Int): Int = {
+  if (i == 1) 1
+  else i * factorial(input - 1)
+}
+
+this solves problem for mutating but it takes memory to capture all entries until terminating condition reached. for large calculation it might go for out of memory
+
+find factorial using tail recursion:
+def factorial(i: Int, result: Int): Int = {
+  if (i == 1) result
+  else factorial(input - 1, result*input)
+}
+
+in this only the last statment is hold in memory as required data is only in last statement.
+
+### statement vs expression
+each line of code is statement
+expression is line of code that returns something
+In scala we only have expression no statements, so every line of code returns something
+
+### closure
+
+in functional programming a func can returna func
+in oops we can return an object
+
+object has data elements like variables and functions in it, so in functional we have only function, how to get data elements.
+thanks where we use closure, in function it can have local variable which will be used thats called closure?
+
+
+### Type system
+
+Any
+
+AnyVal:
+
+Byte
+Short
+Int
+Long
+Float
+Double
+
+Unit: example println return this
+Boolean
+Char
+
+AnyRef
+
+List
+Seq
+Tuple
+
+String
+
+
+Null: is valid for only AnyRef
+Nothing: 
+
+
+### operator
+
+there is no operator in scala only methods
+
+1 + 2
+
+here + is method, it is short of a.+(b) can be done as a + b
+we can see all methods available by a.tab
+
+
+### placeholder syntax
+
+val a = 1 to 100
+a.map((x:Int) => x * 2)
+
+here always we have one input param then we can remove it and replace with placeholder syntax
+
+a.map(_ * 2)
+
+### partially applied functions
+this is an act of creating brand new functins by fixing one or more parameters ina func
+
+ex:
+def func1(x: Double, y: Double) = {x/y}
+func1(10,3)
+val inverse = func1(1, _: Double)
+inverse(10)
+
+
+ex:
+def sum(x: Int, y: Int, f: Int => Int) = {
+  f(x) + f(y)
+}
+
+sum(2,3,x=>x*x)
+sum(2,3,x=>x*x*x)
+
+val sum_of_squares = sum(_:Int, _Int, x=>x*x)
+sum_of_sqaues(2,2)
+
+### function currying
+syntactic sugar, similar to partially applied function
+
+def sum(f:Int => Int)(x:Int, y:Int) = {
+  f(x) + f(y)
+}
+
+val sum_of_sqaues = sum(x=>x*x)_
+sum(2,2)
+--->
 
         
       </section>
@@ -393,13 +671,7 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#cassandra" class="page__taxonomy-item" rel="tag">cassandra</a><span class="sep">, </span>
-    
-      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
-    
-      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
-    
-      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
+      <a href="/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a>
     
     </span>
   </p>
@@ -424,7 +696,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-26T15:25:00+01:00">January 26, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-28T17:27:00+01:00">January 28, 2022</time></p>
 
 
       </footer>
@@ -434,11 +706,11 @@
       
   <nav class="pagination">
     
-      <a href="/blog/cap/" class="pagination--pager" title="cap theorem
+      <a href="/blog/hive-hbase/" class="pagination--pager" title="hive for processing and hbase for low latency read
 ">Previous</a>
     
     
-      <a href="/blog/hive-hbase/" class="pagination--pager" title="hive for processing and hbase for low latency read
+      <a href="/blog/time-complexity/" class="pagination--pager" title="time complexity
 ">Next</a>
     
   </nav>
@@ -504,47 +776,6 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/scala/" rel="permalink">scala
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">spark code can be written in different languages: scala, python, java, r
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
         <a href="/blog/hive-hbase/" rel="permalink">hive for processing and hbase for low latency read
 </a>
       
@@ -571,6 +802,47 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of dat...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/cassandra/" rel="permalink">cassandra
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">features
+
+</p>
   </article>
 </div>
 

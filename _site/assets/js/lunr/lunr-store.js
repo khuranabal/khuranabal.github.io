@@ -77,6 +77,12 @@ var store = [{
         "url": "/blog/hive-hbase/",
         "teaser": null
       },{
+        "title": "scala",
+        "excerpt":"spark code can be written in different languages: scala, python, java, r why scala scala gives best performance as directly scala code can work in jvm, no seperate process required. However in python, a process intreacts with jvm, so an extra layer. In java, bulky code. whenever new release happen...","categories": ["blog"],
+        "tags": ["scala"],
+        "url": "/blog/scala/",
+        "teaser": null
+      },{
         "title": "time complexity",
         "excerpt":"A way to calculate time consumed by an algorithm, as a function of input. example1 lets say we have an array a = 1 5 3 7 2 Q: find element at index 2? A: as we can do array get (random access) at index, time complexity will be O(1)...","categories": ["blog"],
         "tags": ["time complexity","data structures"],
