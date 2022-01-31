@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>hdfs architecture - Balpreet Singh</title>
-<meta name="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
+<!-- begin _includes/seo.html --><title>hive for processing and hbase for low latency read - Balpreet Singh</title>
+<meta name="description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="hdfs architecture">
-<meta property="og:url" content="http://localhost:4000/blog/understand-hdfs/">
+<meta property="og:title" content="hive for processing and hbase for low latency read">
+<meta property="og:url" content="http://localhost:4000/blog/hive-hbase/">
 
 
-  <meta property="og:description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-08T14:45:00+01:00">
+  <meta property="og:description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/understand-hdfs/">
+
+  <meta property="article:published_time" content="2022-01-26T15:25:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/hive-hbase/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="hdfs architecture">
-    <meta itemprop="description" content="hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.">
-    <meta itemprop="datePublished" content="2022-01-08T14:45:00+01:00">
+    <meta itemprop="headline" content="hive for processing and hbase for low latency read">
+    <meta itemprop="description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
+    <meta itemprop="datePublished" content="2022-01-26T15:25:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">hdfs architecture
+          <h1 id="page-title" class="page__title" itemprop="headline">hive for processing and hbase for low latency read
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          less than 1 minute read
         
       </span>
     
@@ -302,82 +302,41 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>hdfs is hadoop distributed file system. Highly fault tolerant and is designed to deploy on low cost machines.</p>
+        <p>creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.</p>
 
-<p><img src="/assets/images/hdfs/hdfs-architecture.png" alt="hdfs architecture" /></p>
+<p>steps:</p>
 
-<p>Let’s assume we have cluster(2 data node, 1 name node) and file of 250MB.</p>
-<ul>
-  <li>Default block size: 128MB</li>
-  <li>Default replication factor: 3</li>
-</ul>
+<ol>
+  <li>create table in hive
+    <pre><code class="language-hive">create table integration (a int, b string);
+</code></pre>
+  </li>
+  <li>load data in hive table
+    <pre><code class="language-hive">load data local inpath '/path/to/data/data.csv'
+overwrite into table integration;
+</code></pre>
+  </li>
+  <li>create hive-hbase table
+    <pre><code class="language-hive">create table hive_table(key int, value string) stored by
+'org.apache.hadoop.hive.hbase.HBaseStorageHandler' with
+SERDEPROPERTIES ("hbase.table.name"="hbase_table");
+</code></pre>
+  </li>
+  <li>insert data in hive-hbase table
+    <pre><code class="language-hive">insert overwrite table hive_table select * from integration;
+</code></pre>
+  </li>
+  <li>verify data from hive
+    <pre><code class="language-hive">select * from hive_table;
+</code></pre>
+  </li>
+  <li>verify data from hbase
+    <pre><code class="language-hbase">scan 'hbase_table'
+</code></pre>
+  </li>
+</ol>
 
-<p>So, there will be 2 blocks:</p>
-<ul>
-  <li>Block-1: 128MB</li>
-  <li>Block-2: 122MB</li>
-</ul>
-
-<p>When data will be loaded then both the blocks will be loaded on different data node, behind the scene as per default setting each block will be replicated 3 times, in this case 1 node will have 2 copies of block and other node will have 1 copy of block.</p>
-
-<p>Note:</p>
-<ul>
-  <li>last block might have less than 128MB depending on the size of file, but space is not wasted as remaining space will free up and is used by other blocks.</li>
-  <li>one data block cannot be shared by two files, so last block of one file is not used by other file bock</li>
-</ul>
-
-<h3 id="metadata-stored-in-name-node">Metadata stored in name node</h3>
-<p>At high level below details are stored in metadata.</p>
-<ul>
-  <li>Filename</li>
-  <li>Block</li>
-  <li>Data node: All the data nodes which have the block</li>
-</ul>
-
-<p>Example:</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>File name</td>
-      <td>Block Number</td>
-      <td>Data node 1</td>
-      <td>Data Node 2</td>
-      <td>Data Node 3</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="data-node-failure">Data node failure</h3>
-<p>In case of any failue in data node other data node will be responsible for serving requests and name node will maintain the copies as per replication factor.</p>
-
-<h4 id="1-dead-data-node">1. Dead data node</h4>
-<p>Each data node sends heart beat every 3 seconds to name node and if 10 consecutive times hear beat is not received from a data node then data node is treated as dead or running very slow.</p>
-
-<h4 id="2-corrupt-data-node">2. Corrupt data node</h4>
-<p>Each data node sends block report using which name node can identify if block is corrupted then will replicate the block from known good replica and mark the corrupted one for delete.</p>
-
-<h3 id="name-node-failure">Name node failure</h3>
-<p>In case of failure of name node there will be no access to metadata. So in hadoop v1 it was single point of failure. In hadoop v2 it has secondary name node so it’s not single point of failure.
-Important metadata files:</p>
-<ul>
-  <li>fsimage: snapshot of file system at a particular time</li>
-  <li>edit logs: transaction logs that changes in hdfs file system</li>
-</ul>
-
-<p>Secondary name node is responsible for merging fsimage with edit logs and generating new fsimage, once merge is done it restes fsimage and edit logs to empty. This process is done every 30 sec.</p>
-
-<p>So, when primary name node fails, secondary can become active and then we have to introduce secondary name node.</p>
-
-<h3 id="block-size">Block size</h3>
-<p>In hadoop v2 default block size is 128MB, if it is increased then we might have less blocks to process then nodes so cluster might be under utilized, if block size is decreased then we might have a lot of blocks which will increse burden on name node to keep track of metadata and handling it.</p>
-
-<h3 id="hadoop-ha">Hadoop HA</h3>
-<p>High availibility is achieved by two name nodes primary and hot standby. If primary goes down then standby takes overs. It can be achieved using quorum journal manager.</p>
-
-<p>Three journal nodes are used and metadata is copied over from active name node and here secondary is called as standby name node and still does the same checkpointing work to combine fsimage snaphot with edit log reading from journal nodes. Standby keeps lock on jk(zookeeper) and always check if its locked or not, if not then takes lock and becomes active.</p>
-
-<p>Note: Three journal nodes are used to tolerate single machine failure. The system can tolerate at most (N-1) / 2 failures when running with N JournalNodes.</p>
+<p><strong>Note</strong>: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then randomly it keeps one key if duplicates are present.</p>
 
         
       </section>
@@ -394,9 +353,13 @@ Important metadata files:</p>
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
     
-      <a href="/tags/#hdfs" class="page__taxonomy-item" rel="tag">hdfs</a>
+      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
+    
+      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a><span class="sep">, </span>
+    
+      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
     
     </span>
   </p>
@@ -421,7 +384,7 @@ Important metadata files:</p>
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-08T14:45:00+01:00">January 8, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-26T15:25:00+01:00">January 26, 2022</time></p>
 
 
       </footer>
@@ -431,11 +394,11 @@ Important metadata files:</p>
       
   <nav class="pagination">
     
-      <a href="/blog/setup-github-pages-with-jekyll/" class="pagination--pager" title="Build and deploy static website
+      <a href="/blog/cassandra/" class="pagination--pager" title="cassandra
 ">Previous</a>
     
     
-      <a href="/blog/map-reduce/" class="pagination--pager" title="MapReduce working
+      <a href="/blog/time-complexity/" class="pagination--pager" title="time complexity
 ">Next</a>
     
   </nav>
@@ -501,45 +464,6 @@ Important metadata files:</p>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/hive-hbase/" rel="permalink">hive for processing and hbase for low latency read
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of dat...</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
         <a href="/blog/cassandra/" rel="permalink">cassandra
 </a>
       
@@ -558,7 +482,7 @@ Important metadata files:</p>
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          less than 1 minute read
         
       </span>
     
@@ -607,6 +531,47 @@ Important metadata files:</p>
 
 
     <p class="archive__item-excerpt" itemprop="description">It is for distributed databases. And says that we can have only two out of three gurantees.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/hbase/" rel="permalink">hbase
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">rdbms properties
 
 </p>
   </article>

@@ -70,4 +70,16 @@ var store = [{
         "tags": ["cassandra","nosql","hbase","database"],
         "url": "/blog/cassandra/",
         "teaser": null
+      },{
+        "title": "hive for processing and hbase for low latency read",
+        "excerpt":"creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table. steps: create table in...","categories": ["blog"],
+        "tags": ["hive","nosql","hbase","database"],
+        "url": "/blog/hive-hbase/",
+        "teaser": null
+      },{
+        "title": "time complexity",
+        "excerpt":"A way to calculate time consumed by an algorithm, as a function of input. example1 lets say we have an array a = 1 5 3 7 2 Q: find element at index 2? A: as we can do array get (random access) at index, time complexity will be O(1)...","categories": ["blog"],
+        "tags": ["time complexity","data structures"],
+        "url": "/blog/time-complexity/",
+        "teaser": null
       }]

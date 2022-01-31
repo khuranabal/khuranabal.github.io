@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-26T17:04:10+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">cassandra</title><link href="http://localhost:4000/blog/cassandra/" rel="alternate" type="text/html" title="cassandra" /><published>2022-01-26T15:25:00+01:00</published><updated>2022-01-26T15:25:00+01:00</updated><id>http://localhost:4000/blog/cassandra</id><content type="html" xml:base="http://localhost:4000/blog/cassandra/">&lt;h3 id=&quot;features&quot;&gt;features&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-01-31T17:21:47+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">time complexity</title><link href="http://localhost:4000/blog/time-complexity/" rel="alternate" type="text/html" title="time complexity" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/time-complexity</id><content type="html" xml:base="http://localhost:4000/blog/time-complexity/">&lt;p&gt;A way to calculate time consumed by an algorithm, as a function of input.&lt;/p&gt;
+
+&lt;h3 id=&quot;example1&quot;&gt;example1&lt;/h3&gt;
+
+&lt;p&gt;lets say we have an array &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = 1 5 3 7 2&lt;/code&gt;
+Q: find element at index 2?
+A: as we can do array get (random access) at index, time complexity will be O(1)&lt;/p&gt;
+
+&lt;h3 id=&quot;example2&quot;&gt;example2&lt;/h3&gt;
+
+&lt;p&gt;lets say we have an array &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = 1 5 3 7 2&lt;/code&gt;
+Q: find 3
+A: if we search from first to last then best case we get is first element then time complextity O(1) and worst case it can be last element then time complexity O(n).
+Time complexity is taken considering worst case scenario.&lt;/p&gt;
+
+&lt;h3 id=&quot;example3&quot;&gt;example3&lt;/h3&gt;
+
+&lt;p&gt;lets say we have sorted array &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = 1 2 3 5 7&lt;/code&gt; 
+Q: find 3
+A: then we can do binary search to improve time complexity
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;middle element = (lowest index + highest index) / 2&lt;/code&gt;
+check middle element and based on it go left or right and repeat. So, here will take O(3) but in previous way it would have taken O(5), so here O(logn).
+Why logn: as if there were 1024 elements in array and we did binary search it will lead to result in 10 searches log 1024 = 10 (with base 2 in log calculation)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:
+As only max can be considered.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;In case time complexity is n + log n then we can say it is n&lt;/li&gt;
+  &lt;li&gt;In case time complexity is n2 + n + log n then we can say its n2&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;example4&quot;&gt;example4&lt;/h3&gt;
+&lt;p&gt;Q: 1000 elements find if duplicate is present
+A: Options-&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;brute force: check all (one by one) with remaining starting from first element, first go check all n-1, second go start from 2nd and check remaining n-2, and soon. So it will be O(n2) complexity.&lt;/li&gt;
+  &lt;li&gt;sort first: best sorting has complexity of O(nlogn) quicksort and merge sort, then we can start from first element and if second element is match then duplicate or else check 2nd and third element this way we will scan full array only once. complexity will be n, so, complexity will be O(nlogn) + O(n), equivalent to O(nlogn)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;example5&quot;&gt;example5&lt;/h3&gt;
+&lt;p&gt;Q: 1000 elements find element which repeats maximum number of times
+A: options-&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;brute force: same as above O(n2)&lt;/li&gt;
+  &lt;li&gt;sort first: complexity nlogn for sort, then in single scan we can now how many times each element occurs. So again complexity nlogn + n equivalent to nlogn&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;example6&quot;&gt;example6&lt;/h3&gt;
+&lt;p&gt;Q: 1000 elements, 1 missing in the range 1-1000
+A: options-&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;brute force: O(n2)&lt;/li&gt;
+  &lt;li&gt;sort first: nlogn, then in one scan we can find missing element so nlogn&lt;/li&gt;
+  &lt;li&gt;calculate sum of first 1000 numbers, then get sum of all elements in array O(n) then subtract and find the missing number, complexity O(n)&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="time complexity" /><category term="data structures" /><summary type="html">A way to calculate time consumed by an algorithm, as a function of input.</summary></entry><entry><title type="html">cassandra</title><link href="http://localhost:4000/blog/cassandra/" rel="alternate" type="text/html" title="cassandra" /><published>2022-01-26T15:25:00+01:00</published><updated>2022-01-26T15:25:00+01:00</updated><id>http://localhost:4000/blog/cassandra</id><content type="html" xml:base="http://localhost:4000/blog/cassandra/">&lt;h3 id=&quot;features&quot;&gt;features&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;distributed column oriented database&lt;/li&gt;
@@ -72,7 +129,41 @@
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: cassandra has its own query language cql, its similar to sql&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cassandra" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">features</summary></entry><entry><title type="html">cap theorem</title><link href="http://localhost:4000/blog/cap/" rel="alternate" type="text/html" title="cap theorem" /><published>2022-01-26T15:10:00+01:00</published><updated>2022-01-26T15:10:00+01:00</updated><id>http://localhost:4000/blog/cap</id><content type="html" xml:base="http://localhost:4000/blog/cap/">&lt;p&gt;It is for distributed databases. And says that we can have only two out of three gurantees.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: cassandra has its own query language cql, its similar to sql&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cassandra" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">features</summary></entry><entry><title type="html">hive for processing and hbase for low latency read</title><link href="http://localhost:4000/blog/hive-hbase/" rel="alternate" type="text/html" title="hive for processing and hbase for low latency read" /><published>2022-01-26T15:25:00+01:00</published><updated>2022-01-26T15:25:00+01:00</updated><id>http://localhost:4000/blog/hive-hbase</id><content type="html" xml:base="http://localhost:4000/blog/hive-hbase/">&lt;p&gt;creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.&lt;/p&gt;
+
+&lt;p&gt;steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;create table in hive
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create table integration (a int, b string);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;load data in hive table
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;load data local inpath '/path/to/data/data.csv'
+overwrite into table integration;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;create hive-hbase table
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create table hive_table(key int, value string) stored by
+'org.apache.hadoop.hive.hbase.HBaseStorageHandler' with
+SERDEPROPERTIES (&quot;hbase.table.name&quot;=&quot;hbase_table&quot;);
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;insert data in hive-hbase table
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;insert overwrite table hive_table select * from integration;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;verify data from hive
+    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;select * from hive_table;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+  &lt;li&gt;verify data from hbase
+    &lt;pre&gt;&lt;code class=&quot;language-hbase&quot;&gt;scan 'hbase_table'
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then randomly it keeps one key if duplicates are present.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.</summary></entry><entry><title type="html">cap theorem</title><link href="http://localhost:4000/blog/cap/" rel="alternate" type="text/html" title="cap theorem" /><published>2022-01-26T15:10:00+01:00</published><updated>2022-01-26T15:10:00+01:00</updated><id>http://localhost:4000/blog/cap</id><content type="html" xml:base="http://localhost:4000/blog/cap/">&lt;p&gt;It is for distributed databases. And says that we can have only two out of three gurantees.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;C(Consistency): every node returns same recent data&lt;/li&gt;
@@ -784,175 +875,4 @@ set hive.stats.fetch.partition.stats
 &lt;ul&gt;
   &lt;li&gt;https://orc.apache.org/specification/ORCv2/&lt;/li&gt;
   &lt;li&gt;https://parquet.apache.org/documentation/latest/&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="csv" /><category term="xml" /><category term="json" /><category term="avro" /><category term="orc" /><category term="parquet" /><category term="compression" /><summary type="html">There are certain parameters to consider when chossing a file format.</summary></entry><entry><title type="html">sqoop working</title><link href="http://localhost:4000/blog/sqoop/" rel="alternate" type="text/html" title="sqoop working" /><published>2022-01-12T17:16:00+01:00</published><updated>2022-01-12T17:16:00+01:00</updated><id>http://localhost:4000/blog/sqoop</id><content type="html" xml:base="http://localhost:4000/blog/sqoop/">&lt;p&gt;It is used to transfer data between rdbms to hdfs and vice versa.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;sqoop import: transfer from rdbms to hdfs&lt;/li&gt;
-  &lt;li&gt;sqoop export: transfer from hdfs to rdbms&lt;/li&gt;
-  &lt;li&gt;sqoop eval: to run queries on databases&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;setup-cloudera-quickstart-machine-on-local&quot;&gt;Setup cloudera quickstart machine on local&lt;/h2&gt;
-&lt;p&gt;We have multiple ways to setup cloudera machine either as VM or docker image, in this case we will use docker and local machine is ubuntu. So, prerequisite is to:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;setup docker, follow &lt;a href=&quot;https://docs.docker.com/engine/install/ubuntu/&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;run below to pull cloudera quickstart image and then run image which will setup cloudera machine to interact via terminal&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker pull cloudera/quickstart:latest
-docker run &lt;span class=&quot;nt&quot;&gt;--hostname&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;quickstart.cloudera &lt;span class=&quot;nt&quot;&gt;--privileged&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8888:8888 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 80:80 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8080:8080 cloudera/quickstart /usr/bin/docker-quickstart
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;commands&quot;&gt;Commands&lt;/h2&gt;
-
-&lt;h3 id=&quot;list-databases&quot;&gt;list databases&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop-list-databases &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;list-tables&quot;&gt;list tables&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop-list-tables &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306/retail_db&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;query-database&quot;&gt;query database&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop-eval &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--query&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;select * from retail_db.customers limit 5&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;import-one-table&quot;&gt;import one table&lt;/h3&gt;
-&lt;p&gt;It will run mapreduce job where only mappers will work. Default four mappers will run but can be changed. It divide work based on primary key. If no primary key then command will failm in that case we have two options:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;change number of mapper to one: use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-m 1&lt;/code&gt; parameter&lt;/li&gt;
-  &lt;li&gt;use split by column.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Example: Here &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;orders&lt;/code&gt; table has primary key and we testing import on this table.&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop import &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306/retail_db&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--table&lt;/span&gt; orders &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--target-dir&lt;/span&gt; /result
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Run below command after above import command to check files produced by import command, default number of mappers are 4 so thats why it will have four part-m files.&lt;/p&gt;
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hadoop fs &lt;span class=&quot;nt&quot;&gt;-ls&lt;/span&gt; /result
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;import-all-tables&quot;&gt;import all tables&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sqoop-import-all-tables &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--connect&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jdbc:mysql://quickstart.cloudera:3306/retail_db&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--username&lt;/span&gt; root &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--password&lt;/span&gt; cloudera &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--table&lt;/span&gt; orders &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;--warehouse-dir&lt;/span&gt; /result
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;target-dir: files will directly be stored in the directory mentioned in command.&lt;/li&gt;
-  &lt;li&gt;warehouse-dir: files will be stored in the subdirectory (same as tablename) of the directory mentioned in command.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Note: sqoop is retired as of June 2021&lt;/p&gt;
-
-&lt;p&gt;Sources:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Cloudera quickstart docker image for testing, &lt;a href=&quot;https://hub.docker.com/r/cloudera/quickstart/&quot;&gt;source&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="sqoop" /><category term="hdfs" /><summary type="html">It is used to transfer data between rdbms to hdfs and vice versa.</summary></entry><entry><title type="html">MapReduce working</title><link href="http://localhost:4000/blog/map-reduce/" rel="alternate" type="text/html" title="MapReduce working" /><published>2022-01-11T15:13:00+01:00</published><updated>2022-01-11T15:13:00+01:00</updated><id>http://localhost:4000/blog/map-reduce</id><content type="html" xml:base="http://localhost:4000/blog/map-reduce/">&lt;p&gt;MapReduce is programming model for processing big datsets. It consists of two stages:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;map&lt;/li&gt;
-  &lt;li&gt;reduce&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Both works on key value pairs.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;key&lt;/td&gt;
-      &lt;td&gt;value&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;id&lt;/td&gt;
-      &lt;td&gt;1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;name&lt;/td&gt;
-      &lt;td&gt;abc&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/mapreduce/mapreduce-input-output.png&quot; alt=&quot;mapreduce input output&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;understanding-with-example&quot;&gt;Understanding with example&lt;/h3&gt;
-
-&lt;p&gt;Lets say we have a big file (size 100GB) and we need to find frequency of words.
-By default block size is 128MB so data will be divided as per block size and distributed among nodes. Considering with default one reducer.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/mapreduce/sample-input-output.png&quot; alt=&quot;sample data&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Clearly the input is not in key value format, so here record reader is used to read input file and convert each line in key vaule pair. Here each line will be assigned a key by record reader and the vaule will be the actual line content.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Mapper logic&lt;/strong&gt;: Just take the vaules, and split on space to find words and assign word as key and 1 as vaule.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Shuffle &amp;amp; Sort&lt;/strong&gt;: Transfer all the key vaule pairs on to single machine (reduer). Sorting will happen on keys, for example output will be in format: (key, {vaule, vaule, …})&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Reducer logic&lt;/strong&gt;: Iterate over list of vaules in a key and sum it up.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/mapreduce/processing.png&quot; alt=&quot;processing&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Note:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Number of mappers will be equal to number of data blocks.&lt;/li&gt;
-  &lt;li&gt;Number of reducer is set by developer default is 1 but we can set to 0 or any higher number.&lt;/li&gt;
-  &lt;li&gt;System take care of shuffle and sort operation.&lt;/li&gt;
-  &lt;li&gt;Record reader works on mapper machine.&lt;/li&gt;
-  &lt;li&gt;If number of reducers are 0 then shuffle and sort will not execute.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;optimization&quot;&gt;Optimization&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;More work on mappers&lt;/strong&gt;: It will optimize the processing as all mappers are executed parellely. More on this below in combiner section.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Increase reducer&lt;/strong&gt;: When we cannot put more work in the mapper then we can think of increasing reducer. Example: if all mappers take 1 min and reducer takes 4 min then we can consider increasing number of reducer in order to optimize the run time.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;No reducer&lt;/strong&gt;: Where no aggregation required, example: filtering.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Note:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;No shuffle and sort will be executed if reducer is not used.&lt;/li&gt;
-  &lt;li&gt;If we have more than one reducer then output of each mapper is divided in n partitions if n reducers are in cluster, partition 1 from each mapper goes to reducer 1 and so on. Hash function is used to route which key value goes to which partition. Hash function is consistent so as all same keys are in the same reducer.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;combiner&quot;&gt;Combiner&lt;/h4&gt;
-
-&lt;p&gt;In some cases, when work is moved more on the mapper that means we can have some aggreation work on mapper. Like if we need max value of the key then that can be performed on mapper as well. And the aggregation which is done on mapper is done by combiner process, it is executed on mapper machines itself.&lt;/p&gt;
-
-&lt;p&gt;But avoid using in case where data can change when executing on one machine compared to multiple machine like avg.&lt;/p&gt;
-
-&lt;p&gt;Note: Combiner logic is same as reducer logic in this case for example: max, min, sum.&lt;/p&gt;
-
-&lt;h3 id=&quot;flow-of-data&quot;&gt;Flow of data&lt;/h3&gt;
-
-&lt;p&gt;record reader -&amp;gt; mapper -&amp;gt; combiner -&amp;gt; partitioner -&amp;gt; shuffle &amp;amp; sort -&amp;gt; reducer&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="mapreduce" /><category term="hadoop" /><summary type="html">MapReduce is programming model for processing big datsets. It consists of two stages: map reduce</summary></entry></feed>
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="csv" /><category term="xml" /><category term="json" /><category term="avro" /><category term="orc" /><category term="parquet" /><category term="compression" /><summary type="html">There are certain parameters to consider when chossing a file format.</summary></entry></feed>
