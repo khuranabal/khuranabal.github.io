@@ -49,4 +49,4 @@ scan 'hbase_table'
 ```
 
 
-**Note**: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then randomly it keeps one key if duplicates are present.
+**Note**: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then it updates the same key with new timestamp and by default latest one will be shown.
