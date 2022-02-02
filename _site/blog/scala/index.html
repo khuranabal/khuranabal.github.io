@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          5 minute read
         
       </span>
     
@@ -402,12 +402,52 @@
 
 <p><strong>Note</strong>: in a block of code last statement is the return statement</p>
 
-<!---
-### conditional
+<h3 id="conditional">conditional</h3>
 
+<h4 id="if-else">if else</h4>
 
-### loop
---->
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">if</span> <span class="o">(</span><span class="mi">1</span><span class="o">&gt;</span><span class="mi">2</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="s">"hi"</span><span class="o">)</span> <span class="k">else</span> <span class="nf">println</span><span class="o">(</span><span class="s">"ih"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="match">match</h4>
+
+<p>it is like switch</p>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vall</span> <span class="n">n</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"1"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="mi">2</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"2"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="mi">3</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"3"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in else"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="loop">loop</h3>
+
+<h4 id="for-loop">for loop</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">for</span> <span class="o">(</span><span class="n">x</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span>
+  <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="while-loop">while loop</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+<span class="nf">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+  <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="do-while-loop">do while loop</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">0</span>
+<span class="k">do</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+  <span class="n">i</span> <span class="k">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="o">}</span> <span class="nf">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">10</span><span class="o">)</span>
+</code></pre></div></div>
 
 <h3 id="collections">collections</h3>
 
@@ -500,116 +540,129 @@ ex:
   <li>Array, List, Tuple order is maintained</li>
 </ul>
 
+<h3 id="pure-function">pure function</h3>
+
+<p>if all three below properties satisfy then function is pure</p>
+
+<ul>
+  <li>input determines output. ex: dollar to rs conversion function accepts only dollar then it has to be depndent on some conversion if not passed then its impure function.</li>
+  <li>function does not change input vaule. ex: input to function if changed in the function then its impure</li>
+  <li>no side effects. ex: if println used in function then impure</li>
+</ul>
+
+<p>easy way to check if function is pure: referential transparency- if replacing the function with vaule do not impact result. ex: sqrt(4) where called can be replaced with 2</p>
+
+<h3 id="first-class-function">first class function</h3>
+
+<p>a. whatever we can do with values in traditional languages, same should be able to do with function, treat function like values.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">a</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">sample</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="nv">a</span> <span class="k">=</span> <span class="nf">sample</span><span class="o">(</span><span class="k">_</span><span class="o">)</span>
+
+<span class="nf">a</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// this should return 10</span>
+</code></pre></div></div>
+
+<p>b. should be able to pass function as param to function</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">func</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">}</span>
+
+<span class="k">def</span> <span class="nf">func2</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">f</span><span class="k">:</span><span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">f</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>c. return function from function</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">func</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="n">x</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Note: by default all function are first class in scala</p>
+
+<h3 id="higher-order-func">higher order func</h3>
+
+<p>function which either takes function as input parameter or returns another function as output</p>
+
+<p>ex: map function</p>
+
+<p>map: if n input rows then we get n output rows</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span>
+
+<span class="k">def</span> <span class="nf">sample</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="o">{</span><span class="kt">i</span> <span class="kt">*</span> <span class="err">2</span><span class="o">}</span>
+
+<span class="kt">a.map</span><span class="o">(</span><span class="kt">sample</span><span class="o">)</span> <span class="k">#</span> <span class="kt">this</span> <span class="kt">will</span> <span class="kt">double</span> <span class="kt">all</span> <span class="kt">the</span> <span class="kt">rows</span>
+</code></pre></div></div>
+
+<h3 id="anonymous-function">anonymous function</h3>
+
+<p>without name function, same previous example can be done by below. mostly used with higher order func as shown in example map</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span>
+<span class="nv">a</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span>
+<span class="c1">// similar to lambda in python</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: val is preffered over var because of immutability</p>
+
+<h3 id="loop-vs-recursion-vs-tail-recursion">loop vs recursion vs tail recursion</h3>
+
+<p><strong>find factorial using loop</strong></p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="k">var</span> <span class="n">result</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">i</span><span class="o">)</span>
+  <span class="o">{</span>
+    <span class="n">result</span> <span class="k">=</span> <span class="n">result</span> <span class="o">*</span> <span class="mi">1</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">//here we are mutating result and i, in scala val are preffered over var</span>
+</code></pre></div></div>
+
+<p><strong>find factorial using recursion</strong></p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">1</span>
+  <span class="k">else</span> <span class="n">i</span> <span class="o">*</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">input</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">//this solves problem for mutating but it takes memory to capture all entries until terminating condition reached. for large calculation it might go for out of memory</span>
+</code></pre></div></div>
+
+<p><strong>find factorial using tail recursion</strong></p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">result</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="n">result</span>
+  <span class="k">else</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">input</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">result</span><span class="o">*</span><span class="n">input</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="c1">//in this only the last statment is hold in memory as required data is only in last statement.</span>
+</code></pre></div></div>
+
+<h3 id="statement-vs-expression">statement vs expression</h3>
+
+<ul>
+  <li>each line of code is statement</li>
+  <li>expression is line of code that returns something</li>
+  <li>in scala we only have expression no statements, so every line of code returns something</li>
+</ul>
+
+<h3 id="closure">closure</h3>
+
+<ul>
+  <li>in functional programming a function can return a function</li>
+  <li>in oops we can return an object</li>
+</ul>
+
+<p>object has data elements like variables and functions, in functional we have only functions. so how to get data elements, thats where we use closure, in function it can have local variable which can be used thats called closure.</p>
+
 <!---
-### class
-
-
-### pure function
-
-input determines output: ex: dollar to rs conversion func accespts only dollar then it has to be depndent on some conversion if not passed then its impue func
-function does not change input vaule: ex: input to func if changed in the function then impure
-no side effects: ex: if println used in func then impure, need to check more on it
-
-if all three properties satisfy then func is pure
-
-easy way to check if func is pure:
-referential transparency- if replacing the func with vaule do not impact result. ex: sqrt(4) where called can be replaced with 2
-
-### first class function
-a.
-whatever we can do with values in traditional languages, same should be able to do with func, treat function like values.
-ex: val a: Int = 1
-
-def sample(i: Int): Int = {
-  i * 2
-}
-
-val a = sample(_)
-
-a(5) // this should return 10
-
-b.
-should be able to pass func as param to func
-def func(i: Int): Int = { i * 3 }
-
-def func2(i: Int, f:Int => Int) = {
-  f(i)
-}
-
-c.
-return func from func
-def func = {
-  x: Int => x*x
-}
-
-Note: by default all func are first class in scala
-
-### higher order func
-func which either takes func as input param or returns another func as output
-
-ex: map function
-
-map: if n input rows then we get n output rows
-ex- 
-var a = 1 to 10
-
-def sample(i: Int): {i * 2}
-
-a.map(sample) # this will double all the rows
-
-### anonymous func
-without name func
-ex-
-
-same previous example can be done by
-var a = 1 to 10
-a.map(x => x * 2)
-// similar to lambda in python
-mostly used with higher order func as shown in ex map
-
-### immutability
-val is prffered over var because of immutability
-
-### loop vs recursion vs tail recursion
-find factorial using loop:
-def factorial(i: Int): Int = {
-  var result: Int = 1
-  for(i <- 1 to i)
-  {
-    result = result * 1
-  }
-}
-here we are mutating result and i, in scala val are preffered over var
-
-find factorial using recursion:
-def factorial(i: Int): Int = {
-  if (i == 1) 1
-  else i * factorial(input - 1)
-}
-
-this solves problem for mutating but it takes memory to capture all entries until terminating condition reached. for large calculation it might go for out of memory
-
-find factorial using tail recursion:
-def factorial(i: Int, result: Int): Int = {
-  if (i == 1) result
-  else factorial(input - 1, result*input)
-}
-
-in this only the last statment is hold in memory as required data is only in last statement.
-
-### statement vs expression
-each line of code is statement
-expression is line of code that returns something
-In scala we only have expression no statements, so every line of code returns something
-
-### closure
-
-in functional programming a func can returna func
-in oops we can return an object
-
-object has data elements like variables and functions in it, so in functional we have only function, how to get data elements.
-thanks where we use closure, in function it can have local variable which will be used thats called closure?
-
 
 ### Type system
 
