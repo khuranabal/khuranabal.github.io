@@ -78,7 +78,7 @@ var store = [{
         "teaser": null
       },{
         "title": "scala",
-        "excerpt":"spark code can be written in different languages: scala, python, java, r why scala scala gives best performance as directly scala code can work in jvm, no seperate process required. However in python, a process intreacts with jvm, so an extra layer. In java, bulky code. whenever new release happen...","categories": ["blog"],
+        "excerpt":"spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional. ways to write code: REPL: do directly in scala terminal, to view result intractively IDE: eclipse, vs code etc. why scala scala gives best performance as directly scala code can work in...","categories": ["blog"],
         "tags": ["scala"],
         "url": "/blog/scala/",
         "teaser": null

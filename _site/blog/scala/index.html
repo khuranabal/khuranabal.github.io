@@ -20,7 +20,7 @@
 </script>
 
 <!-- begin _includes/seo.html --><title>scala - Balpreet Singh</title>
-<meta name="description" content="spark code can be written in different languages: scala, python, java, r">
+<meta name="description" content="spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.">
 
 
 
@@ -31,7 +31,7 @@
 <meta property="og:url" content="http://localhost:4000/blog/scala/">
 
 
-  <meta property="og:description" content="spark code can be written in different languages: scala, python, java, r">
+  <meta property="og:description" content="spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.">
 
 
 
@@ -267,7 +267,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="scala">
-    <meta itemprop="description" content="spark code can be written in different languages: scala, python, java, r">
+    <meta itemprop="description" content="spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.">
     <meta itemprop="datePublished" content="2022-01-28T17:27:00+01:00">
     
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -302,7 +302,13 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>spark code can be written in different languages: scala, python, java, r</p>
+        <p>spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.</p>
+
+<p>ways to write code:</p>
+<ul>
+  <li>REPL: do directly in scala terminal, to view result intractively</li>
+  <li>IDE: eclipse, vs code etc.</li>
+</ul>
 
 <h3 id="why-scala">why scala</h3>
 
@@ -310,7 +316,11 @@
   <li>scala gives best performance as directly scala code can work in jvm, no seperate process required. However in python, a process intreacts with jvm, so an extra layer. In java, bulky code.</li>
   <li>whenever new release happen it is avaialble in scala first then in other languages</li>
   <li>spark is also written in scala</li>
+  <li>scripting way, concise code</li>
+  <li>functional, supports pure functions and immutable values. Natural fit for library design and data crunching thats why spark libraries are written in scala</li>
 </ul>
+
+<p><strong>Note:</strong> function relates input to output like maths sqrt</p>
 
 <h3 id="scala-basics">scala basics</h3>
 
@@ -390,83 +400,109 @@
 <span class="nf">println</span><span class="o">(</span><span class="n">raw</span><span class="s">"value is \n 10"</span><span class="o">)</span> <span class="c1">//it will give as is text with \n in print</span>
 </code></pre></div></div>
 
+<p><strong>Note</strong>: in a block of code last statement is the return statement</p>
+
 <!---
-### collections
+### conditional
 
-Array
-val a = Array(1,2,3,4)
-println(a.mkString(","))
 
-for (i <- a) println(i)
+### loop
+--->
 
-start from index 0
-array is muttable
-searching on index is fast
-adding new element is inefficient
-it is val but still array can be changed if we try to assign new Array then it will not allow
+<h3 id="collections">collections</h3>
 
-List
-val b = List(1,2,3,4)
-println(b.head) //it will give 1
-println(b.tail) //it will give everything other then head, List(2,3,4) 
-for (i <- b) println(i)
+<h4 id="array">array</h4>
 
-b.reverse
+<ul>
+  <li>start from index 0</li>
+  <li>array is muttable</li>
+  <li>searching on index is fast</li>
+  <li>adding new element is inefficient</li>
+  <li>it is val but still values in array can be changed, if we try to assign new array then it will not allow</li>
+</ul>
 
-holds element in singly linked list, searching is not effecient but adding a new element at start of list is effecient.
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">a</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">a</span><span class="o">.</span><span class="py">mkString</span><span class="o">(</span><span class="s">","</span><span class="o">))</span>
+
+<span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="n">a</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="list">list</h4>
+
+<ul>
+  <li>holds element in singly linked list</li>
+  <li>searching is not effecient</li>
+  <li>adding new element at start is effecient</li>
+  <li>lot of system defined functions are available to use in the list</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">b</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">b</span><span class="o">.</span><span class="py">head</span><span class="o">)</span> <span class="c1">//it will give 1</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">b</span><span class="o">.</span><span class="py">tail</span><span class="o">)</span> <span class="c1">//it will give everything other then head, List(2,3,4) </span>
+<span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="n">b</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+
+<span class="nv">b</span><span class="o">.</span><span class="py">reverse</span>
+</code></pre></div></div>
+
+<ul>
+  <li>adding a new element at start of list is effecient.
 ex: 
-10 :: b will add 10 in start of list
+<code class="language-plaintext highlighter-rouge">10 :: b //will add 10 in start of list</code></li>
+</ul>
 
+<h4 id="tuple">tuple</h4>
 
-Tuple
-val c = ("abc",1000,true)
-println(c._1) // this will retrun the first element
+<ul>
+  <li>can treat like record in table</li>
+  <li>can have diff data type</li>
+  <li>it start with index 1</li>
+  <li>if tuple has only 2 element then it can treated as key value pair</li>
+</ul>
 
-can treat like record in table
-can have diff data type
-it start with index 1
-if tuple has only 2 element then it can treated as key value pair
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">c</span> <span class="k">=</span> <span class="o">(</span><span class="s">"abc"</span><span class="o">,</span><span class="mi">1000</span><span class="o">,</span><span class="kc">true</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">c</span><span class="o">.</span><span class="py">_1</span><span class="o">)</span> <span class="c1">// this will retrun the first element</span>
+</code></pre></div></div>
 
-Range
-val r = 1 to 10 // this gives including 10 we can also use until to exculde the last vaule
-for (i <- r) println(i)
+<h4 id="range">range</h4>
 
-Set
-hold only distinct vaules
-order is not maintained
-val s = Set(1,1,2,2,2,3,4) // it will save only distinct values un ordered
-min, max, sum like functions can be used on it
+<p>range of values</p>
 
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">r</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span> <span class="c1">// this gives including 10 we can also use until to exculde the last vaule</span>
+<span class="nf">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="n">r</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+</code></pre></div></div>
 
-Note: only array is muttable others are immuttable in collections
-Array, List, Tuple order is maintained
+<h4 id="set">set</h4>
 
-Map
-val m = Map(1 -> "abc", 2 -> "def")
-m.get(2)
+<ul>
+  <li>hold only distinct vaules</li>
+  <li>order is not maintained</li>
+</ul>
 
-collection of key value pair
-with key can search vaule
-hold unique key only if repeating the latest one will be used
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">s</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">)</span> <span class="c1">// it will save only distinct values un ordered</span>
+<span class="n">min</span><span class="o">,</span> <span class="n">max</span><span class="o">,</span> <span class="n">sum</span> <span class="n">like</span> <span class="n">functions</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">on</span> <span class="n">it</span>
+</code></pre></div></div>
 
+<h4 id="map">map</h4>
 
-scala
-its hybrib (oops + functional)
+<ul>
+  <li>collection of key value pair</li>
+  <li>with key can search value</li>
+  <li>hold unique key only if repeating the latest one will be used</li>
+</ul>
 
-why scala
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">m</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">"abc"</span><span class="o">,</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">"def"</span><span class="o">)</span>
+<span class="nv">m</span><span class="o">.</span><span class="py">get</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div></div>
 
-functional
-scripting way, concise code
+<p><strong>Note</strong></p>
+<ul>
+  <li>only array is muttable others are immuttable in collections</li>
+  <li>Array, List, Tuple order is maintained</li>
+</ul>
 
-ways to write code:
-REPL: do directly in scala terminal, to view result intractively
-IDE: clispase, vs code etc.
+<!---
+### class
 
-functional:
-supports pure functions and immutable values
-natural fit for library design and data crunching thats why spark libraries are written in scala
-
-function: relates input to output like maths sqrt
 
 ### pure function
 
