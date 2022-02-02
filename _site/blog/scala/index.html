@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          6 minute read
         
       </span>
     
@@ -662,88 +662,68 @@ ex:
 
 <p>object has data elements like variables and functions, in functional we have only functions. so how to get data elements, thats where we use closure, in function it can have local variable which can be used thats called closure.</p>
 
-<!---
+<h3 id="type-system">Type system</h3>
 
-### Type system
+<p><img src="/assets/images/scala/scala-type-system.png" alt="scala type system" /></p>
 
-Any
+<h3 id="operator">operator</h3>
 
-AnyVal:
+<p>there are no operators in scala only methods</p>
 
-Byte
-Short
-Int
-Long
-Float
-Double
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">`</span>
+<span class="c1">//here + is method, it is short of a.+(b)</span>
+<span class="c1">//can be done as a + b</span>
+<span class="c1">//we can see all methods available by a.tab</span>
+</code></pre></div></div>
 
-Unit: example println return this
-Boolean
-Char
+<h3 id="placeholder-syntax">placeholder syntax</h3>
 
-AnyRef
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">a</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span>
+<span class="nv">a</span><span class="o">.</span><span class="py">map</span><span class="o">((</span><span class="n">x</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span>
 
-List
-Seq
-Tuple
+<span class="c1">//here always we have one input param then we can remove it and replace with placeholder syntax</span>
 
-String
+<span class="nv">a</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="k">_</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span>
+</code></pre></div></div>
 
+<h3 id="partially-applied-functions">partially applied functions</h3>
 
-Null: is valid for only AnyRef
-Nothing: 
+<p>this is an act of creating brand new functins by fixing one or more parameters in a function</p>
 
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">func1</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Double</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Double</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span><span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="o">}</span>
+<span class="nf">func1</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">inverse</span> <span class="k">=</span> <span class="nf">func1</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Double</span><span class="o">)</span>
+<span class="nf">inverse</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+</code></pre></div></div>
 
-### operator
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sum</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">f</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">f</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="nf">f</span><span class="o">(</span><span class="n">y</span><span class="o">)</span>
+<span class="o">}</span>
 
-there is no operator in scala only methods
+<span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
+<span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
 
-1 + 2
+<span class="k">val</span> <span class="nv">sum_of_squares</span> <span class="k">=</span> <span class="nf">sum</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">,</span> <span class="nc">_Int</span><span class="o">,</span> <span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
+<span class="nf">sum_of_sqaues</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div></div>
 
-here + is method, it is short of a.+(b) can be done as a + b
-we can see all methods available by a.tab
+<h3 id="function-currying">function currying</h3>
 
+<p>syntactic sugar, similar to partially applied function</p>
 
-### placeholder syntax
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sum</span><span class="o">(</span><span class="n">f</span><span class="k">:</span><span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)(</span><span class="n">x</span><span class="k">:</span><span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">f</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="o">+</span> <span class="nf">f</span><span class="o">(</span><span class="n">y</span><span class="o">)</span>
+<span class="o">}</span>
 
-val a = 1 to 100
-a.map((x:Int) => x * 2)
+<span class="k">val</span> <span class="nv">sum_of_sqaues</span> <span class="k">=</span> <span class="nf">sum</span><span class="o">(</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span><span class="k">_</span>
+<span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div></div>
 
-here always we have one input param then we can remove it and replace with placeholder syntax
+<h3 id="sources">Sources</h3>
 
-a.map(_ * 2)
-
-### partially applied functions
-this is an act of creating brand new functins by fixing one or more parameters ina func
-
-ex:
-def func1(x: Double, y: Double) = {x/y}
-func1(10,3)
-val inverse = func1(1, _: Double)
-inverse(10)
-
-
-ex:
-def sum(x: Int, y: Int, f: Int => Int) = {
-  f(x) + f(y)
-}
-
-sum(2,3,x=>x*x)
-sum(2,3,x=>x*x*x)
-
-val sum_of_squares = sum(_:Int, _Int, x=>x*x)
-sum_of_sqaues(2,2)
-
-### function currying
-syntactic sugar, similar to partially applied function
-
-def sum(f:Int => Int)(x:Int, y:Int) = {
-  f(x) + f(y)
-}
-
-val sum_of_sqaues = sum(x=>x*x)_
-sum(2,2)
---->
+<ul>
+  <li>https://docs.scala-lang.org/tour/unified-types.html</li>
+</ul>
 
         
       </section>
