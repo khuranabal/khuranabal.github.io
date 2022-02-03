@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          7 minute read
         
       </span>
     
@@ -390,7 +390,7 @@
 
 <p><strong>f interpolation</strong>:</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">v</span><span class="k">:</span><span class="kt">Float</span> <span class="o">=</span> <span class="mf">3.145</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">v</span><span class="k">:</span><span class="kt">Double</span> <span class="o">=</span> <span class="mf">3.145</span>
 <span class="nf">println</span><span class="o">(</span><span class="n">f</span><span class="s">"value is $v%.2f"</span><span class="o">)</span> <span class="c1">//output: value is 3.14</span>
 </code></pre></div></div>
 
@@ -412,7 +412,7 @@
 <h4 id="match">match</h4>
 
 <p>it is like switch</p>
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vall</span> <span class="n">n</span> <span class="k">=</span> <span class="mi">1</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">n</span> <span class="k">=</span> <span class="mi">1</span>
 <span class="n">n</span> <span class="k">match</span> <span class="o">{</span>
   <span class="k">case</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"1"</span><span class="o">)</span>
   <span class="k">case</span> <span class="mi">2</span> <span class="k">=&gt;</span> <span class="nf">println</span><span class="o">(</span><span class="s">"2"</span><span class="o">)</span>
@@ -615,12 +615,14 @@ ex:
 
 <p><strong>find factorial using loop</strong></p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">input</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
   <span class="k">var</span> <span class="n">result</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">1</span>
-  <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">i</span><span class="o">)</span>
+  <span class="k">var</span> <span class="n">i</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="n">input</span><span class="o">)</span>
   <span class="o">{</span>
-    <span class="n">result</span> <span class="k">=</span> <span class="n">result</span> <span class="o">*</span> <span class="mi">1</span>
+    <span class="n">result</span> <span class="k">=</span> <span class="n">result</span> <span class="o">*</span> <span class="n">i</span>
   <span class="o">}</span>
+  <span class="k">return</span> <span class="n">result</span>
 <span class="o">}</span>
 <span class="c1">//here we are mutating result and i, in scala val are preffered over var</span>
 </code></pre></div></div>
@@ -629,7 +631,7 @@ ex:
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
   <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="mi">1</span>
-  <span class="k">else</span> <span class="n">i</span> <span class="o">*</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">input</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
+  <span class="k">else</span> <span class="n">i</span> <span class="o">*</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="c1">//this solves problem for mutating but it takes memory to capture all entries until terminating condition reached. for large calculation it might go for out of memory</span>
@@ -639,7 +641,7 @@ ex:
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">result</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
   <span class="nf">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="n">result</span>
-  <span class="k">else</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">input</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">result</span><span class="o">*</span><span class="n">input</span><span class="o">)</span>
+  <span class="k">else</span> <span class="nf">factorial</span><span class="o">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="o">,</span> <span class="n">result</span><span class="o">*</span><span class="n">i</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="c1">//in this only the last statment is hold in memory as required data is only in last statement.</span>
@@ -670,7 +672,7 @@ ex:
 
 <p>there are no operators in scala only methods</p>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="o">`</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="c1">//here + is method, it is short of a.+(b)</span>
 <span class="c1">//can be done as a + b</span>
 <span class="c1">//we can see all methods available by a.tab</span>
@@ -703,7 +705,7 @@ ex:
 <span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
 <span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
 
-<span class="k">val</span> <span class="nv">sum_of_squares</span> <span class="k">=</span> <span class="nf">sum</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">,</span> <span class="nc">_Int</span><span class="o">,</span> <span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sum_of_squares</span> <span class="k">=</span> <span class="nf">sum</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">,</span> <span class="k">_:</span><span class="kt">Int</span><span class="o">,</span> <span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span>
 <span class="nf">sum_of_sqaues</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
 </code></pre></div></div>
 
@@ -716,8 +718,62 @@ ex:
 <span class="o">}</span>
 
 <span class="k">val</span> <span class="nv">sum_of_sqaues</span> <span class="k">=</span> <span class="nf">sum</span><span class="o">(</span><span class="n">x</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">)</span><span class="k">_</span>
-<span class="nf">sum</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
+<span class="nf">sum_of_sqaues</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="mi">2</span><span class="o">)</span>
 </code></pre></div></div>
+
+<h3 id="class">class</h3>
+
+<p>class contains data + function</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span> <span class="c1">//empty class</span>
+
+<span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Person</span> <span class="c1">//instantiate class</span>
+
+<span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="c1">//reference of class will be printed</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="c1">//constructor</span>
+
+<span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"Abc"</span><span class="o">)</span> <span class="c1">//instantiate class</span>
+
+<span class="nf">println</span><span class="o">(</span><span class="nv">i</span><span class="o">.</span><span class="py">name</span><span class="o">)</span> <span class="c1">//it will error as "name" is parameter not member</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//to resolve we need to define class as below</span>
+<span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="k">val</span> <span class="nv">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"abc"</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">i</span><span class="o">.</span><span class="py">name</span><span class="o">)</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="o">(</span><span class="k">val</span> <span class="nv">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="mi">1</span>
+
+  <span class="k">def</span> <span class="nf">method1</span> <span class="k">=</span> <span class="n">number</span> <span class="o">*</span> <span class="mi">2</span>
+
+  <span class="k">def</span> <span class="nf">method2</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">s</span> <span class="o">*</span> <span class="mi">5</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="nv">p</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Person</span><span class="o">(</span><span class="s">"abc"</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">p</span><span class="o">.</span><span class="py">name</span><span class="o">)</span> <span class="c1">//output: abc</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">p</span><span class="o">.</span><span class="py">method1</span><span class="o">)</span> <span class="c1">//output: 4</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">p</span><span class="o">.</span><span class="py">method2</span><span class="o">(</span><span class="mi">3</span><span class="o">))</span> <span class="c1">//output: 15</span>
+</code></pre></div></div>
+
+<h4 id="class-level-functionality">class level functionality</h4>
+
+<p>for a class we instantiate an instance but if we require some static value to be used by all instances then we can use object to do that. In other languages usually we call object of class is instansiated but here in scala object is for static values and instance is created for class.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">Person</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">fix_value</span> <span class="k">=</span> <span class="mi">1</span>
+  <span class="k">def</span> <span class="nf">is_fix</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>:</p>
+
+<ul>
+  <li>having object and class with same name, this is companion design pattern</li>
+  <li>singleton design pattern is used using object</li>
+</ul>
 
 <h3 id="sources">Sources</h3>
 
