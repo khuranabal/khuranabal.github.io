@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          9 minute read
         
       </span>
     
@@ -774,6 +774,100 @@ ex:
   <li>having object and class with same name, this is companion design pattern</li>
   <li>singleton design pattern is used using object</li>
 </ul>
+
+<h3 id="inheritance">inheritance</h3>
+
+<ul>
+  <li>child class inherits propetry of parent class</li>
+  <li>child class can inherit only one parent, mutiple inheritence is not possible</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Abc</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method1</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method1"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">Def</span> <span class="k">extends</span> <span class="nc">Abc</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method2</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method2"</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="nv">v</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Def</span>
+<span class="nv">v</span><span class="o">.</span><span class="py">method1</span>
+<span class="nv">v</span><span class="o">.</span><span class="py">method2</span>
+</code></pre></div></div>
+
+<h3 id="access-modifiers">access modifiers</h3>
+
+<ul>
+  <li>private: child class cannot access member of public class</li>
+  <li>protected: child class can call member of parent class inside child class only not in instance instantiation of child class</li>
+  <li>no modifier (public)</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Abc</span> <span class="o">{</span>
+  <span class="k">private</span> <span class="k">def</span> <span class="nf">method1</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method1"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="abstract-class">abstract class</h3>
+
+<ul>
+  <li>can contain unimplemented methods and undefined values</li>
+  <li>implement later by inheritance in child class</li>
+  <li>instance cannot be created for abstract class</li>
+  <li>some methods can have defination also</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">abstract</span> <span class="k">class</span> <span class="nc">Abc</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method1</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="trait">trait</h3>
+
+<ul>
+  <li>similar to abstract class, inheritence can be done only on one abstract class, but traits can be used to do multiple inheritence</li>
+  <li>traits cannot have constructor parameter</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">trait</span> <span class="nc">Ghi</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="nf">method2</span>
+  <span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">Jkl</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method3</span>
+<span class="o">}</span>
+
+<span class="k">class</span> <span class="nc">Mno</span> <span class="k">extends</span> <span class="nc">Abc</span> <span class="k">with</span> <span class="nc">Ghi</span> <span class="k">with</span> <span class="nc">Jkl</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="nf">method1</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method1"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="nf">method2</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method2"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="nf">method3</span> <span class="k">=</span> <span class="nf">println</span><span class="o">(</span><span class="s">"in method3"</span><span class="o">)</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="case-class">case class</h3>
+
+<p>special class where need to write less code</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">Abc</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">number</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">i</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Abc</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="nv">i</span><span class="o">.</span><span class="py">name</span><span class="o">)</span> <span class="c1">//note here val is not required in parameter to make it memeber</span>
+
+<span class="nf">println</span><span class="o">(</span><span class="nv">i</span><span class="o">.</span><span class="py">toString</span><span class="o">)</span> <span class="c1">//with normal class it prints reference but here we get Abc(a,1)</span>
+
+<span class="nf">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="c1">//even without toString it works fine</span>
+
+<span class="k">val</span> <span class="nv">j</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Abc</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+<span class="nf">println</span><span class="o">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="o">)</span> <span class="c1">//in normal class it check reference which give false but here it will return true</span>
+
+<span class="c1">//when case class created then a companion object is already created</span>
+
+<span class="k">val</span> <span class="nv">k</span> <span class="k">=</span> <span class="nv">i</span><span class="o">.</span><span class="py">copy</span><span class="o">()</span> <span class="c1">//copy method </span>
+
+<span class="k">val</span> <span class="nv">k</span> <span class="k">=</span> <span class="nv">i</span><span class="o">.</span><span class="py">copy</span><span class="o">(</span><span class="n">number</span><span class="k">=</span><span class="mi">5</span><span class="o">)</span> <span class="c1">//data can also be modified in copy menthod</span>
+
+<span class="c1">//case classes are serializable</span>
+</code></pre></div></div>
 
 <h3 id="sources">Sources</h3>
 
