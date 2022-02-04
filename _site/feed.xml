@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-03T22:04:03+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">scala</title><link href="http://localhost:4000/blog/scala/" rel="alternate" type="text/html" title="scala" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala</id><content type="html" xml:base="http://localhost:4000/blog/scala/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-04T18:42:29+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark</title><link href="http://localhost:4000/blog/spark/" rel="alternate" type="text/html" title="spark" /><published>2022-02-04T17:00:00+01:00</published><updated>2022-02-04T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark</id><content type="html" xml:base="http://localhost:4000/blog/spark/">&lt;p&gt;hadoop offers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;hdfs: for storage&lt;/li&gt;
+  &lt;li&gt;mapreduce: for computation&lt;/li&gt;
+  &lt;li&gt;yarn: for resource management&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;spark is general purpose in memory compute engine, so its an alternative to mapreduce in hadoop, but would require storage (local/cloud) and resource manager(yarn/mesos/k8s).&lt;/p&gt;
+
+&lt;p&gt;spark can run on top of hadoop by replacing mapreduce with spark&lt;/p&gt;
+
+&lt;h3 id=&quot;why-spark&quot;&gt;why spark&lt;/h3&gt;
+
+&lt;p&gt;problem with mapreduce, it has to read and write from storage every time for each mapreduce job. And spark does all the processing in memory, so ideally just initial one read and final write to disk would be required. it is approximately 10-100% faster than hadoop.&lt;/p&gt;
+
+&lt;h3 id=&quot;what-do-we-mean-by-spark-is-general-purpose&quot;&gt;what do we mean by spark is general purpose&lt;/h3&gt;
+
+&lt;p&gt;in hadoop we use:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;sqoop: for import&lt;/li&gt;
+  &lt;li&gt;pig: for cleaning&lt;/li&gt;
+  &lt;li&gt;hive: for querying&lt;/li&gt;
+  &lt;li&gt;mahout: for ML&lt;/li&gt;
+  &lt;li&gt;storm: for streaming&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;whereas in spark we can do all like cleaning, querying, ML, ingestion, streaming.&lt;/p&gt;
+
+&lt;h3 id=&quot;storage-unit-in-spark-rdd&quot;&gt;storage unit in spark (rdd)&lt;/h3&gt;
+
+&lt;p&gt;basic unit which holds data in spark is rdd (resilient distributed dataset). It is in memory distributed collection&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//transfornations (lazy), nothing is executed only dag is being formed
+rdd1 = load file1 from hdfs
+rdd2 = rdd1.map
+
+//action, it will be executed along with required transormations
+rdd2.collect
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;lets say we have 500MB file in hdfs, then default we have 4 blocks data, based on 128MB block size. So, these 4 blocks will be loaded in memory as rdd in 4 partitions.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;resilient&lt;/strong&gt;: can recover from failure, if we loose rdd2 then through lineage graph its known how the rdd was created from its parent rdd. So, rdd provide fault tolerance through lineage graph. whereas in haddop resiliency is maintened by replication in hdfs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;lineage graph&lt;/strong&gt;: keeps track of transormations to be executed after action has been called.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;immutable&lt;/strong&gt;: after rdd load data cannot be changed&lt;/p&gt;
+
+&lt;h3 id=&quot;why-immutable&quot;&gt;why immutable&lt;/h3&gt;
+
+&lt;p&gt;because if we keep only one rdd and modify the same again and again, then in case of rdd failure at some step then we wont have parent rdd to regenrate then would require to do all the transformation from start.&lt;/p&gt;
+
+&lt;h3 id=&quot;why-lazy-transformations&quot;&gt;why lazy transformations&lt;/h3&gt;
+
+&lt;p&gt;so as optimized plan can be made.&lt;/p&gt;
+
+&lt;p&gt;example: in below case we have to load all data then show one line only, it is better to optimize the plan knowing what all transormations are needed.&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rdd1 = load data
+rdd1 take 1 record to print
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><category term="hadoop" /><category term="hdfs" /><summary type="html">hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management</summary></entry><entry><title type="html">scala</title><link href="http://localhost:4000/blog/scala/" rel="alternate" type="text/html" title="scala" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala</id><content type="html" xml:base="http://localhost:4000/blog/scala/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
 
 &lt;p&gt;ways to write code:&lt;/p&gt;
 &lt;ul&gt;
@@ -564,6 +623,10 @@ ex:
 
 &lt;span class=&quot;c1&quot;&gt;//case classes are serializable&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;!--
+### check more on singleton
+--&gt;
 
 &lt;h3 id=&quot;sources&quot;&gt;Sources&lt;/h3&gt;
 
@@ -1226,57 +1289,4 @@ select * from v1 where a=${var1};
 set hive.compute.query.using.stats
 set hive.stats.fetch.column.stats
 set hive.stats.fetch.partition.stats
-&lt;/code&gt;&lt;/pre&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="optimization" /><summary type="html">Vectorization</summary></entry><entry><title type="html">compression in hadoop</title><link href="http://localhost:4000/blog/compression-in-hadoop/" rel="alternate" type="text/html" title="compression in hadoop" /><published>2022-01-18T16:29:00+01:00</published><updated>2022-01-18T16:29:00+01:00</updated><id>http://localhost:4000/blog/compression-in-hadoop</id><content type="html" xml:base="http://localhost:4000/blog/compression-in-hadoop/">&lt;p&gt;Compression will help to:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;save storage&lt;/li&gt;
-  &lt;li&gt;reduce io cost&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: compression and uncompression adds some cost as cpu resources will be used but io cost is saved more comparatively.&lt;/p&gt;
-
-&lt;h3 id=&quot;compression-techniques&quot;&gt;Compression techniques&lt;/h3&gt;
-
-&lt;p&gt;some compression codes are optimized for:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;storage&lt;/li&gt;
-  &lt;li&gt;speed&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;snappy&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;fast compression codec&lt;/li&gt;
-  &lt;li&gt;optimized for speed rather than storage&lt;/li&gt;
-  &lt;li&gt;by default is not splittable but file format like avro/orc/parquet takes care of splits. So snappy can be used with these file formats.&lt;/li&gt;
-  &lt;li&gt;distributed with hadoop&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;lzo&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;optimized for speed rather than storage&lt;/li&gt;
-  &lt;li&gt;it is splittable but requires additional indexing step&lt;/li&gt;
-  &lt;li&gt;good for plain text files&lt;/li&gt;
-  &lt;li&gt;is not distributed with hadoop, requires seperate install&lt;/li&gt;
-  &lt;li&gt;compratively slower than snappy&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;gzip&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;optimized for storage, 2.5x times compression compared to snappy&lt;/li&gt;
-  &lt;li&gt;not splittable but can be used with container file formats like snappy&lt;/li&gt;
-  &lt;li&gt;processing is slow, as compression is more it will have less blocks, can reduce block size to increase parellelism which will process faster&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;bzip2&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;excellent storage, compress around 9% more comparitively to gzip&lt;/li&gt;
-  &lt;li&gt;significantly slower, around 10x comparitively to gzip&lt;/li&gt;
-  &lt;li&gt;splittable&lt;/li&gt;
-  &lt;li&gt;might be used for archival&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: snappy is used in mostly, as it provides good trade off between speed and size.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="compression" /><category term="hadoop" /><summary type="html">Compression will help to: save storage reduce io cost</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="optimization" /><summary type="html">Vectorization</summary></entry></feed>

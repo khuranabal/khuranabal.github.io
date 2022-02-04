@@ -61,6 +61,10 @@
 <lastmod>2022-01-28T17:27:00+01:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/blog/spark/</loc>
+<lastmod>2022-02-04T17:00:00+01:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -80,6 +84,9 @@
 </url>
 <url>
 <loc>http://localhost:4000/page3/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page4/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/googlec9037182ce8a646c.html</loc>
