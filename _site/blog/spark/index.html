@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -363,6 +363,49 @@ rdd2.collect
 rdd1 take 1 record to print
 </code></pre></div></div>
 
+<h3 id="frequency-of-word-in-a-file">frequency of word in a file</h3>
+
+<p>assume file is already present in some hdfs location <code class="language-plaintext highlighter-rouge">/path/to/file/file1</code></p>
+
+<p>running code interactively:</p>
+<ul>
+  <li>scala: spark-shell</li>
+  <li>python: pyspark</li>
+</ul>
+
+<p><strong>spark context</strong>: entrypoint to spark cluster, when we run interactively we can do <code class="language-plaintext highlighter-rouge">spark-shell</code>then it will return <code class="language-plaintext highlighter-rouge">sc</code></p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//in scala</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/file/file1"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))</span> 
+<span class="c1">//flatMap takes each line as input </span>
+<span class="c1">//and will split based on " " in Array</span>
+<span class="c1">//finally it will return only one Array with all the words</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">rdd2</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span> <span class="c1">//each word will be key and 1 as value</span>
+<span class="k">val</span> <span class="nv">rdd4</span> <span class="k">=</span> <span class="nv">rdd3</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span> <span class="c1">//this is also transformation</span>
+<span class="c1">//reduceByKey will have all the same keys together and takes 2 rows at a time </span>
+<span class="c1">//and operation we do is add so it will add values of the two rows</span>
+<span class="nv">rdd4</span><span class="o">.</span><span class="py">collect</span><span class="o">()</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#in pyspark
+</span><span class="n">rdd1</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">textFile</span><span class="p">(</span><span class="s">"/path/to/file/file1"</span><span class="p">)</span>
+<span class="n">rdd2</span> <span class="o">=</span> <span class="n">rdd1</span><span class="p">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">" "</span><span class="p">))</span> 
+<span class="n">rdd3</span> <span class="o">=</span> <span class="n">rdd2</span><span class="p">.</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rdd4</span> <span class="o">=</span> <span class="n">rdd3</span><span class="p">.</span><span class="n">reduceByKey</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="p">:</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+<span class="n">rdd4</span><span class="p">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="n">rdd4</span><span class="p">.</span><span class="n">saveAsTextFile</span><span class="p">(</span><span class="s">"/path/to/file/output1"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong></p>
+<ul>
+  <li>at any point we can use <code class="language-plaintext highlighter-rouge">rdd.collect()</code> to see output of rdd</li>
+  <li>in scala if there are no input parametrs to function then we can call without parentheses</li>
+  <li>anonymous functions are called lambda in python</li>
+  <li>to access local file we can use <code class="language-plaintext highlighter-rouge">file://</code> before the file path.
+like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///path/to/file/file1")</code></li>
+</ul>
+
         
       </section>
 
@@ -381,6 +424,10 @@ rdd1 take 1 record to print
       <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
     
       <a href="/tags/#hdfs" class="page__taxonomy-item" rel="tag">hdfs</a><span class="sep">, </span>
+    
+      <a href="/tags/#pyspark" class="page__taxonomy-item" rel="tag">pyspark</a><span class="sep">, </span>
+    
+      <a href="/tags/#scala" class="page__taxonomy-item" rel="tag">scala</a><span class="sep">, </span>
     
       <a href="/tags/#spark" class="page__taxonomy-item" rel="tag">spark</a>
     

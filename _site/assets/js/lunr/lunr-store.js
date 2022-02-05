@@ -91,7 +91,7 @@ var store = [{
       },{
         "title": "spark",
         "excerpt":"hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management spark is general purpose in memory compute engine, so its an alternative to mapreduce in hadoop, but would require storage (local/cloud) and resource manager(yarn/mesos/k8s). spark can run on top of hadoop by replacing mapreduce with spark why spark...","categories": ["blog"],
-        "tags": ["spark","hadoop","hdfs"],
+        "tags": ["spark","hadoop","hdfs","scala","pyspark"],
         "url": "/blog/spark/",
         "teaser": null
       }]
