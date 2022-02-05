@@ -94,4 +94,10 @@ var store = [{
         "tags": ["spark","hadoop","hdfs","scala","pyspark"],
         "url": "/blog/spark/",
         "teaser": null
+      },{
+        "title": "python basics",
+        "excerpt":"module it is just a python file which may hold functions, classes, methods, variables. for import we can use import as show below. import sys #to import full module from datetime import date #to import submodule from time import time #to import specific function, it can then be called directly...","categories": ["blog"],
+        "tags": ["python"],
+        "url": "/blog/python/",
+        "teaser": null
       }]

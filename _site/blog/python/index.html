@@ -19,22 +19,19 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>Balpreet Singh - Page 3</title>
-<meta name="description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
+<!-- begin _includes/seo.html --><title>python basics - Balpreet Singh</title>
+<meta name="description" content="module">
 
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="Balpreet Singh">
-<meta property="og:url" content="http://localhost:4000/page3/">
+<meta property="og:title" content="python basics">
+<meta property="og:url" content="http://localhost:4000/blog/python/">
 
 
-  <meta property="og:description" content="Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer">
-
-
-
+  <meta property="og:description" content="module">
 
 
 
@@ -42,15 +39,16 @@
 
 
 
+  <meta property="article:published_time" content="2022-02-05T15:00:00+01:00">
 
 
-<link rel="canonical" href="http://localhost:4000/page3/">
 
 
-  <link rel="prev" href="http://localhost:4000/page2/">
 
 
-  <link rel="next" href="http://localhost:4000/page4/">
+<link rel="canonical" href="http://localhost:4000/blog/python/">
+
+
 
 
 <script type="application/ld+json">
@@ -99,7 +97,7 @@
 
   </head>
 
-  <body class="layout--home">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -267,33 +265,18 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title"></h1>
-    
-    
-
-<h3 class="archive__subtitle">Recent Posts</h3>
-
-
-
-
-<div class="entries-list">
-  
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="python basics">
+    <meta itemprop="description" content="module">
+    <meta itemprop="datePublished" content="2022-02-05T15:00:00+01:00">
     
 
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
+    <div class="page__inner-wrap">
       
-        <a href="/blog/hive-optimizations/" rel="permalink">hive optimizations
-</a>
-      
-    </h2>
-    
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">python basics
+</h1>
+          
 
   <p class="page__meta">
     
@@ -314,68 +297,133 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Vectorization
+        </header>
+      
 
-</p>
-  </article>
-</div>
+      <section class="page__content" itemprop="text">
+        
+        <h3 id="module">module</h3>
+
+<p>it is just a python file which may hold functions, classes, methods, variables. for import we can use <code class="language-plaintext highlighter-rouge">import</code> as show below.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span> <span class="c1">#to import full module
+</span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span> <span class="c1">#to import submodule
+</span><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span> <span class="c1">#to import specific function, it can then be called directly
+</span></code></pre></div></div>
+
+<p><strong>Note</strong>: functions are not bound to any class whereas methods are bound to class</p>
+
+<h3 id="global-variable">global variable</h3>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span> <span class="c1">#output: __main__
+#if we have another module (different python file) to print __name__ variable
+#import the other module in main python file 
+#then the other module will print __module__ and main will print __main__
+</span></code></pre></div></div>
+
+<p>one way to use it:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"invoked when directly called"</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">"invoked when imported as module in other file"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="dymanic-typed">dymanic typed</h3>
+
+<p>It is dynamically typed language, means data types are inferred.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">var</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="lambda-functions">lambda functions</h3>
+
+<p>inline function, example for square we can use like below</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">a</span> <span class="p">:</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div></div>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
 
   
-    
 
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
     
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/compression-in-hadoop/" rel="permalink">compression in hadoop
-</a>
-      
-    </h2>
+      <a href="/tags/#python" class="page__taxonomy-item" rel="tag">python</a>
     
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
+    </span>
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Compression will help to:
 
-  save storage
-  reduce io cost
-
-
-</p>
-  </article>
-</div>
 
   
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
     
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-02-05T15:00:00+01:00">February 5, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/spark/" class="pagination--pager" title="spark
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/file-formats/" rel="permalink">file formats for big data
+        <a href="/blog/spark/" rel="permalink">spark
 </a>
       
     </h2>
@@ -400,64 +448,28 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">There are certain parameters to consider when chossing a file format.
+    <p class="archive__item-excerpt" itemprop="description">hadoop offers:
+
+  hdfs: for storage
+  mapreduce: for computation
+  yarn: for resource management
+
 
 </p>
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/sqoop/" rel="permalink">sqoop working
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">It is used to transfer data between rdbms to hdfs and vice versa.
-
-</p>
-  </article>
-</div>
-
-  
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/map-reduce/" rel="permalink">MapReduce working
+        <a href="/blog/time-complexity/" rel="permalink">time complexity
 </a>
       
     </h2>
@@ -482,73 +494,99 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">MapReduce is programming model for processing big datsets. It consists of two stages:
-
-  map
-  reduce
-
+    <p class="archive__item-excerpt" itemprop="description">A way to calculate time consumed by an algorithm, as a function of input.
 
 </p>
   </article>
 </div>
 
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/scala/" rel="permalink">scala
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/hive-hbase/" rel="permalink">hive for processing and hbase for low latency read
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of dat...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
   
 </div>
 
-
-<nav class="pagination">
-  
-  <ul>
-    
-    
-      
-        <li><a href="/page2/">Previous</a></li>
-      
-    
-
-    
-    
-      <li><a href="/">1</a></li>
-    
-
-    
-    
-
-    
-    
-    
-
-    
-      
-        
-        
-        
-        <li><a href="/page2/">2</a></li>
-      
-    
-      
-        <li><a href="/page3/" class="disabled current">3</a></li>
-      
-    
-
-    
-    
-
-    
-      <li><a href="/page4/">4</a></li>
-    
-
-    
-    
-      <li><a href="/page4/">Next</a></li>
-    
-  </ul>
-</nav>
-
-
-
-  </div>
-</div>
     </div>
 
     
@@ -607,6 +645,30 @@
 <script src="/assets/js/lunr/lunr-en.js"></script>
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 
