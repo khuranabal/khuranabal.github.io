@@ -1,5 +1,5 @@
 ---
-title: "scala"
+title: "scala part I"
 date: 2022-01-28T16:27:00-00:00
 categories:
   - blog

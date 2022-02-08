@@ -389,6 +389,7 @@ rdd1 take 1 record to print
 </code></pre></div></div>
 
 <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#in pyspark
+</span><span class="n">sc</span><span class="p">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s">"ERROR"</span><span class="p">)</span> <span class="c1">#default log is WARN
 </span><span class="n">rdd1</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">textFile</span><span class="p">(</span><span class="s">"/path/to/file/file1"</span><span class="p">)</span>
 <span class="n">rdd2</span> <span class="o">=</span> <span class="n">rdd1</span><span class="p">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">" "</span><span class="p">))</span> 
 <span class="n">rdd3</span> <span class="o">=</span> <span class="n">rdd2</span><span class="p">.</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -407,6 +408,10 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
   <li>for doing lowercase we can use <code class="language-plaintext highlighter-rouge">toLowerCase()</code></li>
   <li>for sorting we can use <code class="language-plaintext highlighter-rouge">sortby(x =&gt; x._2)</code> to sort on value in key value input</li>
   <li>if we need to just count number of times key is repeating then can use <code class="language-plaintext highlighter-rouge">countByValue</code> but its an action not transformation</li>
+  <li>dag in pyspark is different than of scala because pyspark uses api library, scala dag matches to the code but not pyspark code</li>
+  <li>at raw rdd level code pyspark is not that optimized compared to scala</li>
+  <li>dag is created while transformations are being called and submitted when action is called</li>
+  <li>lineage keeps track of rdds and how they are connected so as in case of failure, recovery can be done using parent rdd or if base rdd then getting data from specefic partition in disk, lineage is part of dag</li>
 </ul>
 
         
@@ -467,7 +472,7 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
       
   <nav class="pagination">
     
-      <a href="/blog/time-complexity/" class="pagination--pager" title="time complexity
+      <a href="/blog/scala-part-II/" class="pagination--pager" title="scala part II
 ">Previous</a>
     
     
@@ -537,6 +542,50 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
+        <a href="/blog/scala-part-II/" rel="permalink">scala part II
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  scala runs on top of jvm
+  scala is like java so requires main, or we can extends App then we dont have to define main method
+
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
         <a href="/blog/time-complexity/" rel="permalink">time complexity
 </a>
       
@@ -578,7 +627,7 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/blog/scala/" rel="permalink">scala
+        <a href="/blog/scala-part-I/" rel="permalink">scala part I
 </a>
       
     </h2>
@@ -606,45 +655,6 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
     <p class="archive__item-excerpt" itemprop="description">spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.
 
 </p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/hive-hbase/" rel="permalink">hive for processing and hbase for low latency read
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of dat...</p>
   </article>
 </div>
 

@@ -53,11 +53,15 @@
 <lastmod>2022-01-26T15:25:00+01:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/blog/scala/</loc>
+<loc>http://localhost:4000/blog/scala-part-I/</loc>
 <lastmod>2022-01-28T17:27:00+01:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/blog/time-complexity/</loc>
+<lastmod>2022-01-28T17:27:00+01:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/blog/scala-part-II/</loc>
 <lastmod>2022-01-28T17:27:00+01:00</lastmod>
 </url>
 <url>

@@ -77,16 +77,22 @@ var store = [{
         "url": "/blog/hive-hbase/",
         "teaser": null
       },{
-        "title": "scala",
+        "title": "scala part I",
         "excerpt":"spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional. ways to write code: REPL: do directly in scala terminal, to view result intractively IDE: eclipse, vs code etc. why scala scala gives best performance as directly scala code can work in...","categories": ["blog"],
         "tags": ["scala"],
-        "url": "/blog/scala/",
+        "url": "/blog/scala-part-I/",
         "teaser": null
       },{
         "title": "time complexity",
         "excerpt":"A way to calculate time consumed by an algorithm, as a function of input. example1 lets say we have an array a = 1 5 3 7 2 Q: find element at index 2? A: as we can do array get (random access) at index, time complexity will be O(1)...","categories": ["blog"],
         "tags": ["time complexity","data structures"],
         "url": "/blog/time-complexity/",
+        "teaser": null
+      },{
+        "title": "scala part II",
+        "excerpt":"scala runs on top of jvm scala is like java so requires main, or we can extends App then we dont have to define main method //define main method object example { def main(args: Array[]) = { println(\"hello\") } } //define without main method object example extends App{ println(\"hello\") }...","categories": ["blog"],
+        "tags": ["scala"],
+        "url": "/blog/scala-part-II/",
         "teaser": null
       },{
         "title": "spark",
