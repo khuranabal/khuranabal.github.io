@@ -228,3 +228,161 @@ a.==(b) //output: true
 a.equals(b) //output: true
 a equals b //output: true
 ```
+
+
+### strict val vs lazy val
+
+default val is strict and evaluated when declared, lazy val is evaluated during first use
+
+```scala
+//full code will be executed and last expression will be returned
+val a = {
+  println("some print")
+  1
+  }
+println(a) //output: 1
+```
+
+```scala
+//full code will be executed when val is called in println
+lazy val a = {
+  println("some print")
+  1
+  }
+println(a) 
+//output: 
+//some print 
+//1
+```
+
+
+### default packages
+
+default packages imported:
+
+* java.lang._
+* scala._
+* scala.Predef._
+
+example: to use `Math` we dont have to import any package as it is by default imported.
+
+
+### scala apply
+
+apply closes gap between object and function paradigme in scala, we can call an object like a function. 
+
+So in singleton object if we have `apply` method then that can be called directly by object as a function without `apply` method name.
+
+```scala
+object Abc {
+  def apply(i: Int) {
+    println(s"$i is the value")
+  }
+}
+
+Abc.apply(1) //output: 1 is the value
+Abc(1) //output: 1 is the value
+```
+
+
+### diamond problem
+
+in case of multiple inheritence, if same name of methods are used in parent classes then its a diamond problem, thats why scala does not support multiple inheritence.
+
+```scala
+class Abc {
+  def func() = println("abc")
+}
+
+class Def {
+  def func() = println("def")
+}
+
+//this is not supported and is diamond problem
+class Ghi extends Abc, Def {
+  func
+}
+```
+
+**multiple inheritence** can be done in scala by traits
+
+```scala
+trait A {
+  def func = println("A")
+}
+
+trait B extends A{
+  override def func = println("B")
+}
+
+object C extends A with B
+func //output: B
+```
+
+order here will be from right to left
+
+
+### type safe
+
+code will be compiled and error out in case of type mismatch
+
+```scala
+val i: Int = "abc"
+```
+
+
+### statically types vs dynamically types
+
+**statically typed**
+
+* type of variables are known at compile time 
+* example scala, java, c
+* better performance
+* no runtime errors
+
+**dynamically typed**
+
+* type of variables are checked at runtime
+* like python
+
+
+### exception handling
+
+**exception**: occurs due to some issue in code, example divide by zero
+**error**: occurs due to system issues, example OOM
+
+```scala
+try {
+  val a = 1/0
+}
+catch {
+  case e: Exception => println("manual exception")
+}
+finally {
+  println("last step")
+}
+```
+
+
+### monad
+
+monad is object that wraps another object. output of calculation is input to other.
+
+```scala
+val l1 = List(1,2,3)
+val l2 = List(4,5,6)
+
+l1.flatMap { x => l2.map {y => x + y} }
+//output: List(5, 6, 7, 6, 7, 8, 7, 8, 9)
+```
+
+
+## ofDim
+
+used to create multi dimensional array
+
+```scala
+val a = Array.ofDim[Int](2,2)
+a(0)(0) = 1
+for(i <- 0 to 1; j <- 0 to 1) println(a(i)(j))
+```
