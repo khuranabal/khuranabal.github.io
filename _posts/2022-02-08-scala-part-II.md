@@ -386,3 +386,41 @@ val a = Array.ofDim[Int](2,2)
 a(0)(0) = 1
 for(i <- 0 to 1; j <- 0 to 1) println(a(i)(j))
 ```
+
+
+### design patterns
+
+**singleton design pattern**
+
+restricts instansiation of class to one object and provide global access to it.
+
+```scala
+object a {
+  //class level functionality
+}
+```
+
+**lazy initialization**
+
+initialization of instance on first access, to avaid expensive computation
+
+```scala
+val x = {
+  println("a")
+  1
+}
+```
+
+```scala
+lazy val x = {
+  println("a")
+  1
+}
+x
+```
+
+### diff between Array & ArrayBuffer
+
+* both are mutable
+* ArrayBuffer is resizable but Array isn't
+* if we appand ArrayBuffer it gets larger but if append Array it will internally create new Array some performance hit

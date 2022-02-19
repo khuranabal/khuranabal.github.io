@@ -658,6 +658,42 @@
 <span class="nf">for</span><span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">1</span><span class="o">;</span> <span class="n">j</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">1</span><span class="o">)</span> <span class="nf">println</span><span class="o">(</span><span class="nf">a</span><span class="o">(</span><span class="n">i</span><span class="o">)(</span><span class="n">j</span><span class="o">))</span>
 </code></pre></div></div>
 
+<h3 id="design-patterns">design patterns</h3>
+
+<p><strong>singleton design pattern</strong></p>
+
+<p>restricts instansiation of class to one object and provide global access to it.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">object</span> <span class="nc">a</span> <span class="o">{</span>
+  <span class="c1">//class level functionality</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>lazy initialization</strong></p>
+
+<p>initialization of instance on first access, to avaid expensive computation</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">x</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"a"</span><span class="o">)</span>
+  <span class="mi">1</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">lazy</span> <span class="k">val</span> <span class="nv">x</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="nf">println</span><span class="o">(</span><span class="s">"a"</span><span class="o">)</span>
+  <span class="mi">1</span>
+<span class="o">}</span>
+<span class="n">x</span>
+</code></pre></div></div>
+
+<h3 id="diff-between-array--arraybuffer">diff between Array &amp; ArrayBuffer</h3>
+
+<ul>
+  <li>both are mutable</li>
+  <li>ArrayBuffer is resizable but Array isn’t</li>
+  <li>if we appand ArrayBuffer it gets larger but if append Array it will internally create new Array some performance hit</li>
+</ul>
+
         
       </section>
 
