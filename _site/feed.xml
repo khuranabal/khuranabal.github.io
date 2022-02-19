@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T16:55:35+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T23:07:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
 
 &lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;
@@ -83,7 +83,66 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 &lt;h4 id=&quot;uberization&quot;&gt;uberization&lt;/h4&gt;
 
-&lt;p&gt;if job is very small that can be solved inside application master itself then application master will not ask for more resources and run within, this mode is uberization.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hadoop" /><category term="hdfs" /><category term="yarn" /><summary type="html">Yet Another Resource Negotiator Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.</summary></entry><entry><title type="html">python basics</title><link href="http://localhost:4000/blog/python/" rel="alternate" type="text/html" title="python basics" /><published>2022-02-05T15:00:00+01:00</published><updated>2022-02-05T15:00:00+01:00</updated><id>http://localhost:4000/blog/python</id><content type="html" xml:base="http://localhost:4000/blog/python/">&lt;h3 id=&quot;module&quot;&gt;module&lt;/h3&gt;
+&lt;p&gt;if job is very small that can be solved inside application master itself then application master will not ask for more resources and run within, this mode is uberization.&lt;/p&gt;
+
+&lt;h3 id=&quot;yarn-architecture&quot;&gt;yarn architecture&lt;/h3&gt;
+
+&lt;h4 id=&quot;ways-to-execute-spark-jobs&quot;&gt;ways to execute spark jobs&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;interactive mode&lt;/strong&gt;: via spark-shell/notebooks&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;as a job&lt;/strong&gt;: spark-submit&lt;/p&gt;
+
+&lt;h4 id=&quot;cluster-manager&quot;&gt;cluster manager&lt;/h4&gt;
+
+&lt;p&gt;controls cluster and allocates driver and executor, different cluster managers are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;yarn&lt;/li&gt;
+  &lt;li&gt;k8s&lt;/li&gt;
+  &lt;li&gt;mesos&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here we will be looking in yarn only&lt;/p&gt;
+
+&lt;h4 id=&quot;how-program-is-executed-on-cluster&quot;&gt;how program is executed on cluster&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;master/slave architecture&lt;/li&gt;
+  &lt;li&gt;driver analyses work, divides in many tasks, distributes tasks, schedules task and monitor&lt;/li&gt;
+  &lt;li&gt;executor is jvm process which has some cpu and memory, exeute code&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As shown below, when client submits spark job(spark-submit) then driver and executors are launched in cluster, for each job different driver and executors will be launched.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/yarn/spark-submit.png&quot; alt=&quot;spark-submit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;executors always launched on cluster (worker nodes)&lt;/li&gt;
+  &lt;li&gt;driver can run on client or cluster&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;client mode&lt;/strong&gt;: when driver runs on client machine&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;launch spark-shell creates spark session&lt;/li&gt;
+  &lt;li&gt;once spark session created request goes to resource manager&lt;/li&gt;
+  &lt;li&gt;resource manager then will create a container on one of the node manager and will launch application master for the submitted spark application&lt;/li&gt;
+  &lt;li&gt;application master will then negotiate resources from resource manager in form of containers&lt;/li&gt;
+  &lt;li&gt;resource manager will then create containers in the node managers&lt;/li&gt;
+  &lt;li&gt;application master will then create executors in those containers&lt;/li&gt;
+  &lt;li&gt;driver and executors can now communicate directly&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;cluster mode&lt;/strong&gt;: when driver runs on cluster&lt;/p&gt;
+
+&lt;p&gt;it is similar to client mode with difference, driver will be running on application master and will negotiate with resource manager for resources&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;local mode&lt;/strong&gt;: single jvm process with driver and executor used for local testing&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: spark session is like data structures where driver maintains all information including location, status etc.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hadoop" /><category term="hdfs" /><category term="yarn" /><category term="spark" /><summary type="html">Yet Another Resource Negotiator Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.</summary></entry><entry><title type="html">python basics</title><link href="http://localhost:4000/blog/python/" rel="alternate" type="text/html" title="python basics" /><published>2022-02-05T15:00:00+01:00</published><updated>2022-02-05T15:00:00+01:00</updated><id>http://localhost:4000/blog/python</id><content type="html" xml:base="http://localhost:4000/blog/python/">&lt;h3 id=&quot;module&quot;&gt;module&lt;/h3&gt;
 
 &lt;p&gt;it is just a python file which may hold functions, classes, methods, variables. for import we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import&lt;/code&gt; as show below.&lt;/p&gt;
 

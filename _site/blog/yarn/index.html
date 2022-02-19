@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          3 minute read
         
       </span>
     
@@ -389,6 +389,65 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 <p>if job is very small that can be solved inside application master itself then application master will not ask for more resources and run within, this mode is uberization.</p>
 
+<h3 id="yarn-architecture">yarn architecture</h3>
+
+<h4 id="ways-to-execute-spark-jobs">ways to execute spark jobs</h4>
+
+<p><strong>interactive mode</strong>: via spark-shell/notebooks</p>
+
+<p><strong>as a job</strong>: spark-submit</p>
+
+<h4 id="cluster-manager">cluster manager</h4>
+
+<p>controls cluster and allocates driver and executor, different cluster managers are:</p>
+
+<ul>
+  <li>yarn</li>
+  <li>k8s</li>
+  <li>mesos</li>
+</ul>
+
+<p>Here we will be looking in yarn only</p>
+
+<h4 id="how-program-is-executed-on-cluster">how program is executed on cluster</h4>
+
+<ul>
+  <li>master/slave architecture</li>
+  <li>driver analyses work, divides in many tasks, distributes tasks, schedules task and monitor</li>
+  <li>executor is jvm process which has some cpu and memory, exeute code</li>
+</ul>
+
+<p>As shown below, when client submits spark job(spark-submit) then driver and executors are launched in cluster, for each job different driver and executors will be launched.</p>
+
+<p><img src="/assets/images/yarn/spark-submit.png" alt="spark-submit" /></p>
+
+<p><strong>Note</strong>:</p>
+
+<ul>
+  <li>executors always launched on cluster (worker nodes)</li>
+  <li>driver can run on client or cluster</li>
+</ul>
+
+<p><strong>client mode</strong>: when driver runs on client machine</p>
+
+<ol>
+  <li>launch spark-shell creates spark session</li>
+  <li>once spark session created request goes to resource manager</li>
+  <li>resource manager then will create a container on one of the node manager and will launch application master for the submitted spark application</li>
+  <li>application master will then negotiate resources from resource manager in form of containers</li>
+  <li>resource manager will then create containers in the node managers</li>
+  <li>application master will then create executors in those containers</li>
+  <li>driver and executors can now communicate directly</li>
+</ol>
+
+<p><strong>cluster mode</strong>: when driver runs on cluster</p>
+
+<p>it is similar to client mode with difference, driver will be running on application master and will negotiate with resource manager for resources</p>
+
+<p><strong>local mode</strong>: single jvm process with driver and executor used for local testing</p>
+
+<p><strong>Note</strong>: spark session is like data structures where driver maintains all information including location, status etc.</p>
+
         
       </section>
 
@@ -407,6 +466,8 @@ Lets first go through how things are in hadoop initial version and what the limi
       <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
     
       <a href="/tags/#hdfs" class="page__taxonomy-item" rel="tag">hdfs</a><span class="sep">, </span>
+    
+      <a href="/tags/#spark" class="page__taxonomy-item" rel="tag">spark</a><span class="sep">, </span>
     
       <a href="/tags/#yarn" class="page__taxonomy-item" rel="tag">yarn</a>
     
