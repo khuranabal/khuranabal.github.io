@@ -307,15 +307,7 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 <h3 id="processing-in-hadoop--mr-version-1">processing in hadoop / mr version 1</h3>
 
-<p>hdfs storage</p>
-
-<p><strong>Name Node</strong>: holds the metadata
-<strong>Data Node</strong>: actual data in blocks</p>
-
-<p>job execution is controlled by two processes</p>
-
-<p><strong>master</strong>: job tracker
-<strong>slave</strong>: task tracker</p>
+<p>in hdfs storage metadata is stored in name node and actual data blocks in data node. job execution is controlled by job tracker(running on master) and task tracker (on slave)</p>
 
 <h4 id="job-tracker">job tracker</h4>
 
@@ -350,9 +342,9 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 <p><strong>job support</strong>: only map reduce jobs were supported</p>
 
-<h3 id="yarn">yarn</h3>
+<h3 id="solution">solution</h3>
 
-<p>major bottleneck was that job tracker was doing a lot of work in scheduling and monitoring.</p>
+<p>major bottleneck was that job tracker was doing a lot of work in scheduling and monitoring. yarn solved these problems.</p>
 
 <p>it has three components:</p>
 
@@ -393,9 +385,10 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 <h4 id="ways-to-execute-spark-jobs">ways to execute spark jobs</h4>
 
-<p><strong>interactive mode</strong>: via spark-shell/notebooks</p>
-
-<p><strong>as a job</strong>: spark-submit</p>
+<ol>
+  <li>interactive mode via spark-shell/pyspark/notebooks</li>
+  <li>as a job by spark-submit</li>
+</ol>
 
 <h4 id="cluster-manager">cluster manager</h4>
 
@@ -407,7 +400,7 @@ Lets first go through how things are in hadoop initial version and what the limi
   <li>mesos</li>
 </ul>
 
-<p>Here we will be looking in yarn only</p>
+<p>here we will be looking in yarn only</p>
 
 <h4 id="how-program-is-executed-on-cluster">how program is executed on cluster</h4>
 

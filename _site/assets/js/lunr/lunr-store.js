@@ -108,7 +108,7 @@ var store = [{
         "teaser": null
       },{
         "title": "yarn",
-        "excerpt":"Yet Another Resource Negotiator Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN. processing in hadoop / mr version 1 hdfs storage Name Node: holds the metadata Data Node: actual data in blocks job execution is controlled by...","categories": ["blog"],
+        "excerpt":"Yet Another Resource Negotiator Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN. processing in hadoop / mr version 1 in hdfs storage metadata is stored in name node and actual data blocks in data node. job execution...","categories": ["blog"],
         "tags": ["hadoop","hdfs","yarn","spark"],
         "url": "/blog/yarn/",
         "teaser": null

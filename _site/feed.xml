@@ -1,17 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T23:07:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T23:15:49+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
 
 &lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;
 
-&lt;p&gt;hdfs storage&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Name Node&lt;/strong&gt;: holds the metadata
-&lt;strong&gt;Data Node&lt;/strong&gt;: actual data in blocks&lt;/p&gt;
-
-&lt;p&gt;job execution is controlled by two processes&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;master&lt;/strong&gt;: job tracker
-&lt;strong&gt;slave&lt;/strong&gt;: task tracker&lt;/p&gt;
+&lt;p&gt;in hdfs storage metadata is stored in name node and actual data blocks in data node. job execution is controlled by job tracker(running on master) and task tracker (on slave)&lt;/p&gt;
 
 &lt;h4 id=&quot;job-tracker&quot;&gt;job tracker&lt;/h4&gt;
 
@@ -46,9 +38,9 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 &lt;p&gt;&lt;strong&gt;job support&lt;/strong&gt;: only map reduce jobs were supported&lt;/p&gt;
 
-&lt;h3 id=&quot;yarn&quot;&gt;yarn&lt;/h3&gt;
+&lt;h3 id=&quot;solution&quot;&gt;solution&lt;/h3&gt;
 
-&lt;p&gt;major bottleneck was that job tracker was doing a lot of work in scheduling and monitoring.&lt;/p&gt;
+&lt;p&gt;major bottleneck was that job tracker was doing a lot of work in scheduling and monitoring. yarn solved these problems.&lt;/p&gt;
 
 &lt;p&gt;it has three components:&lt;/p&gt;
 
@@ -89,9 +81,10 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 &lt;h4 id=&quot;ways-to-execute-spark-jobs&quot;&gt;ways to execute spark jobs&lt;/h4&gt;
 
-&lt;p&gt;&lt;strong&gt;interactive mode&lt;/strong&gt;: via spark-shell/notebooks&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;as a job&lt;/strong&gt;: spark-submit&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;interactive mode via spark-shell/pyspark/notebooks&lt;/li&gt;
+  &lt;li&gt;as a job by spark-submit&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;h4 id=&quot;cluster-manager&quot;&gt;cluster manager&lt;/h4&gt;
 
@@ -103,7 +96,7 @@ Lets first go through how things are in hadoop initial version and what the limi
   &lt;li&gt;mesos&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Here we will be looking in yarn only&lt;/p&gt;
+&lt;p&gt;here we will be looking in yarn only&lt;/p&gt;
 
 &lt;h4 id=&quot;how-program-is-executed-on-cluster&quot;&gt;how program is executed on cluster&lt;/h4&gt;
 
