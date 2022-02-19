@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          4 minute read
         
       </span>
     
@@ -413,6 +413,47 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
   <li>dag is created while transformations are being called and submitted when action is called</li>
   <li>lineage keeps track of rdds and how they are connected so as in case of failure, recovery can be done using parent rdd or if base rdd then getting data from specefic partition in disk, lineage is part of dag</li>
 </ul>
+
+<h3 id="broadcast">broadcast</h3>
+
+<p>broadcast join in spark is similar to map side join in hive. It is aceived by using broadcast variable. Small table can be broadcasted to all nodes.</p>
+
+<p>Example: If we need to filter out some data based on data in other small table then we could broadcast small table to all nodes. Lets say we have only one column in small table we could use <code class="language-plaintext highlighter-rouge">set</code> to have distinct values in a variable.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">scala.io.Source</span>
+
+<span class="k">var</span> <span class="n">v</span><span class="k">:</span><span class="kt">Set</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Set</span><span class="o">()</span>
+<span class="cm">/*
+//data to be broadcasted rows like: 
+are
+is
+am
+*/</span>
+<span class="k">val</span> <span class="nv">lines</span> <span class="k">=</span> <span class="nv">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"/path/to/broadcast/data"</span><span class="o">).</span><span class="py">getLines</span><span class="o">()</span>
+<span class="nf">for</span><span class="o">(</span><span class="n">line</span> <span class="k">&lt;-</span> <span class="n">lines</span><span class="o">)</span> <span class="o">{</span><span class="n">v</span> <span class="o">+=</span> <span class="n">line</span><span class="o">}</span>
+
+<span class="k">var</span> <span class="n">b</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">broadcast</span><span class="o">(</span><span class="n">v</span><span class="o">)</span>
+
+<span class="cm">/*
+//some data which has rows like:
+hello how are you, 20
+am good, 30
+*/</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/data"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">mappedInput</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">","</span><span class="o">)(</span><span class="mi">1</span><span class="o">).</span><span class="py">toFloat</span><span class="o">,</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">","</span><span class="o">)(</span><span class="mi">0</span><span class="o">))</span>
+
+<span class="c1">//it will flat the structure based on values and produce more rows</span>
+<span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">mappedInput</span><span class="o">.</span><span class="py">flatMapValues</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))</span>
+
+<span class="c1">//this will be map side work only to filter out data</span>
+<span class="k">val</span> <span class="nv">filterData</span> <span class="k">=</span> <span class="nv">words</span><span class="o">.</span><span class="py">filer</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">!</span><span class="nv">b</span><span class="o">.</span><span class="py">value</span><span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span><span class="o">))</span>
+
+<span class="c1">//this will add values for same words</span>
+<span class="k">val</span> <span class="nv">total</span> <span class="k">=</span> <span class="nv">filterData</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span>
+
+<span class="c1">//this will give data in sorted desc</span>
+<span class="k">val</span> <span class="nv">sorted</span> <span class="k">=</span> <span class="nv">total</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">,</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div></div>
 
         
       </section>
