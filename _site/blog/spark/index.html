@@ -414,7 +414,9 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
   <li>lineage keeps track of rdds and how they are connected so as in case of failure, recovery can be done using parent rdd or if base rdd then getting data from specefic partition in disk, lineage is part of dag</li>
 </ul>
 
-<h3 id="broadcast">broadcast</h3>
+<h3 id="shared-variables">shared variables</h3>
+
+<h4 id="broadcast">broadcast</h4>
 
 <p>broadcast join in spark is similar to map side join in hive. It is aceived by using broadcast variable. Small table can be broadcasted to all nodes.</p>
 
@@ -453,6 +455,22 @@ am good, 30
 
 <span class="c1">//this will give data in sorted desc</span>
 <span class="k">val</span> <span class="nv">sorted</span> <span class="k">=</span> <span class="nv">total</span><span class="o">.</span><span class="py">sortBy</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">,</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="accumlator">accumlator</h4>
+
+<p>similar to counters in mapreduce, if we need to count then we can use accumlator.</p>
+
+<ul>
+  <li>shared variable on driver machine</li>
+  <li>each executor can only update it but cannot read value</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">v</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">longAccumlator</span><span class="o">(</span><span class="s">"shown name in UI"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/data"</span><span class="o">)</span>
+
+<span class="c1">//it will count the number of lines in file</span>
+<span class="nv">rdd1</span><span class="o">.</span><span class="py">foreach</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">v</span><span class="o">.</span><span class="py">add</span><span class="o">(</span><span class="mi">1</span><span class="o">))</span>
 </code></pre></div></div>
 
         
