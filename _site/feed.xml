@@ -1,4 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T16:13:12+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">python basics</title><link href="http://localhost:4000/blog/python/" rel="alternate" type="text/html" title="python basics" /><published>2022-02-05T15:00:00+01:00</published><updated>2022-02-05T15:00:00+01:00</updated><id>http://localhost:4000/blog/python</id><content type="html" xml:base="http://localhost:4000/blog/python/">&lt;h3 id=&quot;module&quot;&gt;module&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-19T16:55:35+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
+
+&lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;
+
+&lt;p&gt;hdfs storage&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Name Node&lt;/strong&gt;: holds the metadata
+&lt;strong&gt;Data Node&lt;/strong&gt;: actual data in blocks&lt;/p&gt;
+
+&lt;p&gt;job execution is controlled by two processes&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;master&lt;/strong&gt;: job tracker
+&lt;strong&gt;slave&lt;/strong&gt;: task tracker&lt;/p&gt;
+
+&lt;h4 id=&quot;job-tracker&quot;&gt;job tracker&lt;/h4&gt;
+
+&lt;p&gt;a lot of work is done in terms of-&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;scheduling&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;deciding which job to execute first based on scheduling logic&lt;/li&gt;
+  &lt;li&gt;priority of jobs&lt;/li&gt;
+  &lt;li&gt;checking available resources&lt;/li&gt;
+  &lt;li&gt;allocating resources to jobs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;monitoring&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;tracking the progress of job&lt;/li&gt;
+  &lt;li&gt;rerun task to recover from failure&lt;/li&gt;
+  &lt;li&gt;for slow task start on other node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;task-tracker&quot;&gt;task tracker&lt;/h4&gt;
+
+&lt;p&gt;tracks tasks on each data node and informs the job tracker&lt;/p&gt;
+
+&lt;h4 id=&quot;limitations-of-hadoop--mr-version-1&quot;&gt;limitations of hadoop / mr version 1&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;scalability&lt;/strong&gt;: when cluster size goes beyond 4k data nodes then the job tracker used to become a bottleneck&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;resource utilization&lt;/strong&gt;: need to configure fixed number of map and reduce slots at the time of cluster setup. if a job requires more map slots to be used then its problem&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;job support&lt;/strong&gt;: only map reduce jobs were supported&lt;/p&gt;
+
+&lt;h3 id=&quot;yarn&quot;&gt;yarn&lt;/h3&gt;
+
+&lt;p&gt;major bottleneck was that job tracker was doing a lot of work in scheduling and monitoring.&lt;/p&gt;
+
+&lt;p&gt;it has three components:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;resource manager&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;monitoring aspect is taken away from job tracker and in yarn its scalled as resource manager&lt;/li&gt;
+  &lt;li&gt;only does scheduling&lt;/li&gt;
+  &lt;li&gt;the resource manager creates a container(cpu + memory) on one of the node manager(task tracker), inside this container the resource manager creates an application master&lt;/li&gt;
+  &lt;li&gt;allocates the resources in the form of containers and details(containerid, hostname) will be send to application master&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;node manager&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;same as task tracker&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;application master&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;take care of end to end monitoring for the application&lt;/li&gt;
+  &lt;li&gt;asks the resource manager for resources&lt;/li&gt;
+  &lt;li&gt;requests for resources in the form of number of containers(cpu + memory)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;limitations-of-hadoop--mr-version-1-solved&quot;&gt;limitations of hadoop / mr version 1 (solved)&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;scalability&lt;/strong&gt;: monitoring is offloaded to application master so for different applications, will have different application master to monitor&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;resource utilization&lt;/strong&gt;: no more fixed map reduce slots, with the logical containers the resource allocation is much more dynamic and we can request for any amount of cpu or memory with this the cluster utilization is improved.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;job support&lt;/strong&gt;: can run spark, tez etc&lt;/p&gt;
+
+&lt;h4 id=&quot;uberization&quot;&gt;uberization&lt;/h4&gt;
+
+&lt;p&gt;if job is very small that can be solved inside application master itself then application master will not ask for more resources and run within, this mode is uberization.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hadoop" /><category term="hdfs" /><category term="yarn" /><summary type="html">Yet Another Resource Negotiator Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.</summary></entry><entry><title type="html">python basics</title><link href="http://localhost:4000/blog/python/" rel="alternate" type="text/html" title="python basics" /><published>2022-02-05T15:00:00+01:00</published><updated>2022-02-05T15:00:00+01:00</updated><id>http://localhost:4000/blog/python</id><content type="html" xml:base="http://localhost:4000/blog/python/">&lt;h3 id=&quot;module&quot;&gt;module&lt;/h3&gt;
 
 &lt;p&gt;it is just a python file which may hold functions, classes, methods, variables. for import we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;import&lt;/code&gt; as show below.&lt;/p&gt;
 
@@ -1624,26 +1709,4 @@ delete is special type of update where vaules of deleted data is not deleted imm
 
 &lt;p&gt;Reason for this is hfiles are immutable as these are hdfs files. All vaules with tombstone markers are deleted in next major compaction.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: querying hbase has different commands which are not like sql, apache phoenix provides sql like interface on top of hbase.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry><entry><title type="html">slowly changing dimensions</title><link href="http://localhost:4000/blog/scd/" rel="alternate" type="text/html" title="slowly changing dimensions" /><published>2022-01-20T16:42:00+01:00</published><updated>2022-01-20T16:42:00+01:00</updated><id>http://localhost:4000/blog/scd</id><content type="html" xml:base="http://localhost:4000/blog/scd/">&lt;p&gt;It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs&lt;/p&gt;
-
-&lt;h3 id=&quot;type-of-scd&quot;&gt;Type of SCD&lt;/h3&gt;
-
-&lt;h4 id=&quot;scd-type-1&quot;&gt;SCD Type 1&lt;/h4&gt;
-
-&lt;p&gt;History is not maintained, data is overwritten.&lt;/p&gt;
-
-&lt;h4 id=&quot;scd-type-2&quot;&gt;SCD Type 2&lt;/h4&gt;
-
-&lt;p&gt;Maintain history. It can be done in below three ways, lets take emaple of product data. All products are stored in products table then:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;version&lt;/strong&gt;: maintain multiple version (increasing int value) of same product latest version is the latest details of the product&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;flag&lt;/strong&gt;: keep flag representing latest details of the product&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;effective date&lt;/strong&gt;: maintain start date and end date, this way we can keep track of the product details over period of time.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="scd" /><category term="datawarehouse" /><summary type="html">It is for dimension tables where changes are less in source rdbms which we want to get into datawarehouse or hdfs</summary></entry></feed>
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: querying hbase has different commands which are not like sql, apache phoenix provides sql like interface on top of hbase.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry></feed>
