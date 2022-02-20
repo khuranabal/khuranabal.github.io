@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-20T12:47:38+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-20T16:02:38+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
 
 &lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;
@@ -376,6 +376,8 @@ am good, 30
 
 &lt;ul&gt;
   &lt;li&gt;every action is a job&lt;/li&gt;
+  &lt;li&gt;sortByKey is exception as its transformation but still shows up as job because some part of it is eager and some part lazy&lt;/li&gt;
+  &lt;li&gt;when action is called all the transformations in the stage from beginning will be executed. spark optimizes to skip previous stages&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;strong&gt;stage&lt;/strong&gt;:&lt;/p&gt;
@@ -454,7 +456,83 @@ am good, 30
   &lt;li&gt;resources will be wasted as most of mappers will be ideal in case of reducer work&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: by default, hdfs blocks size is 128MB and local block size is 32MB&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><category term="hadoop" /><category term="hdfs" /><category term="scala" /><category term="pyspark" /><summary type="html">hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management</summary></entry><entry><title type="html">scala part I</title><link href="http://localhost:4000/blog/scala-part-I/" rel="alternate" type="text/html" title="scala part I" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala-part-I</id><content type="html" xml:base="http://localhost:4000/blog/scala-part-I/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: by default, hdfs blocks size is 128MB and local block size is 32MB&lt;/p&gt;
+
+&lt;h3 id=&quot;pair-rdd-vs-map-datatype-in-scala&quot;&gt;pair rdd vs map datatype in scala&lt;/h3&gt;
+
+&lt;p&gt;pait rdd holds tuple of two elements(key, value).&lt;/p&gt;
+
+&lt;p&gt;map datatype in scala also hold key value pair but cannot have duplicates while pair rdd can have duplicates&lt;/p&gt;
+
+&lt;h3 id=&quot;save-to-file&quot;&gt;save to file&lt;/h3&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//its an action&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;saveAsTextFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/path/to/file&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;parallelism-and-partitions&quot;&gt;parallelism and partitions&lt;/h3&gt;
+
+&lt;p&gt;default parallism is equal to number of cores and default partitions is equal to number of parallelism&lt;/p&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//to check parallelism&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;defaultParallelism&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;l&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A: P1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;B: P2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;A: P3&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;parallelize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//to check number of partitions&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//if we load from local file in rdd than it will use 32MB block to partition&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//if hdfs than 128MB&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//but if file is small like 2MB than default min partition is used which is 2&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;defaultMinPartitions&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;repartition-vs-coalesce&quot;&gt;repartition vs coalesce&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;repartition&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;to increase parallelism we may need to repartition to more partitions&lt;/li&gt;
+  &lt;li&gt;if we have less data in each partition after a certain point then we may need to consider repartition to use less partitions with good data&lt;/li&gt;
+  &lt;li&gt;it is wide transformation&lt;/li&gt;
+  &lt;li&gt;does full shuffle of data to get exact equal size&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//lets say rdd1 exist with default 2 partitions&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//this will repartition in 10 partitions&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;repartition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
+
+
+&lt;span class=&quot;c1&quot;&gt;//decrease number of partitions to 1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;repartition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;coalesce&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;same as repartition but can only decrease number of partitions&lt;/li&gt;
+  &lt;li&gt;increasing does not give error but also does not change the number of partitions&lt;/li&gt;
+  &lt;li&gt;it is transformation&lt;/li&gt;
+  &lt;li&gt;minimize shuffling by combining local partitions to avoid full shuffle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//lets say rdd1 exist with default 2 partitions&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//decrease number of partitions to 1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;coalesce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><category term="hadoop" /><category term="hdfs" /><category term="scala" /><category term="pyspark" /><summary type="html">hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management</summary></entry><entry><title type="html">scala part I</title><link href="http://localhost:4000/blog/scala-part-I/" rel="alternate" type="text/html" title="scala part I" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala-part-I</id><content type="html" xml:base="http://localhost:4000/blog/scala-part-I/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
 
 &lt;p&gt;ways to write code:&lt;/p&gt;
 &lt;ul&gt;

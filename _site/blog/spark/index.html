@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          8 minute read
         
       </span>
     
@@ -502,6 +502,8 @@ am good, 30
 
 <ul>
   <li>every action is a job</li>
+  <li>sortByKey is exception as its transformation but still shows up as job because some part of it is eager and some part lazy</li>
+  <li>when action is called all the transformations in the stage from beginning will be executed. spark optimizes to skip previous stages</li>
 </ul>
 
 <p><strong>stage</strong>:</p>
@@ -581,6 +583,82 @@ am good, 30
 </ul>
 
 <p><strong>Note</strong>: by default, hdfs blocks size is 128MB and local block size is 32MB</p>
+
+<h3 id="pair-rdd-vs-map-datatype-in-scala">pair rdd vs map datatype in scala</h3>
+
+<p>pait rdd holds tuple of two elements(key, value).</p>
+
+<p>map datatype in scala also hold key value pair but cannot have duplicates while pair rdd can have duplicates</p>
+
+<h3 id="save-to-file">save to file</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//its an action</span>
+<span class="nv">rdd</span><span class="o">.</span><span class="py">saveAsTextFile</span><span class="o">(</span><span class="s">"/path/to/file"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="parallelism-and-partitions">parallelism and partitions</h3>
+
+<p>default parallism is equal to number of cores and default partitions is equal to number of parallelism</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//to check parallelism</span>
+<span class="nv">sc</span><span class="o">.</span><span class="py">defaultParallelism</span>
+
+<span class="k">val</span> <span class="nv">l</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">"A: P1"</span><span class="o">,</span> <span class="s">"B: P2"</span><span class="o">,</span> <span class="s">"A: P3"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="n">l</span><span class="o">)</span>
+
+<span class="c1">//to check number of partitions</span>
+<span class="nv">rdd1</span><span class="o">.</span><span class="py">getNumPartitions</span>
+
+<span class="c1">//if we load from local file in rdd than it will use 32MB block to partition</span>
+<span class="c1">//if hdfs than 128MB</span>
+<span class="c1">//but if file is small like 2MB than default min partition is used which is 2</span>
+
+<span class="nv">sc</span><span class="o">.</span><span class="py">defaultMinPartitions</span>
+</code></pre></div></div>
+
+<h3 id="repartition-vs-coalesce">repartition vs coalesce</h3>
+
+<p><strong>repartition</strong>:</p>
+
+<ul>
+  <li>to increase parallelism we may need to repartition to more partitions</li>
+  <li>if we have less data in each partition after a certain point then we may need to consider repartition to use less partitions with good data</li>
+  <li>it is wide transformation</li>
+  <li>does full shuffle of data to get exact equal size</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say rdd1 exist with default 2 partitions</span>
+<span class="nv">rdd1</span><span class="o">.</span><span class="py">getNumPartitions</span>
+
+<span class="c1">//this will repartition in 10 partitions</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">repartition</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+
+<span class="nv">rdd2</span><span class="o">.</span><span class="py">getNumPartitions</span>
+
+
+<span class="c1">//decrease number of partitions to 1</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">repartition</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>coalesce</strong>:</p>
+
+<ul>
+  <li>same as repartition but can only decrease number of partitions</li>
+  <li>increasing does not give error but also does not change the number of partitions</li>
+  <li>it is transformation</li>
+  <li>minimize shuffling by combining local partitions to avoid full shuffle</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say rdd1 exist with default 2 partitions</span>
+<span class="nv">rdd1</span><span class="o">.</span><span class="py">getNumPartitions</span>
+
+<span class="c1">//decrease number of partitions to 1</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+
+<span class="nv">rdd2</span><span class="o">.</span><span class="py">getNumPartitions</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first</p>
 
         
       </section>
