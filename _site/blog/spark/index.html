@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          6 minute read
         
       </span>
     
@@ -485,6 +485,102 @@ am good, 30
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pair</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span>
 <span class="nv">result</span><span class="o">.</span><span class="py">collect</span><span class="o">().</span><span class="py">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
 </code></pre></div></div>
+
+<h3 id="narrow--wide-transformation">narrow &amp; wide transformation</h3>
+
+<p><strong>narrow</strong>: ideally where shuffling is not involved, when rdd partition is dependent on at most one partition of parent rdd</p>
+
+<p>example: map, filter, filtermap, etc</p>
+
+<p><strong>wide</strong>: where shuffling is involved, when rdd partition is dependent on mutiple partitions of parent rdd</p>
+
+<p>example: reduceByKey, groupByKey, etc</p>
+
+<h3 id="job-stages--tasks">job, stages &amp; tasks</h3>
+
+<p><strong>job</strong>:</p>
+
+<ul>
+  <li>every action is a job</li>
+</ul>
+
+<p><strong>stage</strong>:</p>
+
+<ul>
+  <li>whenever shuffle is required new stage is created, so wide transformation creates new stage</li>
+  <li>by default it will be one stage</li>
+  <li>when shuffle happens it uses disk so as next stage can pick data</li>
+  <li>wide transformations should be used later in the app so as it works on less data</li>
+</ul>
+
+<p>example: if 2 wide transormations then total 3 stages in the spark application run</p>
+
+<p><strong>task</strong>:</p>
+
+<ul>
+  <li>will be equal to number of partitions read</li>
+</ul>
+
+<h3 id="reducebykey-vs-reduce">reduceByKey vs reduce</h3>
+
+<p><strong>reduceByKey</strong></p>
+
+<ul>
+  <li>is transormation(wide)</li>
+  <li>works on pair rdd (tuple of two: key, value) only</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say we want col1 and count how many times it repeat</span>
+<span class="k">val</span> <span class="nv">l</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">"A: P1"</span><span class="o">,</span> <span class="s">"B: P2"</span><span class="o">,</span> <span class="s">"A: P3"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="n">l</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pair</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">cols</span> <span class="k">=</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)</span>
+  <span class="o">(</span><span class="nf">cols</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span><span class="mi">1</span><span class="o">)</span>
+<span class="o">})</span>
+
+<span class="c1">//transformation: here we get only rdd</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pair</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span>
+
+<span class="c1">//action: here we get result on local not rdd</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">collect</span><span class="o">().</span><span class="py">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>reduce</strong>:</p>
+
+<ul>
+  <li>is an action</li>
+  <li>gives single output</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">a</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+
+<span class="c1">//action: it will return result</span>
+<span class="nv">rdd1</span><span class="o">.</span><span class="py">reduce</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="reducebykey-vs-groupbykey">reduceByKey vs groupByKey</h3>
+
+<p>both are transformation(wide)</p>
+
+<p><strong>reduceByKey</strong>:</p>
+
+<ul>
+  <li>works on mapper end to do local aggregations</li>
+  <li>similar to combiner in hadoop</li>
+  <li>less shuffling as local aggregations done</li>
+</ul>
+
+<p><strong>groupByKey</strong>:</p>
+
+<ul>
+  <li>all the data is sent to reducer to do aggregations</li>
+  <li>more shuffling</li>
+  <li>should be avoided as no local aggregations</li>
+  <li>resources will be wasted as most of mappers will be ideal in case of reducer work</li>
+</ul>
+
+<p><strong>Note</strong>: by default, hdfs blocks size is 128MB and local block size is 32MB</p>
 
         
       </section>
