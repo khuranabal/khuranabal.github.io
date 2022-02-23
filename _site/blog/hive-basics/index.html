@@ -306,7 +306,7 @@
 
 <h3 id="why-hive">why hive</h3>
 
-<p>writing map reduce code to process data on hadoop requires lot of code, to cater this problem <code class="language-plaintext highlighter-rouge">hive</code> was developed which is <code class="language-plaintext highlighter-rouge">sql</code> like query known as <code class="language-plaintext highlighter-rouge">hive ql</code>, internally hive produces map reduce and run it on hadoop code in cluster</p>
+<p>writing map reduce code to process data on hadoop requires lot of code, to cater this problem <code class="language-plaintext highlighter-rouge">hive</code> was developed which is <code class="language-plaintext highlighter-rouge">sql</code> like query known as <code class="language-plaintext highlighter-rouge">hive ql</code>, internally hive produces map reduce and run it on hadoop cluster</p>
 
 <h3 id="architecture">architecture</h3>
 
@@ -328,8 +328,6 @@
   <li>restricted sub queries</li>
 </ul>
 
-<p><strong>Note</strong>: open source or default metadata is in <code class="language-plaintext highlighter-rouge">derby</code> database, it has limitations so preferred is to use <code class="language-plaintext highlighter-rouge">mysql</code>, name of database is <code class="language-plaintext highlighter-rouge">metastore</code></p>
-
 <h3 id="metastore">metastore</h3>
 
 <ul>
@@ -338,10 +336,10 @@
   <li>holds table schema</li>
   <li>any database with jdbc driver can be used as metastore</li>
   <li>when query is done in hive then schema from metastore is imposed on the data to get tabular view</li>
-  <li>default is derby database, not recommended as it allows only one connection at a time</li>
+  <li>default is <code class="language-plaintext highlighter-rouge">derby</code> database, not recommended as it allows only one connection at a time</li>
 </ul>
 
-<p>In clodera quickstart mysql is used as metastore and we can connect to that mysql and check metastore database and can query what metadata is stored for example <code class="language-plaintext highlighter-rouge">TBLS</code> tables has details of the hive tables</p>
+<p>In clodera quickstart <code class="language-plaintext highlighter-rouge">mysql</code> is used for metadata, database name is <code class="language-plaintext highlighter-rouge">metastore</code> and we can connect to that database to query what metadata is stored. For example <code class="language-plaintext highlighter-rouge">TBLS</code> tables has details of the hive tables</p>
 
 <h3 id="data-storage-details">data storage details</h3>
 

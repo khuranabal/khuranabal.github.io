@@ -12,7 +12,7 @@ it is open source datawarehouse to process structured data on top of hadoop
 
 ### why hive
 
-writing map reduce code to process data on hadoop requires lot of code, to cater this problem `hive` was developed which is `sql` like query known as `hive ql`, internally hive produces map reduce and run it on hadoop code in cluster
+writing map reduce code to process data on hadoop requires lot of code, to cater this problem `hive` was developed which is `sql` like query known as `hive ql`, internally hive produces map reduce and run it on hadoop cluster
 
 
 ### architecture
@@ -28,8 +28,6 @@ writing map reduce code to process data on hadoop requires lot of code, to cater
 * only equi-joins
 * restricted sub queries
 
-**Note**: open source or default metadata is in `derby` database, it has limitations so preferred is to use `mysql`, name of database is `metastore`
-
 
 ### metastore
 
@@ -38,9 +36,9 @@ writing map reduce code to process data on hadoop requires lot of code, to cater
 * holds table schema
 * any database with jdbc driver can be used as metastore
 * when query is done in hive then schema from metastore is imposed on the data to get tabular view
-* default is derby database, not recommended as it allows only one connection at a time
+* default is `derby` database, not recommended as it allows only one connection at a time
 
-In clodera quickstart mysql is used as metastore and we can connect to that mysql and check metastore database and can query what metadata is stored for example `TBLS` tables has details of the hive tables
+In clodera quickstart `mysql` is used for metadata, database name is `metastore` and we can connect to that database to query what metadata is stored. For example `TBLS` tables has details of the hive tables
 
 
 ### data storage details
