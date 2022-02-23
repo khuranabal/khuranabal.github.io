@@ -112,4 +112,10 @@ var store = [{
         "tags": ["hadoop","hdfs","yarn","spark"],
         "url": "/blog/yarn/",
         "teaser": null
+      },{
+        "title": "hive basics",
+        "excerpt":"it is open source datawarehouse to process structured data on top of hadoop why hive writing map reduce code to process data on hadoop requires lot of code, to cater this problem hive was developed which is sql like query known as hive ql, internally hive produces map reduce and...","categories": ["blog"],
+        "tags": ["hive","hadoop"],
+        "url": "/blog/hive-basics/",
+        "teaser": null
       }]

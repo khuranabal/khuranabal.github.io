@@ -1,4 +1,268 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-20T16:02:38+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-23T23:05:00+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive basics</title><link href="http://localhost:4000/blog/hive-basics/" rel="alternate" type="text/html" title="hive basics" /><published>2022-02-21T17:00:00+01:00</published><updated>2022-02-21T17:00:00+01:00</updated><id>http://localhost:4000/blog/hive-basics</id><content type="html" xml:base="http://localhost:4000/blog/hive-basics/">&lt;p&gt;it is open source datawarehouse to process structured data on top of hadoop&lt;/p&gt;
+
+&lt;h3 id=&quot;why-hive&quot;&gt;why hive&lt;/h3&gt;
+
+&lt;p&gt;writing map reduce code to process data on hadoop requires lot of code, to cater this problem &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hive&lt;/code&gt; was developed which is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sql&lt;/code&gt; like query known as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hive ql&lt;/code&gt;, internally hive produces map reduce and run it on hadoop code in cluster&lt;/p&gt;
+
+&lt;h3 id=&quot;architecture&quot;&gt;architecture&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;actual data&lt;/strong&gt;: stored in hdfs as files&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;metadata&lt;/strong&gt;: stored in database as hdfs is for write once and read only, hdfs does not support modification for schema evolution and hdfs will also have high latency compared to database thats why database is used for metadata&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/hive/hive-architecture.png&quot; alt=&quot;hive-architecture&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hive is schema on read, no constraints&lt;/li&gt;
+  &lt;li&gt;minimal index support&lt;/li&gt;
+  &lt;li&gt;only equi-joins&lt;/li&gt;
+  &lt;li&gt;restricted sub queries&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: open source or default metadata is in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;derby&lt;/code&gt; database, it has limitations so preferred is to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql&lt;/code&gt;, name of database is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;metastore&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;metastore&quot;&gt;metastore&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;stores metadata of all hive tables&lt;/li&gt;
+  &lt;li&gt;map files and directories in hdfs to tables&lt;/li&gt;
+  &lt;li&gt;holds table schema&lt;/li&gt;
+  &lt;li&gt;any database with jdbc driver can be used as metastore&lt;/li&gt;
+  &lt;li&gt;when query is done in hive then schema from metastore is imposed on the data to get tabular view&lt;/li&gt;
+  &lt;li&gt;default is derby database, not recommended as it allows only one connection at a time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In clodera quickstart mysql is used as metastore and we can connect to that mysql and check metastore database and can query what metadata is stored for example &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TBLS&lt;/code&gt; tables has details of the hive tables&lt;/p&gt;
+
+&lt;h3 id=&quot;data-storage-details&quot;&gt;data storage details&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;by default data is stored in warehouse directory &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/user/hive/warehouse&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;creating new database &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbname&lt;/code&gt;, location will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/user/hive/warehouse/dbname.db&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;creating new table &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;abc&lt;/code&gt; in database &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dbname&lt;/code&gt;, location will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/user/hive/warehouse/dbname.db/abc&lt;/code&gt;, which will have mutiple files depnending on data&lt;/li&gt;
+  &lt;li&gt;default location can be change by setting property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hive.metastore.warehouse.dir&lt;/code&gt; in file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hive-site.xml&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;tables created in default will be directly in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/user/hive/warehouse&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;complex-data-types&quot;&gt;complex data types&lt;/h3&gt;
+
+&lt;h4 id=&quot;array&quot;&gt;array&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;same data types in an array&lt;/li&gt;
+  &lt;li&gt;no fixed size&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;map&quot;&gt;map&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;key, vaule pair&lt;/li&gt;
+  &lt;li&gt;keys should be distinct&lt;/li&gt;
+  &lt;li&gt;value can be accessed using key&lt;/li&gt;
+  &lt;li&gt;key and value can have different data types&lt;/li&gt;
+  &lt;li&gt;unordered, order does not matter&lt;/li&gt;
+  &lt;li&gt;each key, value pair is called an entity&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;struct&quot;&gt;struct&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;its like a class&lt;/li&gt;
+  &lt;li&gt;logical group of data&lt;/li&gt;
+  &lt;li&gt;can have different data types&lt;/li&gt;
+  &lt;li&gt;can hod any number of values&lt;/li&gt;
+  &lt;li&gt;value refrenced by name&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;built-in-functions&quot;&gt;built in functions&lt;/h3&gt;
+
+&lt;h4 id=&quot;udf-user-defined-functions&quot;&gt;UDF (User Defined Functions)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;system functions&lt;/li&gt;
+  &lt;li&gt;works on single row and output single row&lt;/li&gt;
+  &lt;li&gt;example: concat(), round(), length()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;udaf-user-defined-aggeregate-functions&quot;&gt;UDAF (User Defined Aggeregate Functions)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;works on multiple rows and output single row&lt;/li&gt;
+  &lt;li&gt;example: sum(), avg()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;udtf-user-defined-tablegenerating-functions&quot;&gt;UDTF (User Defined Tablegenerating Functions)&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;works on single row and multiple rows&lt;/li&gt;
+  &lt;li&gt;example: explode(), posexplode()&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;lateral-view&quot;&gt;lateral view&lt;/h3&gt;
+
+&lt;p&gt;virtual table formed by exploded view, which can be joined with original table to allow complex query&lt;/p&gt;
+
+&lt;h3 id=&quot;set-operations&quot;&gt;set operations&lt;/h3&gt;
+
+&lt;h4 id=&quot;union&quot;&gt;union&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;supported in hive&lt;/li&gt;
+  &lt;li&gt;union removes duplicates&lt;/li&gt;
+  &lt;li&gt;union all preserves duplicates&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;minus&quot;&gt;minus&lt;/h4&gt;
+
+&lt;p&gt;not supported in hive&lt;/p&gt;
+
+&lt;h4 id=&quot;intersect&quot;&gt;intersect&lt;/h4&gt;
+
+&lt;p&gt;not supported in hive&lt;/p&gt;
+
+&lt;h3 id=&quot;sub-queries&quot;&gt;sub queries&lt;/h3&gt;
+
+&lt;p&gt;supports only two types:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;in/not in&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;subquery should be for single column&lt;/li&gt;
+  &lt;li&gt;subquery should return list of column values&lt;/li&gt;
+  &lt;li&gt;subquery should not reference parent query&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;exists/not exists&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;subquery should reference parent query&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;views&quot;&gt;views&lt;/h3&gt;
+
+&lt;p&gt;virtual table with subset of data from a larger table&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;as&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col2&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;restrict access to data&lt;/li&gt;
+  &lt;li&gt;create different logical tables from base table&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;basic-commands&quot;&gt;basic commands&lt;/h3&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;--this will give all the databases in hive&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;databases&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to create new database&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;database&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;abc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to change database&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;use&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;abc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to create new table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to show tables&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;show&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to show schema of table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to show extended details of table like location, type, etc.&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;formatted&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to insert in table, it will run map reduce job&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;values&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;abc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to insert mutiple rows&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;values&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;A&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;B&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;to check files in the hdfs where hive tables are stored&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hadoop fs -ls /user/hive/warehouse/new.db/abc&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;to check content of file in the hdfs where hive tables are stored&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hadoop fs -cat /user/hive/warehouse/new.db/abc/*&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;connecting-to-hive&quot;&gt;connecting to hive&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;hive prompt&lt;/strong&gt;: directly in shell launch hive and query&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;hue&lt;/strong&gt;: hadoop user experience, its UI to query hive, spark, etc.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;beeline&lt;/strong&gt;: gives better view and secure&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;beeline &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; jdbc:hive2://
+
+&lt;span class=&quot;c&quot;&gt;#to execute query from terminal&lt;/span&gt;
+beeline &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; jdbc:hive2:// &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;select * from new.abc&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;#to execute file with hive queries from terminal&lt;/span&gt;
+beeline &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; jdbc:hive2:// &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; /path/to/file.hql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;--to quit from beeline&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to execute file from beeline&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hql&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;types-of-table&quot;&gt;types of table&lt;/h3&gt;
+
+&lt;h4 id=&quot;managed&quot;&gt;managed&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hive manages the table, have control of data(files &amp;amp; directories)&lt;/li&gt;
+  &lt;li&gt;if table is dropped both data and metadata will be deleted&lt;/li&gt;
+  &lt;li&gt;by default table created is managed&lt;/li&gt;
+  &lt;li&gt;table type can be checked in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;describe formatted table_name;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;external&quot;&gt;external&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;hive manages only metadata&lt;/li&gt;
+  &lt;li&gt;if tables is dropped only metadata is deleted&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: In hive command prompt if we need to query file we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dfs&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dfs -ls /path/to/file&lt;/code&gt;&lt;/p&gt;
+
+&lt;!--
+
+### load data in hive
+
+**insert command**
+
+not recommended takes lot of time
+
+**load from file**
+
+1. from local to hive table
+2. from hdfs to hive table
+
+**table to table**
+
+--&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="hadoop" /><summary type="html">it is open source datawarehouse to process structured data on top of hadoop</summary></entry><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
 
 &lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;
@@ -1686,266 +1950,4 @@ SERDEPROPERTIES (&quot;hbase.table.name&quot;=&quot;hbase_table&quot;);
 
 &lt;h3 id=&quot;ap&quot;&gt;AP&lt;/h3&gt;
 
-&lt;p&gt;In this case request receives newest version of data available as consistency will not be guranteed.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cap theorem" /><category term="nosql" /><category term="database" /><summary type="html">It is for distributed databases. And says that we can have only two out of three gurantees.</summary></entry><entry><title type="html">hbase</title><link href="http://localhost:4000/blog/hbase/" rel="alternate" type="text/html" title="hbase" /><published>2022-01-21T17:01:00+01:00</published><updated>2022-01-21T17:01:00+01:00</updated><id>http://localhost:4000/blog/hbase</id><content type="html" xml:base="http://localhost:4000/blog/hbase/">&lt;h3 id=&quot;rdbms-properties&quot;&gt;rdbms properties&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;structured&lt;/li&gt;
-  &lt;li&gt;random access&lt;/li&gt;
-  &lt;li&gt;low latency&lt;/li&gt;
-  &lt;li&gt;ACID
-    &lt;ul&gt;
-      &lt;li&gt;Atomic: full transaction either completes or fail&lt;/li&gt;
-      &lt;li&gt;Consistency: updates should not violate constraints&lt;/li&gt;
-      &lt;li&gt;Isolation: multiple concurrent sessions can work on database in some sequence using locking&lt;/li&gt;
-      &lt;li&gt;Durability: data is stored and recoverable even after failure&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;limitations-of-hadoop&quot;&gt;limitations of hadoop&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;unstructured data&lt;/li&gt;
-  &lt;li&gt;no random access&lt;/li&gt;
-  &lt;li&gt;high latency&lt;/li&gt;
-  &lt;li&gt;no ACID compliance&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;bigtablehbase&quot;&gt;bigtable/hbase&lt;/h3&gt;
-
-&lt;p&gt;bigtable paper is published by google, it is distributed storage system for structured data. hbase is implementation of the same.&lt;/p&gt;
-
-&lt;p&gt;hbase is distributed database management system on top of hadoop. So is:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;distributed&lt;/li&gt;
-  &lt;li&gt;scalable&lt;/li&gt;
-  &lt;li&gt;fault tolerant&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;hbase-properties&quot;&gt;hbase properties&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;loose structured: as each row can can different number of columns&lt;/li&gt;
-  &lt;li&gt;low latency: uses row keys to fetch data&lt;/li&gt;
-  &lt;li&gt;random access: uses row keys to fetch data&lt;/li&gt;
-  &lt;li&gt;somewhat ACID: as it provides ACID at row level only, not if multiple rows are updated&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;It provides batch processing using mapreduce and real time processing using row keys.&lt;/p&gt;
-
-&lt;h3 id=&quot;storage-in-hbase&quot;&gt;storage in hbase&lt;/h3&gt;
-
-&lt;p&gt;It stores data in columnar format as shown below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase.png&quot; alt=&quot;hbase&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Advantages&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;sparse data: In case there is no data for some of the columns then those columns will be skipped while storing&lt;/li&gt;
-  &lt;li&gt;dynamic attributes: can have data with more or less columns&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;hbase-vs-rdbms&quot;&gt;hbase vs rdbms&lt;/h3&gt;
-
-&lt;table&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;rdbms&lt;/td&gt;
-      &lt;td&gt;hbase&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;data is arranged in rows and columns&lt;/td&gt;
-      &lt;td&gt;data is in columnar format&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;sql&lt;/td&gt;
-      &lt;td&gt;nosql&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;supports groupping, joins, etc&lt;/td&gt;
-      &lt;td&gt;supports only CRUD&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;normalized data to reduce redundancy&lt;/td&gt;
-      &lt;td&gt;denaormalized (self contained) to reduce disk seek&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;ACID compliant&lt;/td&gt;
-      &lt;td&gt;ACID compliant at row level&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;2 dimiensional (row &amp;amp; column)&lt;/td&gt;
-      &lt;td&gt;4 dimensional&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;4-dimensional-model-in-hbase&quot;&gt;4 dimensional model in hbase&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;row key
-    &lt;ul&gt;
-      &lt;li&gt;uniquely identifies row&lt;/li&gt;
-      &lt;li&gt;represented internally as byte array&lt;/li&gt;
-      &lt;li&gt;sorted in asc order&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;column family
-    &lt;ul&gt;
-      &lt;li&gt;all rows have same set of column family&lt;/li&gt;
-      &lt;li&gt;setup at definition&lt;/li&gt;
-      &lt;li&gt;can have different columns for different rows&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;column
-    &lt;ul&gt;
-      &lt;li&gt;exist in one of the column family&lt;/li&gt;
-      &lt;li&gt;can be dynamic&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;timestamp
-    &lt;ul&gt;
-      &lt;li&gt;used for versioning&lt;/li&gt;
-      &lt;li&gt;vaule for old version can also be accessed&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Below shows all the four dimesnions and how data is stored. Like for col2 all the historic vaules will be stored with the timestamp and by default it gives latest but can be queried old data as well.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-storage.png&quot; alt=&quot;hbase storage&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;all data is stored in byte array in form of bytes in hbase, there is no concept of data types in it&lt;/li&gt;
-  &lt;li&gt;row keys are stored in sorted asc order, so as binary search can be done to find value&lt;/li&gt;
-  &lt;li&gt;column families are fix and defined when creating table&lt;/li&gt;
-  &lt;li&gt;columns can be more or less&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;hbase-architecture&quot;&gt;hbase architecture&lt;/h3&gt;
-
-&lt;p&gt;hbase table is collection of rows and columns that are sorted based on row key. This table is distributed according to fix size, each portion of table is called region.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-architecture.png&quot; alt=&quot;hbase architecture&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;region&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;sorted data is stored based on row keys&lt;/li&gt;
-  &lt;li&gt;column families are stored in seperate files&lt;/li&gt;
-  &lt;li&gt;assume 1 million rows in table and we have 4 regions then .25 million will go in each region&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;region server&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;can have multiple region stored in one region server&lt;/li&gt;
-  &lt;li&gt;if 4 data nodes and typically 4 region server is good practice&lt;/li&gt;
-  &lt;li&gt;each region server contain wal, block cache&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;wal&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;write ahead log, also known as hlog&lt;/li&gt;
-  &lt;li&gt;in case of region server failure, and data is still in memstore. In order to prevent data loss, log is written to permanent store (hdfs)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;block cache&lt;/strong&gt;: whenever read is done data is cached in memory, so next read can be done directly by cache&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;memstore&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;every insert is appended in memstore, after threshold is reached then data is flushed to disk with a new file created and this new file is called hfile&lt;/li&gt;
-  &lt;li&gt;for each region there will be memstore per column family&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;zookeeper&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;it is cordinating service for various distributed system&lt;/li&gt;
-  &lt;li&gt;hold location for metatable&lt;/li&gt;
-  &lt;li&gt;every system send heartbeat&lt;/li&gt;
-  &lt;li&gt;metatable hold mapping of rowkey, region and region servers&lt;/li&gt;
-  &lt;li&gt;metatable is present on one of region server and zoopkeep knows which region server hold it.&lt;/li&gt;
-  &lt;li&gt;in case of hmaster failue, zookeeper assign other master as new master&lt;/li&gt;
-  &lt;li&gt;in case region server fails, zookeeper notify hmaster then hmaster reassigns regions of failed region server to other region server&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;hmaster&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;is master and region servers are slaves&lt;/li&gt;
-  &lt;li&gt;can have one or more master node but only one will be active at a time&lt;/li&gt;
-  &lt;li&gt;assign region servers&lt;/li&gt;
-  &lt;li&gt;in case of failure/load it will balance among region servers&lt;/li&gt;
-  &lt;li&gt;perform admin stuff like ddl (creating/deleting tables)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;hfiles&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;stored in hdfs&lt;/li&gt;
-  &lt;li&gt;stores hbase table data as sorted key-value pairs&lt;/li&gt;
-  &lt;li&gt;immutable&lt;/li&gt;
-  &lt;li&gt;large in size depends on memstore flush size&lt;/li&gt;
-  &lt;li&gt;stores data as set of blocks, which helps reading particular block&lt;/li&gt;
-  &lt;li&gt;default block size 64KB&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Example: consider hfile of 250MB and block size of 64KB, then just 64KB need to be scanned if we search for a particular row key, And also in that block, binary search is applied to get particular row as data is stored sorted.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;metatable&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;stores location of regions along with region servers&lt;/li&gt;
-  &lt;li&gt;helps user identify the region server and its corresponding regions where specific range data is stored&lt;/li&gt;
-  &lt;li&gt;stored in one of region server and its location is stored in zookeeper&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;wal and block cache is one per region server&lt;/li&gt;
-  &lt;li&gt;client intreacts directly with the region server to perform read/write operations&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;readwrite-operation&quot;&gt;read/write operation&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/hbase/hbase-read-write.png&quot; alt=&quot;hbase read write&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;read&quot;&gt;read&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;region server checks the block cache.&lt;/li&gt;
-  &lt;li&gt;if not in block cache them memstore is checked&lt;/li&gt;
-  &lt;li&gt;if not in memstore then hfile&lt;/li&gt;
-  &lt;li&gt;in hfile particular block will be scanned based on row key and in order to find row key binary search is done in the block&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;write&quot;&gt;write&lt;/h4&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;data is first written in wal&lt;/li&gt;
-  &lt;li&gt;then to memstore&lt;/li&gt;
-  &lt;li&gt;once memstore is filled, content is flushed to hdfs in new hfile&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;compaction&quot;&gt;compaction&lt;/h3&gt;
-
-&lt;p&gt;flush to hfile from memstore create multiple hfiles, especially on frequent write, which leads to slow read. To solve this we can use compactions:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;minor&lt;/strong&gt;: smaller hfiles are processed and rewritten into few larger files&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;major&lt;/strong&gt;: all hfiles are picked and rewritten into single large hfile&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: major compaction is more resource intensive&lt;/p&gt;
-
-&lt;h3 id=&quot;data-updatedelete&quot;&gt;data update/delete&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;update&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;update is done based on timestamp&lt;/li&gt;
-  &lt;li&gt;versions are maintained&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;delete&lt;/strong&gt;:
-delete is special type of update where vaules of deleted data is not deleted immediatly rather are marked by assigning tombstone marker. Request to read the deleted data then returns null because of tombstone marker which identifyies that data is deleted.&lt;/p&gt;
-
-&lt;p&gt;Reason for this is hfiles are immutable as these are hdfs files. All vaules with tombstone markers are deleted in next major compaction.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: querying hbase has different commands which are not like sql, apache phoenix provides sql like interface on top of hbase.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hbase" /><category term="nosql" /><category term="database" /><summary type="html">rdbms properties</summary></entry></feed>
+&lt;p&gt;In this case request receives newest version of data available as consistency will not be guranteed.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cap theorem" /><category term="nosql" /><category term="database" /><summary type="html">It is for distributed databases. And says that we can have only two out of three gurantees.</summary></entry></feed>

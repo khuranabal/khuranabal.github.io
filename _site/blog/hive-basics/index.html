@@ -1,0 +1,910 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-82G1S3103X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-82G1S3103X');
+</script>
+
+<!-- begin _includes/seo.html --><title>hive basics - Balpreet Singh</title>
+<meta name="description" content="it is open source datawarehouse to process structured data on top of hadoop">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Balpreet Singh">
+<meta property="og:title" content="hive basics">
+<meta property="og:url" content="http://localhost:4000/blog/hive-basics/">
+
+
+  <meta property="og:description" content="it is open source datawarehouse to process structured data on top of hadoop">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-02-21T17:00:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/hive-basics/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Balpreet Singh Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Balpreet Singh
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.jpg" alt="" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Senior Data Engineer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="https://khuranabal.github.io/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/balpreet-singh-654705114" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/khuranabal?tab=repositories" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="hive basics">
+    <meta itemprop="description" content="it is open source datawarehouse to process structured data on top of hadoop">
+    <meta itemprop="datePublished" content="2022-02-21T17:00:00+01:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">hive basics
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>it is open source datawarehouse to process structured data on top of hadoop</p>
+
+<h3 id="why-hive">why hive</h3>
+
+<p>writing map reduce code to process data on hadoop requires lot of code, to cater this problem <code class="language-plaintext highlighter-rouge">hive</code> was developed which is <code class="language-plaintext highlighter-rouge">sql</code> like query known as <code class="language-plaintext highlighter-rouge">hive ql</code>, internally hive produces map reduce and run it on hadoop code in cluster</p>
+
+<h3 id="architecture">architecture</h3>
+
+<ul>
+  <li>
+    <p><strong>actual data</strong>: stored in hdfs as files</p>
+  </li>
+  <li>
+    <p><strong>metadata</strong>: stored in database as hdfs is for write once and read only, hdfs does not support modification for schema evolution and hdfs will also have high latency compared to database thats why database is used for metadata</p>
+  </li>
+</ul>
+
+<p><img src="/assets/images/hive/hive-architecture.png" alt="hive-architecture" /></p>
+
+<ul>
+  <li>hive is schema on read, no constraints</li>
+  <li>minimal index support</li>
+  <li>only equi-joins</li>
+  <li>restricted sub queries</li>
+</ul>
+
+<p><strong>Note</strong>: open source or default metadata is in <code class="language-plaintext highlighter-rouge">derby</code> database, it has limitations so preferred is to use <code class="language-plaintext highlighter-rouge">mysql</code>, name of database is <code class="language-plaintext highlighter-rouge">metastore</code></p>
+
+<h3 id="metastore">metastore</h3>
+
+<ul>
+  <li>stores metadata of all hive tables</li>
+  <li>map files and directories in hdfs to tables</li>
+  <li>holds table schema</li>
+  <li>any database with jdbc driver can be used as metastore</li>
+  <li>when query is done in hive then schema from metastore is imposed on the data to get tabular view</li>
+  <li>default is derby database, not recommended as it allows only one connection at a time</li>
+</ul>
+
+<p>In clodera quickstart mysql is used as metastore and we can connect to that mysql and check metastore database and can query what metadata is stored for example <code class="language-plaintext highlighter-rouge">TBLS</code> tables has details of the hive tables</p>
+
+<h3 id="data-storage-details">data storage details</h3>
+
+<ul>
+  <li>by default data is stored in warehouse directory <code class="language-plaintext highlighter-rouge">/user/hive/warehouse</code></li>
+  <li>creating new database <code class="language-plaintext highlighter-rouge">dbname</code>, location will be <code class="language-plaintext highlighter-rouge">/user/hive/warehouse/dbname.db</code></li>
+  <li>creating new table <code class="language-plaintext highlighter-rouge">abc</code> in database <code class="language-plaintext highlighter-rouge">dbname</code>, location will be <code class="language-plaintext highlighter-rouge">/user/hive/warehouse/dbname.db/abc</code>, which will have mutiple files depnending on data</li>
+  <li>default location can be change by setting property <code class="language-plaintext highlighter-rouge">hive.metastore.warehouse.dir</code> in file <code class="language-plaintext highlighter-rouge">hive-site.xml</code></li>
+  <li>tables created in default will be directly in <code class="language-plaintext highlighter-rouge">/user/hive/warehouse</code></li>
+</ul>
+
+<h3 id="complex-data-types">complex data types</h3>
+
+<h4 id="array">array</h4>
+
+<ul>
+  <li>same data types in an array</li>
+  <li>no fixed size</li>
+</ul>
+
+<h4 id="map">map</h4>
+
+<ul>
+  <li>key, vaule pair</li>
+  <li>keys should be distinct</li>
+  <li>value can be accessed using key</li>
+  <li>key and value can have different data types</li>
+  <li>unordered, order does not matter</li>
+  <li>each key, value pair is called an entity</li>
+</ul>
+
+<h4 id="struct">struct</h4>
+
+<ul>
+  <li>its like a class</li>
+  <li>logical group of data</li>
+  <li>can have different data types</li>
+  <li>can hod any number of values</li>
+  <li>value refrenced by name</li>
+</ul>
+
+<h3 id="built-in-functions">built in functions</h3>
+
+<h4 id="udf-user-defined-functions">UDF (User Defined Functions)</h4>
+
+<ul>
+  <li>system functions</li>
+  <li>works on single row and output single row</li>
+  <li>example: concat(), round(), length()</li>
+</ul>
+
+<h4 id="udaf-user-defined-aggeregate-functions">UDAF (User Defined Aggeregate Functions)</h4>
+
+<ul>
+  <li>works on multiple rows and output single row</li>
+  <li>example: sum(), avg()</li>
+</ul>
+
+<h4 id="udtf-user-defined-tablegenerating-functions">UDTF (User Defined Tablegenerating Functions)</h4>
+
+<ul>
+  <li>works on single row and multiple rows</li>
+  <li>example: explode(), posexplode()</li>
+</ul>
+
+<h3 id="lateral-view">lateral view</h3>
+
+<p>virtual table formed by exploded view, which can be joined with original table to allow complex query</p>
+
+<h3 id="set-operations">set operations</h3>
+
+<h4 id="union">union</h4>
+
+<ul>
+  <li>supported in hive</li>
+  <li>union removes duplicates</li>
+  <li>union all preserves duplicates</li>
+</ul>
+
+<h4 id="minus">minus</h4>
+
+<p>not supported in hive</p>
+
+<h4 id="intersect">intersect</h4>
+
+<p>not supported in hive</p>
+
+<h3 id="sub-queries">sub queries</h3>
+
+<p>supports only two types:</p>
+
+<p><strong>in/not in</strong>:</p>
+
+<ul>
+  <li>subquery should be for single column</li>
+  <li>subquery should return list of column values</li>
+  <li>subquery should not reference parent query</li>
+</ul>
+
+<p><strong>exists/not exists</strong>:</p>
+
+<ul>
+  <li>subquery should reference parent query</li>
+</ul>
+
+<h3 id="views">views</h3>
+
+<p>virtual table with subset of data from a larger table</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">view</span> <span class="n">view1</span>
+<span class="k">as</span>
+<span class="k">select</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span>
+<span class="k">from</span> <span class="n">table1</span>
+</code></pre></div></div>
+
+<ul>
+  <li>restrict access to data</li>
+  <li>create different logical tables from base table</li>
+</ul>
+
+<h3 id="basic-commands">basic commands</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--this will give all the databases in hive</span>
+<span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+
+<span class="c1">--to create new database</span>
+<span class="k">create</span> <span class="k">database</span> <span class="n">abc</span><span class="p">;</span>
+
+<span class="c1">--to change database</span>
+<span class="n">use</span> <span class="n">abc</span><span class="p">;</span>
+
+<span class="c1">--to create new table</span>
+<span class="k">create</span> <span class="k">table</span> <span class="k">new</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">name</span> <span class="n">string</span>
+<span class="p">);</span>
+
+<span class="c1">--to show tables</span>
+<span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+
+<span class="c1">--to show schema of table</span>
+<span class="k">describe</span> <span class="k">new</span><span class="p">;</span>
+
+<span class="c1">--to show extended details of table like location, type, etc.</span>
+<span class="k">describe</span> <span class="n">formatted</span> <span class="k">new</span><span class="p">;</span>
+
+<span class="c1">--to insert in table, it will run map reduce job</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="k">new</span> <span class="k">values</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nv">"abc"</span><span class="p">);</span>
+
+<span class="c1">--to insert mutiple rows</span>
+<span class="k">insert</span> <span class="k">into</span> <span class="k">new</span> <span class="k">values</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nv">"A"</span><span class="p">),(</span><span class="mi">2</span><span class="p">,</span> <span class="nv">"B"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>to check files in the hdfs where hive tables are stored</p>
+
+<p><code class="language-plaintext highlighter-rouge">hadoop fs -ls /user/hive/warehouse/new.db/abc</code></p>
+
+<p>to check content of file in the hdfs where hive tables are stored</p>
+
+<p><code class="language-plaintext highlighter-rouge">hadoop fs -cat /user/hive/warehouse/new.db/abc/*</code></p>
+
+<h3 id="connecting-to-hive">connecting to hive</h3>
+
+<p><strong>hive prompt</strong>: directly in shell launch hive and query</p>
+
+<p><strong>hue</strong>: hadoop user experience, its UI to query hive, spark, etc.</p>
+
+<p><strong>beeline</strong>: gives better view and secure</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>beeline <span class="nt">-u</span> jdbc:hive2://
+
+<span class="c">#to execute query from terminal</span>
+beeline <span class="nt">-u</span> jdbc:hive2:// <span class="nt">-e</span> <span class="s2">"select * from new.abc"</span>
+
+<span class="c">#to execute file with hive queries from terminal</span>
+beeline <span class="nt">-u</span> jdbc:hive2:// <span class="nt">-f</span> /path/to/file.hql
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--to quit from beeline</span>
+<span class="o">!</span><span class="n">q</span>
+
+<span class="c1">--to execute file from beeline</span>
+<span class="k">source</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="k">to</span><span class="o">/</span><span class="n">file</span><span class="p">.</span><span class="n">hql</span>
+</code></pre></div></div>
+
+<h3 id="types-of-table">types of table</h3>
+
+<h4 id="managed">managed</h4>
+
+<ul>
+  <li>hive manages the table, have control of data(files &amp; directories)</li>
+  <li>if table is dropped both data and metadata will be deleted</li>
+  <li>by default table created is managed</li>
+  <li>table type can be checked in <code class="language-plaintext highlighter-rouge">describe formatted table_name;</code></li>
+</ul>
+
+<h4 id="external">external</h4>
+
+<ul>
+  <li>hive manages only metadata</li>
+  <li>if tables is dropped only metadata is deleted</li>
+</ul>
+
+<p><strong>Note</strong>: In hive command prompt if we need to query file we can use <code class="language-plaintext highlighter-rouge">dfs</code></p>
+
+<p>example: <code class="language-plaintext highlighter-rouge">dfs -ls /path/to/file</code></p>
+
+<!--
+
+### load data in hive
+
+**insert command**
+
+not recommended takes lot of time
+
+**load from file**
+
+1. from local to hive table
+2. from hdfs to hive table
+
+**table to table**
+
+-->
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#hadoop" class="page__taxonomy-item" rel="tag">hadoop</a><span class="sep">, </span>
+    
+      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-02-21T17:00:00+01:00">February 21, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/yarn/" class="pagination--pager" title="yarn
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/yarn/" rel="permalink">yarn
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Yet Another Resource Negotiator
+Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/python/" rel="permalink">python basics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">module
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/spark/" rel="permalink">spark
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">hadoop offers:
+
+  hdfs: for storage
+  mapreduce: for computation
+  yarn: for resource management
+
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/scala-part-II/" rel="permalink">scala part II
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">
+  scala runs on top of jvm
+  scala is like java so requires main, or we can extends App then we dont have to define main method
+
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://www.linkedin.com/in/balpreet-singh-654705114" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+        
+          <li><a href="https://github.com/khuranabal?tab=repositories" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Balpreet Singh. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
