@@ -118,6 +118,18 @@ not supported in hive
 
 ### sub queries
 
+#### from clause
+
+```sql
+select * from (
+  select id from table1
+  union all
+  select if from table2
+) t;
+```
+
+#### where clause
+
 supports only two types:
 
 **in/not in**:
@@ -126,14 +138,28 @@ supports only two types:
 * subquery should return list of column values
 * subquery should not reference parent query
 
+```sql
+select id from table1
+where table1.id in (
+  select id from table2
+);
+```
+
 **exists/not exists**:
 
 * subquery should reference parent query
 
+```sql
+select id from table1
+where exists (
+  select id from table2 where table2.id=table1.id
+);
+```
 
 ### views
 
-virtual table with subset of data from a larger table
+* virtual table with subset of data from a larger table
+* stored as query in hive metastore
 
 ```sql
 create view view1

@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          5 minute read
         
       </span>
     
@@ -429,6 +429,17 @@
 
 <h3 id="sub-queries">sub queries</h3>
 
+<h4 id="from-clause">from clause</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="p">(</span>
+  <span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">table1</span>
+  <span class="k">union</span> <span class="k">all</span>
+  <span class="k">select</span> <span class="n">if</span> <span class="k">from</span> <span class="n">table2</span>
+<span class="p">)</span> <span class="n">t</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="where-clause">where clause</h4>
+
 <p>supports only two types:</p>
 
 <p><strong>in/not in</strong>:</p>
@@ -439,15 +450,30 @@
   <li>subquery should not reference parent query</li>
 </ul>
 
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">table1</span>
+<span class="k">where</span> <span class="n">table1</span><span class="p">.</span><span class="n">id</span> <span class="k">in</span> <span class="p">(</span>
+  <span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">table2</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
 <p><strong>exists/not exists</strong>:</p>
 
 <ul>
   <li>subquery should reference parent query</li>
 </ul>
 
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">table1</span>
+<span class="k">where</span> <span class="k">exists</span> <span class="p">(</span>
+  <span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">table2</span> <span class="k">where</span> <span class="n">table2</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">table1</span><span class="p">.</span><span class="n">id</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
 <h3 id="views">views</h3>
 
-<p>virtual table with subset of data from a larger table</p>
+<ul>
+  <li>virtual table with subset of data from a larger table</li>
+  <li>stored as query in hive metastore</li>
+</ul>
 
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">view</span> <span class="n">view1</span>
 <span class="k">as</span>
