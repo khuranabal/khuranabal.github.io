@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-23T23:08:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive basics</title><link href="http://localhost:4000/blog/hive-basics/" rel="alternate" type="text/html" title="hive basics" /><published>2022-02-21T17:00:00+01:00</published><updated>2022-02-21T17:00:00+01:00</updated><id>http://localhost:4000/blog/hive-basics</id><content type="html" xml:base="http://localhost:4000/blog/hive-basics/">&lt;p&gt;it is open source datawarehouse to process structured data on top of hadoop&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-24T16:36:02+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive basics</title><link href="http://localhost:4000/blog/hive-basics/" rel="alternate" type="text/html" title="hive basics" /><published>2022-02-21T17:00:00+01:00</published><updated>2022-02-21T17:00:00+01:00</updated><id>http://localhost:4000/blog/hive-basics</id><content type="html" xml:base="http://localhost:4000/blog/hive-basics/">&lt;p&gt;it is open source datawarehouse to process structured data on top of hadoop&lt;/p&gt;
 
 &lt;h3 id=&quot;why-hive&quot;&gt;why hive&lt;/h3&gt;
 
@@ -239,28 +239,77 @@ beeline &lt;span class=&quot;nt&quot;&gt;-u&lt;/span&gt; jdbc:hive2:// &lt;span 
 &lt;ul&gt;
   &lt;li&gt;hive manages only metadata&lt;/li&gt;
   &lt;li&gt;if tables is dropped only metadata is deleted&lt;/li&gt;
+  &lt;li&gt;if data is used by other apps like spark then we should be using external tables&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;external&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'path/to/data'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: In hive command prompt if we need to query file we can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dfs&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;example: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dfs -ls /path/to/file&lt;/code&gt;&lt;/p&gt;
 
-&lt;!--
+&lt;h3 id=&quot;load-data-in-hive&quot;&gt;load data in hive&lt;/h3&gt;
 
-### load data in hive
+&lt;h4 id=&quot;insert-command&quot;&gt;insert command&lt;/h4&gt;
 
-**insert command**
+&lt;p&gt;not recommended takes lot of time, doing inserts may create some tmp tables which will be there until session is alive.&lt;/p&gt;
 
-not recommended takes lot of time
+&lt;h4 id=&quot;load-from-file&quot;&gt;load from file&lt;/h4&gt;
 
-**load from file**
+&lt;p&gt;&lt;strong&gt;from local to hive table&lt;/strong&gt;&lt;/p&gt;
 
-1. from local to hive table
-2. from hdfs to hive table
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;exists&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delimited&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;terminated&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;','&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;stored&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
-**table to table**
+&lt;span class=&quot;c1&quot;&gt;--to load data in the table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inpath&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;'/local/path/to/file'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
---&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="hadoop" /><summary type="html">it is open source datawarehouse to process structured data on top of hadoop</summary></entry><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
+&lt;p&gt;here table will be managed as its default type and data path will also be in default location. It will be copied over from local to hdfs.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;from hdfs to hive table&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hadoop fs &lt;span class=&quot;nt&quot;&gt;-copyFromLocal&lt;/span&gt; /local/path/to/file /path/on/hdfs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;--to load data in the table&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inpath&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;'/path/on/hdfs'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;--to overwrite&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inpath&lt;/span&gt;
+&lt;span class=&quot;s1&quot;&gt;'/path/on/hdfs'&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;overwrite&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;here it will be cut paste instead of copy&lt;/p&gt;
+
+&lt;h4 id=&quot;table-to-table&quot;&gt;table to table&lt;/h4&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;create&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;exists&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;format&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delimited&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fields&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;terminated&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;','&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;stored&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textfile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;insert&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;into&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;table&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table2&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;select&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;table1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="hadoop" /><summary type="html">it is open source datawarehouse to process structured data on top of hadoop</summary></entry><entry><title type="html">yarn</title><link href="http://localhost:4000/blog/yarn/" rel="alternate" type="text/html" title="yarn" /><published>2022-02-19T15:00:00+01:00</published><updated>2022-02-19T15:00:00+01:00</updated><id>http://localhost:4000/blog/yarn</id><content type="html" xml:base="http://localhost:4000/blog/yarn/">&lt;p&gt;Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.&lt;/p&gt;
 
 &lt;h3 id=&quot;processing-in-hadoop--mr-version-1&quot;&gt;processing in hadoop / mr version 1&lt;/h3&gt;

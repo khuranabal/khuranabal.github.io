@@ -231,26 +231,80 @@ source /path/to/file.hql
 
 * hive manages only metadata
 * if tables is dropped only metadata is deleted
+* if data is used by other apps like spark then we should be using external tables
+
+```sql
+create external table prod(
+  id int,
+  name string
+)
+location 'path/to/data';
+```
 
 **Note**: In hive command prompt if we need to query file we can use `dfs`
 
 
 example: `dfs -ls /path/to/file`
 
-<!--
 
 ### load data in hive
 
-**insert command**
+#### insert command
 
-not recommended takes lot of time
+not recommended takes lot of time, doing inserts may create some tmp tables which will be there until session is alive.
 
-**load from file**
+#### load from file
 
-1. from local to hive table
-2. from hdfs to hive table
+**from local to hive table**
 
-**table to table**
+```sql
+create table if not exists table1(
+  id int,
+  name string
+)
+row format delimited
+fields terminated by ','
+stored as textfile;
 
--->
+--to load data in the table
+load data local inpath
+'/local/path/to/file'
+into table table1;
+```
 
+here table will be managed as its default type and data path will also be in default location. It will be copied over from local to hdfs.
+
+**from hdfs to hive table**
+
+```shell
+hadoop fs -copyFromLocal /local/path/to/file /path/on/hdfs
+```
+
+```sql
+--to load data in the table
+load data inpath
+'/path/on/hdfs'
+into table table1;
+
+--to overwrite
+load data inpath
+'/path/on/hdfs'
+overwrite into table table1;
+```
+
+here it will be cut paste instead of copy
+
+#### table to table
+
+```sql
+create table if not exists table2(
+  id int,
+  name string
+)
+row format delimited
+fields terminated by ','
+stored as textfile;
+
+insert into table table2
+select * from table1;
+```

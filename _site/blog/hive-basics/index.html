@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          4 minute read
         
       </span>
     
@@ -543,29 +543,77 @@ beeline <span class="nt">-u</span> jdbc:hive2:// <span class="nt">-f</span> /pat
 <ul>
   <li>hive manages only metadata</li>
   <li>if tables is dropped only metadata is deleted</li>
+  <li>if data is used by other apps like spark then we should be using external tables</li>
 </ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">external</span> <span class="k">table</span> <span class="n">prod</span><span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">name</span> <span class="n">string</span>
+<span class="p">)</span>
+<span class="k">location</span> <span class="s1">'path/to/data'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p><strong>Note</strong>: In hive command prompt if we need to query file we can use <code class="language-plaintext highlighter-rouge">dfs</code></p>
 
 <p>example: <code class="language-plaintext highlighter-rouge">dfs -ls /path/to/file</code></p>
 
-<!--
+<h3 id="load-data-in-hive">load data in hive</h3>
 
-### load data in hive
+<h4 id="insert-command">insert command</h4>
 
-**insert command**
+<p>not recommended takes lot of time, doing inserts may create some tmp tables which will be there until session is alive.</p>
 
-not recommended takes lot of time
+<h4 id="load-from-file">load from file</h4>
 
-**load from file**
+<p><strong>from local to hive table</strong></p>
 
-1. from local to hive table
-2. from hdfs to hive table
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">if</span> <span class="k">not</span> <span class="k">exists</span> <span class="n">table1</span><span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">name</span> <span class="n">string</span>
+<span class="p">)</span>
+<span class="k">row</span> <span class="n">format</span> <span class="n">delimited</span>
+<span class="n">fields</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">','</span>
+<span class="n">stored</span> <span class="k">as</span> <span class="n">textfile</span><span class="p">;</span>
 
-**table to table**
+<span class="c1">--to load data in the table</span>
+<span class="k">load</span> <span class="k">data</span> <span class="k">local</span> <span class="n">inpath</span>
+<span class="s1">'/local/path/to/file'</span>
+<span class="k">into</span> <span class="k">table</span> <span class="n">table1</span><span class="p">;</span>
+</code></pre></div></div>
 
--->
+<p>here table will be managed as its default type and data path will also be in default location. It will be copied over from local to hdfs.</p>
 
+<p><strong>from hdfs to hive table</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop fs <span class="nt">-copyFromLocal</span> /local/path/to/file /path/on/hdfs
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--to load data in the table</span>
+<span class="k">load</span> <span class="k">data</span> <span class="n">inpath</span>
+<span class="s1">'/path/on/hdfs'</span>
+<span class="k">into</span> <span class="k">table</span> <span class="n">table1</span><span class="p">;</span>
+
+<span class="c1">--to overwrite</span>
+<span class="k">load</span> <span class="k">data</span> <span class="n">inpath</span>
+<span class="s1">'/path/on/hdfs'</span>
+<span class="n">overwrite</span> <span class="k">into</span> <span class="k">table</span> <span class="n">table1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>here it will be cut paste instead of copy</p>
+
+<h4 id="table-to-table">table to table</h4>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">if</span> <span class="k">not</span> <span class="k">exists</span> <span class="n">table2</span><span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">name</span> <span class="n">string</span>
+<span class="p">)</span>
+<span class="k">row</span> <span class="n">format</span> <span class="n">delimited</span>
+<span class="n">fields</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">','</span>
+<span class="n">stored</span> <span class="k">as</span> <span class="n">textfile</span><span class="p">;</span>
+
+<span class="k">insert</span> <span class="k">into</span> <span class="k">table</span> <span class="n">table2</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+</code></pre></div></div>
 
         
       </section>
