@@ -57,6 +57,25 @@ In clodera quickstart `mysql` is used for metadata, database name is `metastore`
 * same data types in an array
 * no fixed size
 
+```sql
+create table table1 (
+  id int
+  col1 array<string>
+);
+
+insert into table1
+select 1, array("value1", "value2");
+
+--output: 1 value1
+select id, col1[0] from table1;
+
+/*
+if we have more columns in table and we load data from file which has less columns
+then also load will happen it wont fail, additional columns in table will get null values
+*/
+
+```
+
 #### map
 
 * key, vaule pair
@@ -66,6 +85,18 @@ In clodera quickstart `mysql` is used for metadata, database name is `metastore`
 * unordered, order does not matter
 * each key, value pair is called an entity
 
+```sql
+create table table1 (
+  col1 int,
+  col2 array<string>,
+  col3 map<string, boolean>
+)
+row format delimited
+field terminated by ','
+collection items terminated by '#'
+map keys terminated by ':';
+```
+
 #### struct
 
 * its like a class
@@ -74,6 +105,15 @@ In clodera quickstart `mysql` is used for metadata, database name is `metastore`
 * can hod any number of values
 * value refrenced by name
 
+```sql
+create table table1 (
+  col1 int,
+  col2 array<string>,
+  col3 struct<s1:string, s2:string>
+);
+
+select col1, col3.s1 from table1;
+```
 
 ### built in functions
 
@@ -90,13 +130,107 @@ In clodera quickstart `mysql` is used for metadata, database name is `metastore`
 
 #### UDTF (User Defined Tablegenerating Functions)
 
-* works on single row and multiple rows
+* works on single row and output multiple rows
 * example: explode(), posexplode()
+
+```sql
+--
+create table table1(co11 string, col2 array<string>)
+row format delimited 
+fields terminated by ','
+collection items terminated by ":";
+
+load data local inpath '/path/to/file'
+into table table1;
+
+/*
+--output:
+name1 ["a", "b", "c"]
+name2 ["d", "e", "f"]
+.
+.
+*/
+select * from table1;
+
+/*
+--output:
+a
+b
+c
+d
+e
+f
+.
+.
+*/
+select explode(col2) from table1;
+
+--with explode we only get exploded column not other columns for selecting other columns we need to use lateral view
+
+```
 
 
 ### lateral view
 
 virtual table formed by exploded view, which can be joined with original table to allow complex query
+
+```sql
+select col1, exploded_col from table1
+lateral view explode(col2) exploded_data as exploded_col;
+```
+
+
+### custom functions (UDF)
+
+in case in built functions can not solve the requirement then we can write custom functions in hive using `java`
+
+example: lets say we want to make function which can do uppercase of string
+
+* write java code for making input to uppercase
+* bundle code in jar file
+* add jar and create temporary function
+
+```java
+package example;
+import org.apache.hadoop.hive.ql.exec.UDF;
+public class ExampleClass extends UDF {
+  public String evaluate(String input){
+    if(input==null)
+    {
+      return null;
+    }
+    return (input.toString().toUpperCase());
+  }
+}
+```
+
+```sql
+ADD JAR /pat/to/jar/example.jar;
+create temporary function ucase as'example.ExampleClass';
+
+create table table1 (
+  col1 string
+);
+
+insert into table1
+select 'val1'
+
+select ucase(col1) from table1;
+```
+
+**Note**: Some external jars might be required like `hive-exec-1.2.2.jar`
+
+This temporary function will be available only in the connected hive session not globally. For solving this problem we need to add jar in hdfs and create permanent function.
+
+```shell
+hadoop fs -put example.jar /path/to/hdfs/
+```
+
+```sql
+CREATE FUNCTION ucase AS
+'example.ExampleClass' using JAR
+'hdfs://localhost:8020/path/to/hdfs/example.jar';
+```
 
 
 ### set operations

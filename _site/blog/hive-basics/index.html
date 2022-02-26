@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          6 minute read
         
       </span>
     
@@ -360,6 +360,24 @@
   <li>no fixed size</li>
 </ul>
 
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">table1</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span>
+  <span class="n">col1</span> <span class="n">array</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+<span class="p">);</span>
+
+<span class="k">insert</span> <span class="k">into</span> <span class="n">table1</span>
+<span class="k">select</span> <span class="mi">1</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span><span class="nv">"value1"</span><span class="p">,</span> <span class="nv">"value2"</span><span class="p">);</span>
+
+<span class="c1">--output: 1 value1</span>
+<span class="k">select</span> <span class="n">id</span><span class="p">,</span> <span class="n">col1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+
+<span class="cm">/*
+if we have more columns in table and we load data from file which has less columns
+then also load will happen it wont fail, additional columns in table will get null values
+*/</span>
+
+</code></pre></div></div>
+
 <h4 id="map">map</h4>
 
 <ul>
@@ -371,6 +389,17 @@
   <li>each key, value pair is called an entity</li>
 </ul>
 
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">table1</span> <span class="p">(</span>
+  <span class="n">col1</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">col2</span> <span class="n">array</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="n">col3</span> <span class="k">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="nb">boolean</span><span class="o">&gt;</span>
+<span class="p">)</span>
+<span class="k">row</span> <span class="n">format</span> <span class="n">delimited</span>
+<span class="n">field</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">','</span>
+<span class="n">collection</span> <span class="n">items</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">'#'</span>
+<span class="k">map</span> <span class="n">keys</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">':'</span><span class="p">;</span>
+</code></pre></div></div>
+
 <h4 id="struct">struct</h4>
 
 <ul>
@@ -380,6 +409,15 @@
   <li>can hod any number of values</li>
   <li>value refrenced by name</li>
 </ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">create</span> <span class="k">table</span> <span class="n">table1</span> <span class="p">(</span>
+  <span class="n">col1</span> <span class="nb">int</span><span class="p">,</span>
+  <span class="n">col2</span> <span class="n">array</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="n">col3</span> <span class="n">struct</span><span class="o">&lt;</span><span class="n">s1</span><span class="p">:</span><span class="n">string</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span><span class="n">string</span><span class="o">&gt;</span>
+<span class="p">);</span>
+
+<span class="k">select</span> <span class="n">col1</span><span class="p">,</span> <span class="n">col3</span><span class="p">.</span><span class="n">s1</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h3 id="built-in-functions">built in functions</h3>
 
@@ -401,13 +439,102 @@
 <h4 id="udtf-user-defined-tablegenerating-functions">UDTF (User Defined Tablegenerating Functions)</h4>
 
 <ul>
-  <li>works on single row and multiple rows</li>
+  <li>works on single row and output multiple rows</li>
   <li>example: explode(), posexplode()</li>
 </ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--</span>
+<span class="k">create</span> <span class="k">table</span> <span class="n">table1</span><span class="p">(</span><span class="n">co11</span> <span class="n">string</span><span class="p">,</span> <span class="n">col2</span> <span class="n">array</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">row</span> <span class="n">format</span> <span class="n">delimited</span> 
+<span class="n">fields</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">','</span>
+<span class="n">collection</span> <span class="n">items</span> <span class="n">terminated</span> <span class="k">by</span> <span class="nv">":"</span><span class="p">;</span>
+
+<span class="k">load</span> <span class="k">data</span> <span class="k">local</span> <span class="n">inpath</span> <span class="s1">'/path/to/file'</span>
+<span class="k">into</span> <span class="k">table</span> <span class="n">table1</span><span class="p">;</span>
+
+<span class="cm">/*
+--output:
+name1 ["a", "b", "c"]
+name2 ["d", "e", "f"]
+.
+.
+*/</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+
+<span class="cm">/*
+--output:
+a
+b
+c
+d
+e
+f
+.
+.
+*/</span>
+<span class="k">select</span> <span class="n">explode</span><span class="p">(</span><span class="n">col2</span><span class="p">)</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+
+<span class="c1">--with explode we only get exploded column not other columns for selecting other columns we need to use lateral view</span>
+
+</code></pre></div></div>
 
 <h3 id="lateral-view">lateral view</h3>
 
 <p>virtual table formed by exploded view, which can be joined with original table to allow complex query</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="n">col1</span><span class="p">,</span> <span class="n">exploded_col</span> <span class="k">from</span> <span class="n">table1</span>
+<span class="k">lateral</span> <span class="k">view</span> <span class="n">explode</span><span class="p">(</span><span class="n">col2</span><span class="p">)</span> <span class="n">exploded_data</span> <span class="k">as</span> <span class="n">exploded_col</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="custom-functions-udf">custom functions (UDF)</h3>
+
+<p>in case in built functions can not solve the requirement then we can write custom functions in hive using <code class="language-plaintext highlighter-rouge">java</code></p>
+
+<p>example: lets say we want to make function which can do uppercase of string</p>
+
+<ul>
+  <li>write java code for making input to uppercase</li>
+  <li>bundle code in jar file</li>
+  <li>add jar and create temporary function</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">example</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.hadoop.hive.ql.exec.UDF</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleClass</span> <span class="kd">extends</span> <span class="no">UDF</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">evaluate</span><span class="o">(</span><span class="nc">String</span> <span class="n">input</span><span class="o">){</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">input</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span>
+    <span class="o">{</span>
+      <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">toString</span><span class="o">().</span><span class="na">toUpperCase</span><span class="o">());</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">ADD</span> <span class="n">JAR</span> <span class="o">/</span><span class="n">pat</span><span class="o">/</span><span class="k">to</span><span class="o">/</span><span class="n">jar</span><span class="o">/</span><span class="n">example</span><span class="p">.</span><span class="n">jar</span><span class="p">;</span>
+<span class="k">create</span> <span class="k">temporary</span> <span class="k">function</span> <span class="n">ucase</span> <span class="k">as</span><span class="s1">'example.ExampleClass'</span><span class="p">;</span>
+
+<span class="k">create</span> <span class="k">table</span> <span class="n">table1</span> <span class="p">(</span>
+  <span class="n">col1</span> <span class="n">string</span>
+<span class="p">);</span>
+
+<span class="k">insert</span> <span class="k">into</span> <span class="n">table1</span>
+<span class="k">select</span> <span class="s1">'val1'</span>
+
+<span class="k">select</span> <span class="n">ucase</span><span class="p">(</span><span class="n">col1</span><span class="p">)</span> <span class="k">from</span> <span class="n">table1</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: Some external jars might be required like <code class="language-plaintext highlighter-rouge">hive-exec-1.2.2.jar</code></p>
+
+<p>This temporary function will be available only in the connected hive session not globally. For solving this problem we need to add jar in hdfs and create permanent function.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hadoop fs <span class="nt">-put</span> example.jar /path/to/hdfs/
+</code></pre></div></div>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">FUNCTION</span> <span class="n">ucase</span> <span class="k">AS</span>
+<span class="s1">'example.ExampleClass'</span> <span class="k">using</span> <span class="n">JAR</span>
+<span class="s1">'hdfs://localhost:8020/path/to/hdfs/example.jar'</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h3 id="set-operations">set operations</h3>
 
