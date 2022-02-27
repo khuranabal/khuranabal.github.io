@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-26T13:44:04+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive basics</title><link href="http://localhost:4000/blog/hive-basics/" rel="alternate" type="text/html" title="hive basics" /><published>2022-02-21T17:00:00+01:00</published><updated>2022-02-21T17:00:00+01:00</updated><id>http://localhost:4000/blog/hive-basics</id><content type="html" xml:base="http://localhost:4000/blog/hive-basics/">&lt;p&gt;it is open source datawarehouse to process structured data on top of hadoop&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-02-27T12:01:56+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">hive basics</title><link href="http://localhost:4000/blog/hive-basics/" rel="alternate" type="text/html" title="hive basics" /><published>2022-02-21T17:00:00+01:00</published><updated>2022-02-21T17:00:00+01:00</updated><id>http://localhost:4000/blog/hive-basics</id><content type="html" xml:base="http://localhost:4000/blog/hive-basics/">&lt;p&gt;it is open source datawarehouse to process structured data on top of hadoop&lt;/p&gt;
 
 &lt;h3 id=&quot;why-hive&quot;&gt;why hive&lt;/h3&gt;
 
@@ -748,8 +748,9 @@ like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sc.textF
   &lt;li&gt;if we need to just count number of times key is repeating then can use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;countByValue&lt;/code&gt; but its an action not transformation&lt;/li&gt;
   &lt;li&gt;dag in pyspark is different than of scala because pyspark uses api library, scala dag matches to the code but not pyspark code&lt;/li&gt;
   &lt;li&gt;at raw rdd level code pyspark is not that optimized compared to scala&lt;/li&gt;
-  &lt;li&gt;dag is created while transformations are being called and submitted when action is called&lt;/li&gt;
+  &lt;li&gt;dag is created while transformations are being called and submitted when action is called, it shows jobs, stages, tasks&lt;/li&gt;
   &lt;li&gt;lineage keeps track of rdds and how they are connected so as in case of failure, recovery can be done using parent rdd or if base rdd then getting data from specefic partition in disk, lineage is part of dag&lt;/li&gt;
+  &lt;li&gt;we can check lineage on any rdd with function &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;toDebugString&lt;/code&gt; like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rdd1.toDebugString&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;shared-variables&quot;&gt;shared variables&lt;/h3&gt;
@@ -996,7 +997,46 @@ am good, 30
 &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><category term="hadoop" /><category term="hdfs" /><category term="scala" /><category term="pyspark" /><summary type="html">hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management</summary></entry><entry><title type="html">scala part I</title><link href="http://localhost:4000/blog/scala-part-I/" rel="alternate" type="text/html" title="scala part I" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala-part-I</id><content type="html" xml:base="http://localhost:4000/blog/scala-part-I/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first&lt;/p&gt;
+
+&lt;h3 id=&quot;cache--persist&quot;&gt;cache &amp;amp; persist&lt;/h3&gt;
+
+&lt;p&gt;if we have a lot of transormations and we call actions mutiple times then all the transformations will run again or atleast the last stage will be executed in full. If we use cache then transormations (if any) or action after cache will only be executed.&lt;/p&gt;
+
+&lt;p&gt;cache and persist, both have same purpose to not do all the transformations again.&lt;/p&gt;
+
+&lt;p&gt;cache will always be in memory, persist have option of various storage levels. persist in memory &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;persist()&lt;/code&gt; is same as cache.&lt;/p&gt;
+
+&lt;h4 id=&quot;persist-storage-levels&quot;&gt;persist storage levels&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;MEMORY_ONLY&lt;/strong&gt;: cached in memory non serialized format&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DISK_ONLY&lt;/strong&gt;: in disk serialized format&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MEMORY_AND_DISK&lt;/strong&gt;: in memory, if not enough memory then evicts blocks and are stored in disk. recommemded to avoid expensive recalculation and memory is limited&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;OFF_HEAP&lt;/strong&gt;: blocks cached off heap (outside jvm), in jvm it uses garbage collection to free space, its time taking process. So, we could uses memory outside executor. These are called unsafe operations as it will use raw memory outside jvm. It stores in serialized format&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MEMORY_ONLY_SER&lt;/strong&gt;: same as memory only but serialized&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MEMORY_AND_DISK_SER&lt;/strong&gt;: same as memory and disk but serialized&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;MEMORY_ONLY_2&lt;/strong&gt;: same as memory only but with 2 replicas on different worker nodes, t speed up recovery&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;In memory only if we dont have enough memory then it will not fail rather will skip caching it.&lt;/li&gt;
+  &lt;li&gt;serialized saves space as it stores in binary but will require more processing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;run-jar&quot;&gt;run jar&lt;/h3&gt;
+
+&lt;p&gt;jar is Java ARchive, a package file format typically used to aggregate many java class files and associated metadata and resources (text, images, etc.) into one file for distribution. &lt;a href=&quot;https://en.wikipedia.org/wiki/JAR_(file_format)&quot;&gt;jar-wiki&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;to run from terminal we can submit like below&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spark-submit &lt;span class=&quot;nt&quot;&gt;--class&lt;/span&gt; ClassName path/to/jar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><category term="hadoop" /><category term="hdfs" /><category term="scala" /><category term="pyspark" /><summary type="html">hadoop offers: hdfs: for storage mapreduce: for computation yarn: for resource management</summary></entry><entry><title type="html">scala part I</title><link href="http://localhost:4000/blog/scala-part-I/" rel="alternate" type="text/html" title="scala part I" /><published>2022-01-28T17:27:00+01:00</published><updated>2022-01-28T17:27:00+01:00</updated><id>http://localhost:4000/blog/scala-part-I</id><content type="html" xml:base="http://localhost:4000/blog/scala-part-I/">&lt;p&gt;spark code can be written in different languages (scala, python, java, r), scala is hybrib, oops + functional.&lt;/p&gt;
 
 &lt;p&gt;ways to write code:&lt;/p&gt;
 &lt;ul&gt;

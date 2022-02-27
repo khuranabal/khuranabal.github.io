@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          8 minute read
+          9 minute read
         
       </span>
     
@@ -410,8 +410,9 @@ like <code class="language-plaintext highlighter-rouge">sc.textFile("file:///pat
   <li>if we need to just count number of times key is repeating then can use <code class="language-plaintext highlighter-rouge">countByValue</code> but its an action not transformation</li>
   <li>dag in pyspark is different than of scala because pyspark uses api library, scala dag matches to the code but not pyspark code</li>
   <li>at raw rdd level code pyspark is not that optimized compared to scala</li>
-  <li>dag is created while transformations are being called and submitted when action is called</li>
+  <li>dag is created while transformations are being called and submitted when action is called, it shows jobs, stages, tasks</li>
   <li>lineage keeps track of rdds and how they are connected so as in case of failure, recovery can be done using parent rdd or if base rdd then getting data from specefic partition in disk, lineage is part of dag</li>
+  <li>we can check lineage on any rdd with function <code class="language-plaintext highlighter-rouge">toDebugString</code> like <code class="language-plaintext highlighter-rouge">rdd1.toDebugString</code></li>
 </ul>
 
 <h3 id="shared-variables">shared variables</h3>
@@ -659,6 +660,46 @@ am good, 30
 </code></pre></div></div>
 
 <p><strong>Note</strong>: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first</p>
+
+<h3 id="cache--persist">cache &amp; persist</h3>
+
+<p>if we have a lot of transormations and we call actions mutiple times then all the transformations will run again or atleast the last stage will be executed in full. If we use cache then transormations (if any) or action after cache will only be executed.</p>
+
+<p>cache and persist, both have same purpose to not do all the transformations again.</p>
+
+<p>cache will always be in memory, persist have option of various storage levels. persist in memory <code class="language-plaintext highlighter-rouge">persist()</code> is same as cache.</p>
+
+<h4 id="persist-storage-levels">persist storage levels</h4>
+
+<p><strong>MEMORY_ONLY</strong>: cached in memory non serialized format</p>
+
+<p><strong>DISK_ONLY</strong>: in disk serialized format</p>
+
+<p><strong>MEMORY_AND_DISK</strong>: in memory, if not enough memory then evicts blocks and are stored in disk. recommemded to avoid expensive recalculation and memory is limited</p>
+
+<p><strong>OFF_HEAP</strong>: blocks cached off heap (outside jvm), in jvm it uses garbage collection to free space, its time taking process. So, we could uses memory outside executor. These are called unsafe operations as it will use raw memory outside jvm. It stores in serialized format</p>
+
+<p><strong>MEMORY_ONLY_SER</strong>: same as memory only but serialized</p>
+
+<p><strong>MEMORY_AND_DISK_SER</strong>: same as memory and disk but serialized</p>
+
+<p><strong>MEMORY_ONLY_2</strong>: same as memory only but with 2 replicas on different worker nodes, t speed up recovery</p>
+
+<p><strong>Note</strong>:</p>
+<ul>
+  <li>In memory only if we dont have enough memory then it will not fail rather will skip caching it.</li>
+  <li>serialized saves space as it stores in binary but will require more processing</li>
+</ul>
+
+<h3 id="run-jar">run jar</h3>
+
+<p>jar is Java ARchive, a package file format typically used to aggregate many java class files and associated metadata and resources (text, images, etc.) into one file for distribution. <a href="https://en.wikipedia.org/wiki/JAR_(file_format)">jar-wiki</a></p>
+
+<p>to run from terminal we can submit like below</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-submit <span class="nt">--class</span> ClassName path/to/jar
+</code></pre></div></div>
+
 
         
       </section>
