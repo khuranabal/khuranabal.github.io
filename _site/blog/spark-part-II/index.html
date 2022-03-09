@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>cassandra - Balpreet Singh</title>
-<meta name="description" content="features">
+<!-- begin _includes/seo.html --><title>spark part-II - Balpreet Singh</title>
+<meta name="description" content="spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="cassandra">
-<meta property="og:url" content="http://localhost:4000/blog/cassandra/">
+<meta property="og:title" content="spark part-II">
+<meta property="og:url" content="http://localhost:4000/blog/spark-part-II/">
 
 
-  <meta property="og:description" content="features">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-26T15:25:00+01:00">
+  <meta property="og:description" content="spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/cassandra/">
+
+  <meta property="article:published_time" content="2022-03-09T17:00:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/spark-part-II/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="cassandra">
-    <meta itemprop="description" content="features">
-    <meta itemprop="datePublished" content="2022-01-26T15:25:00+01:00">
+    <meta itemprop="headline" content="spark part-II">
+    <meta itemprop="description" content="spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets">
+    <meta itemprop="datePublished" content="2022-03-09T17:00:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">cassandra
+          <h1 id="page-title" class="page__title" itemprop="headline">spark part-II
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          2 minute read
         
       </span>
     
@@ -302,81 +302,101 @@
 
       <section class="page__content" itemprop="text">
         
-        <h3 id="features">features</h3>
+        <p>spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets</p>
+
+<p>dataframe is distributed collection of data organized into named columns. It was available in spark 1 also but in spark 2 and onwards we have better support for dataframe/datasets and both are merged into single api (datset api)</p>
+
+<p>dataframe code will be converted to low level rdd code which is done by driver. low level/rdd code is directly sent to executors
+dataframe/dataset code optimized and converted to low level before sending to executor, using catalyst optimizer</p>
+
+<h3 id="spark-session">spark session</h3>
+
+<p>earlier we use to do spark conext and if hive required then hive context will be required, etc. spark session is unified and have all the contexts, kind of unified entry point for spark application. It is singleton object as we either get or create it.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkSession</span><span class="o">.</span><span class="py">builder</span><span class="o">().</span><span class="py">appName</span><span class="o">(</span><span class="s">"app1"</span><span class="o">).</span><span class="py">master</span><span class="o">(</span><span class="s">"local[2]"</span><span class="o">).</span><span class="py">getOrCreate</span><span class="o">()</span>
+
+<span class="c1">//do processing</span>
+
+<span class="nv">spark</span><span class="o">.</span><span class="py">stop</span><span class="o">()</span>
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//another way to set config</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkConf</span>
+
+<span class="k">val</span> <span class="nv">sparkConf</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkConf</span><span class="o">()</span>
+<span class="nv">sparkConf</span><span class="o">.</span><span class="py">set</span><span class="o">(</span><span class="s">"spark.app.name"</span><span class="o">,</span> <span class="s">"app1"</span><span class="o">)</span>
+<span class="nv">sparkConf</span><span class="o">.</span><span class="py">set</span><span class="o">(</span><span class="s">"spark.master"</span><span class="o">,</span> <span class="s">"local[2]"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkSession</span><span class="o">.</span><span class="py">builder</span><span class="o">().</span><span class="py">config</span><span class="o">(</span><span class="n">sparkConf</span><span class="o">).</span><span class="py">getOrCreate</span><span class="o">()</span>
+
+<span class="c1">//do processing</span>
+
+<span class="nv">spark</span><span class="o">.</span><span class="py">stop</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="basics-dataframe-commands">basics dataframe commands</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">import</span> <span class="nn">org.apache.log4j.Level</span>
+<span class="k">import</span> <span class="nn">org.apache.log4j.Logger</span>
+
+<span class="c1">//to get only ERROR and above</span>
+<span class="nv">Logger</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="s">"org"</span><span class="o">).</span><span class="py">setLevel</span><span class="o">(</span><span class="nv">level</span><span class="o">.</span><span class="py">ERROR</span><span class="o">)</span>
+
+<span class="c1">//we should not use inferSchema in production as it infers data type based on few initial rows</span>
+<span class="c1">//in spark it will create 3 jobs: 1st read, 2nd inferSchema as some data read, 3rd for show</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="py">csv</span><span class="o">(</span><span class="s">"/path"</span><span class="o">)</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">printSchema</span><span class="o">()</span>
+
+<span class="c1">//this will create 3 stages: 1st default, 2nd repartition, 3rd groupBy</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">repartition</span><span class="o">(</span><span class="mi">4</span><span class="o">).</span><span class="py">where</span><span class="o">(</span><span class="s">"col1&gt;10"</span><span class="o">).</span><span class="py">select</span><span class="o">(</span><span class="s">"col2,col3"</span><span class="o">).</span><span class="py">count</span><span class="o">().</span><span class="py">show</span><span class="o">()</span>
+
+</code></pre></div></div>
+
+<p><strong>Note</strong>: whenever shuffling is done then stage writes to Exchange (buffer) and next stage reads from Exchange. So we see in spark ui some data (compressed) written out and read in in next stage.</p>
+
+<h3 id="rdddataframedataset">rdd/dataframe/dataset</h3>
+
+<h4 id="rdd">rdd</h4>
 
 <ul>
-  <li>distributed column oriented database</li>
-  <li>highly performant</li>
-  <li>scalable</li>
-  <li>transactional</li>
-  <li>low latency retrieval</li>
-  <li>availibilty and partition tolerance guarentees with tunable consistency</li>
-  <li>no master, multi master</li>
-  <li>decentralized architecure</li>
-  <li>highly available</li>
-  <li>for communication among peers use gossip protocol</li>
+  <li>example map, filter, reduceByKey, etc.</li>
+  <li>low level, not developer friendly</li>
+  <li>lacks basic optimizations</li>
 </ul>
 
-<p>Example: where eventual consistency is fine like social media comments/likes</p>
-
-<h3 id="tunable-consistency">tunable consistency</h3>
-
-<p>In default setup, it uses eventual consistency. Below are the steps which will be performed when a request is submitted by client to cassandra.</p>
-
-<ol>
-  <li>client send request to get some data</li>
-  <li>request is received by a machine in cassandra cluster lets say node2</li>
-  <li>node2 will get data from the nodes which have data lets say node1</li>
-  <li>node2 will return the response to client</li>
-</ol>
-
-<p>But we can tune consistency to:</p>
+<h4 id="dataframe">dataframe</h4>
 
 <ul>
-  <li>check all node: all machines in cluster agrees on the same result</li>
-  <li>check quorum: certain number of machine agrees on the same result</li>
+  <li>spark 1.3 and onwards</li>
+  <li>high level construct, developer friendly</li>
 </ul>
 
-<h3 id="hbase-vs-cassandra">hbase vs cassandra</h3>
+<p>challenges with dataframe:</p>
 
-<table>
-  <tbody>
-    <tr>
-      <td>hbase</td>
-      <td>cassandra</td>
-    </tr>
-    <tr>
-      <td>nosql</td>
-      <td>nosql</td>
-    </tr>
-    <tr>
-      <td>scalable</td>
-      <td>scalable</td>
-    </tr>
-    <tr>
-      <td>transactional</td>
-      <td>transactional</td>
-    </tr>
-    <tr>
-      <td>low latency</td>
-      <td>low latency</td>
-    </tr>
-    <tr>
-      <td>master slave architecture</td>
-      <td>no single master, muti master</td>
-    </tr>
-    <tr>
-      <td>CP guarentee</td>
-      <td>AP guarentee, with tunable consistency</td>
-    </tr>
-    <tr>
-      <td>runs on hadoop cluster</td>
-      <td>dedicated cluster required</td>
-    </tr>
-  </tbody>
-</table>
+<ul>
+  <li>not strongly typed, errors at runtime</li>
+  <li>less flexibility</li>
+</ul>
 
-<p><strong>Note</strong>: cassandra has its own query language cql, its similar to sql</p>
+<p>dataframes can be converted to rdd to get flexibility and type safety, but the conversion has some cost involved and also rdd don’t go through catalyst optimizer, so major optimizations will be skipped if we work with rdd.</p>
+
+<h4 id="dataset">dataset</h4>
+
+<ul>
+  <li>spark 1.6 and onwards</li>
+  <li>compile time safety</li>
+  <li>more flexibility to write low level code like anonymous/lambda functions</li>
+  <li>conversion from dataframe to dataset is seemless</li>
+</ul>
+
+<p><strong>Note</strong>: before spark 2, dataframe and dataset had different api. In spark 2, both are merged into single unified structured api</p>
+
+<p>So, dataframe is dataset of row type (dataset[row]), row is generic type which bounds at runtime. But in dataset type (dataset[Order]) is bound at compile time.</p>
 
         
       </section>
@@ -393,13 +413,7 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#cassandra" class="page__taxonomy-item" rel="tag">cassandra</a><span class="sep">, </span>
-    
-      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
-    
-      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
-    
-      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
+      <a href="/tags/#spark" class="page__taxonomy-item" rel="tag">spark</a>
     
     </span>
   </p>
@@ -424,7 +438,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-26T15:25:00+01:00">January 26, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-03-09T17:00:00+01:00">March 9, 2022</time></p>
 
 
       </footer>
@@ -434,12 +448,11 @@
       
   <nav class="pagination">
     
-      <a href="/blog/cap/" class="pagination--pager" title="cap theorem
+      <a href="/blog/hive-basics/" class="pagination--pager" title="hive basics
 ">Previous</a>
     
     
-      <a href="/blog/hive-hbase/" class="pagination--pager" title="hive for processing and hbase for low latency read
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -453,47 +466,6 @@
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/spark-part-II/" rel="permalink">spark part-II
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -522,7 +494,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          6 minute read
         
       </span>
     
@@ -613,6 +585,52 @@ Lets first go through how things are in hadoop initial version and what the limi
 
 
     <p class="archive__item-excerpt" itemprop="description">module
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/spark-part-I/" rel="permalink">spark part-I
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          10 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">hadoop offers:
+
+  hdfs: for storage
+  mapreduce: for computation
+  yarn: for resource management
+
 
 </p>
   </article>

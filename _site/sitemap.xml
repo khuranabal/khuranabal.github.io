@@ -81,6 +81,10 @@
 <lastmod>2022-02-21T17:00:00+01:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/blog/spark-part-II/</loc>
+<lastmod>2022-03-09T17:00:00+01:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -103,6 +107,9 @@
 </url>
 <url>
 <loc>http://localhost:4000/page4/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page5/</loc>
 </url>
 <url>
 <loc>http://localhost:4000/googlec9037182ce8a646c.html</loc>

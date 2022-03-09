@@ -118,4 +118,10 @@ var store = [{
         "tags": ["hive","hadoop"],
         "url": "/blog/hive-basics/",
         "teaser": null
+      },{
+        "title": "spark part-II",
+        "excerpt":"spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets dataframe is distributed collection of data organized into named columns. It was available in spark 1 also but in spark 2 and onwards we have better support for dataframe/datasets and...","categories": ["blog"],
+        "tags": ["spark"],
+        "url": "/blog/spark-part-II/",
+        "teaser": null
       }]
