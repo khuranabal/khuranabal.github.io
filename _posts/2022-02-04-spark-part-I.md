@@ -1,5 +1,5 @@
 ---
-title: "spark"
+title: "spark part-I"
 date: 2022-02-04T16:00:00-00:00
 categories:
   - blog
@@ -407,3 +407,11 @@ spark-submit --class ClassName path/to/jar
 ```
 
 [jar-wiki]: https://en.wikipedia.org/wiki/JAR_(file_format)
+
+
+### map vs map partition
+
+
+map is a transformation which works on each row. for example if in rdd there are 4 partitins with 1000 rows in each partition then map will be called 4000 times
+
+map partition works on each partition so in example above it will be run 4 times. This can help if we need to make connection to database

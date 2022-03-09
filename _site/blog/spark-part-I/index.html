@@ -19,7 +19,7 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>spark - Balpreet Singh</title>
+<!-- begin _includes/seo.html --><title>spark part-I - Balpreet Singh</title>
 <meta name="description" content="hadoop offers:    hdfs: for storage   mapreduce: for computation   yarn: for resource management">
 
 
@@ -27,8 +27,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="spark">
-<meta property="og:url" content="http://localhost:4000/blog/spark/">
+<meta property="og:title" content="spark part-I">
+<meta property="og:url" content="http://localhost:4000/blog/spark-part-I/">
 
 
   <meta property="og:description" content="hadoop offers:    hdfs: for storage   mapreduce: for computation   yarn: for resource management">
@@ -46,7 +46,7 @@
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/spark/">
+<link rel="canonical" href="http://localhost:4000/blog/spark-part-I/">
 
 
 
@@ -266,7 +266,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="spark">
+    <meta itemprop="headline" content="spark part-I">
     <meta itemprop="description" content="hadoop offers:  hdfs: for storage  mapreduce: for computation  yarn: for resource management">
     <meta itemprop="datePublished" content="2022-02-04T17:00:00+01:00">
     
@@ -274,7 +274,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">spark
+          <h1 id="page-title" class="page__title" itemprop="headline">spark part-I
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          9 minute read
+          10 minute read
         
       </span>
     
@@ -700,6 +700,11 @@ am good, 30
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-submit <span class="nt">--class</span> ClassName path/to/jar
 </code></pre></div></div>
 
+<h3 id="map-vs-map-partition">map vs map partition</h3>
+
+<p>map is a transformation which works on each row. for example if in rdd there are 4 partitins with 1000 rows in each partition then map will be called 4000 times</p>
+
+<p>map partition works on each partition so in example above it will be run 4 times. This can help if we need to make connection to database</p>
 
         
       </section>
