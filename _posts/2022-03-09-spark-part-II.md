@@ -101,3 +101,72 @@ dataframes can be converted to rdd to get flexibility and type safety, but the c
 **Note**: before spark 2, dataframe and dataset had different api. In spark 2, both are merged into single unified structured api
 
 So, dataframe is dataset of row type (dataset[row]), row is generic type which bounds at runtime. But in dataset type (dataset[Order]) is bound at compile time.
+
+#### convert dataframe to dataset
+
+```scala
+case class Abc(id: Int, col2: String)
+
+val df = spark.read.option("header", true).option("inferSchema", true).csv("/path")
+
+//this is required for conversion from dataframe to dataset or vice versa
+//it has to be imported after spark session only
+import spark.implicits._
+
+val ds = df.as[Abc]
+
+//this will give error at complie time as col3 does not exist
+ds.filter(x => x.col3 > 3)
+
+//we could use other way to filter but that will not give error at compile time
+ds.filter("col3 > 3")
+```
+
+**Note**: dataframes are preferred, as there is overhead in dataset for casting to particular type. with dataframe serializaton is managed by tungsten binary format, with dataset serialization is managed by java serialization which is slow
+
+
+### read modes
+
+**PERMISSIVE**: sets NULL if encounters malformed record, this is default mode, _corrupt_record as new column will appear and it will hold the malformed record
+
+**DROPMALFORMED**: will ignore malformed record
+
+**FAILFAST**: exception raised when malformed record found
+
+```scala
+spark.read.format("csv").option("header", true).option("path", "/path").option("mode", "FAILFAST").load()
+```
+
+### schema types
+
+**INFER**: as we do for csv infer schema
+
+**IMPLICIT**: example lile orc/parquet which comes with schema
+
+**EXPLICIT**: manually defining schema like using case class
+
+#### explicit schema approaches
+
+programatic approach:
+
+```scala
+//in this approach we give spark datatypes
+val dfSchema = StructType(List(StructField("col1", IntegerType),StructField("col2", TimestampType),StructField("col3", IntegerType)))
+
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+df.show()
+df.printSchema()
+```
+
+ddl string:
+
+```scala
+//in this approach we give scala datatypes
+val dfSchema = "col1 Int, col2 Timestamp, col3 Int"
+
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+df.show()
+df.printSchema()
+```

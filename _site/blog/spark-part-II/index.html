@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          3 minute read
         
       </span>
     
@@ -397,6 +397,70 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 <p><strong>Note</strong>: before spark 2, dataframe and dataset had different api. In spark 2, both are merged into single unified structured api</p>
 
 <p>So, dataframe is dataset of row type (dataset[row]), row is generic type which bounds at runtime. But in dataset type (dataset[Order]) is bound at compile time.</p>
+
+<h4 id="convert-dataframe-to-dataset">convert dataframe to dataset</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">case</span> <span class="k">class</span> <span class="nc">Abc</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">col2</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="py">csv</span><span class="o">(</span><span class="s">"/path"</span><span class="o">)</span>
+
+<span class="c1">//this is required for conversion from dataframe to dataset or vice versa</span>
+<span class="c1">//it has to be imported after spark session only</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">ds</span> <span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">as</span><span class="o">[</span><span class="kt">Abc</span><span class="o">]</span>
+
+<span class="c1">//this will give error at complie time as col3 does not exist</span>
+<span class="nv">ds</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">col3</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span>
+
+<span class="c1">//we could use other way to filter but that will not give error at compile time</span>
+<span class="nv">ds</span><span class="o">.</span><span class="py">filter</span><span class="o">(</span><span class="s">"col3 &gt; 3"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: dataframes are preferred, as there is overhead in dataset for casting to particular type. with dataframe serializaton is managed by tungsten binary format, with dataset serialization is managed by java serialization which is slow</p>
+
+<h3 id="read-modes">read modes</h3>
+
+<p><strong>PERMISSIVE</strong>: sets NULL if encounters malformed record, this is default mode, _corrupt_record as new column will appear and it will hold the malformed record</p>
+
+<p><strong>DROPMALFORMED</strong>: will ignore malformed record</p>
+
+<p><strong>FAILFAST</strong>: exception raised when malformed record found</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"mode"</span><span class="o">,</span> <span class="s">"FAILFAST"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="schema-types">schema types</h3>
+
+<p><strong>INFER</strong>: as we do for csv infer schema</p>
+
+<p><strong>IMPLICIT</strong>: example lile orc/parquet which comes with schema</p>
+
+<p><strong>EXPLICIT</strong>: manually defining schema like using case class</p>
+
+<h4 id="explicit-schema-approaches">explicit schema approaches</h4>
+
+<p>programatic approach:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//in this approach we give spark datatypes</span>
+<span class="k">val</span> <span class="nv">dfSchema</span> <span class="k">=</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="nc">StructField</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span> <span class="nc">IntegerType</span><span class="o">),</span><span class="nc">StructField</span><span class="o">(</span><span class="s">"col2"</span><span class="o">,</span> <span class="nc">TimestampType</span><span class="o">),</span><span class="nc">StructField</span><span class="o">(</span><span class="s">"col3"</span><span class="o">,</span> <span class="nc">IntegerType</span><span class="o">)))</span>
+
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">printSchema</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p>ddl string:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//in this approach we give scala datatypes</span>
+<span class="k">val</span> <span class="nv">dfSchema</span> <span class="k">=</span> <span class="s">"col1 Int, col2 Timestamp, col3 Int"</span>
+
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">printSchema</span><span class="o">()</span>
+</code></pre></div></div>
 
         
       </section>
