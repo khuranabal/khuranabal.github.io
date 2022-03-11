@@ -238,3 +238,42 @@ df.write.format("csv").mode(SaveMode.Overwrite).saveAsTable("table1")
 * we can enable hive support in config by `enableHiveStore()` to have permanent metadata store. So, we can create database and save tables in that database.
 * save in table benefits if some query needs to be done for example by reporting tools etc.
 * bucketing works on table, so here we can do like `bucketBy(2, "col1")`, this will create 2 files/buckets, it uses hash function so same data will end up in same bucket, it is widely used with `sortBy` for performance
+
+
+### transformations
+
+**low level**: mostly used with rdds, some of it also works with dataframes/datasets
+
+* map
+* filter
+* groupByKey
+
+**high level**: used with dataframes/datasets
+
+* select
+* where
+* groupBy
+
+**Note**: although we can do work with dataframe/dataset but sometimes we need rdds for example if we have unstructured file with mutiple delimiters `1:data1,data2`. In this case we can read data in rdd and then process it using regex to get data and convert in dataset
+
+
+### column read
+
+**column string**: `df.select("col1","col2").show`
+
+**column object**: `df.select(column("col1"),col("col2"),$"col3", 'col4).show`
+
+`$"col3", 'col4` is supported only in scala, others are supported in both pyspark & scala
+
+**Note**: both column string & object can not be used in same statement
+
+
+### column expressions
+
+```scala
+df.select(col("col1"), expr("concat(col2, '_suffix')")).show()
+
+df.selectExpr("col1", "concat(col2, '_suffix')").show()
+```
+
+**Note**: columns strings/object can not be used together with column expression

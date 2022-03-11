@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          5 minute read
         
       </span>
     
@@ -522,6 +522,45 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   <li>save in table benefits if some query needs to be done for example by reporting tools etc.</li>
   <li>bucketing works on table, so here we can do like <code class="language-plaintext highlighter-rouge">bucketBy(2, "col1")</code>, this will create 2 files/buckets, it uses hash function so same data will end up in same bucket, it is widely used with <code class="language-plaintext highlighter-rouge">sortBy</code> for performance</li>
 </ul>
+
+<h3 id="transformations">transformations</h3>
+
+<p><strong>low level</strong>: mostly used with rdds, some of it also works with dataframes/datasets</p>
+
+<ul>
+  <li>map</li>
+  <li>filter</li>
+  <li>groupByKey</li>
+</ul>
+
+<p><strong>high level</strong>: used with dataframes/datasets</p>
+
+<ul>
+  <li>select</li>
+  <li>where</li>
+  <li>groupBy</li>
+</ul>
+
+<p><strong>Note</strong>: although we can do work with dataframe/dataset but sometimes we need rdds for example if we have unstructured file with mutiple delimiters <code class="language-plaintext highlighter-rouge">1:data1,data2</code>. In this case we can read data in rdd and then process it using regex to get data and convert in dataset</p>
+
+<h3 id="column-read">column read</h3>
+
+<p><strong>column string</strong>: <code class="language-plaintext highlighter-rouge">df.select("col1","col2").show</code></p>
+
+<p><strong>column object</strong>: <code class="language-plaintext highlighter-rouge">df.select(column("col1"),col("col2"),$"col3", 'col4).show</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">$"col3", 'col4</code> is supported only in scala, others are supported in both pyspark &amp; scala</p>
+
+<p><strong>Note</strong>: both column string &amp; object can not be used in same statement</p>
+
+<h3 id="column-expressions">column expressions</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">df</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"col1"</span><span class="o">),</span> <span class="nf">expr</span><span class="o">(</span><span class="s">"concat(col2, '_suffix')"</span><span class="o">)).</span><span class="py">show</span><span class="o">()</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span> <span class="s">"concat(col2, '_suffix')"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: columns strings/object can not be used together with column expression</p>
 
         
       </section>
