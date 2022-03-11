@@ -137,6 +137,7 @@ ds.filter("col3 > 3")
 spark.read.format("csv").option("header", true).option("path", "/path").option("mode", "FAILFAST").load()
 ```
 
+
 ### schema types
 
 **INFER**: as we do for csv infer schema
@@ -170,3 +171,70 @@ val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load(
 df.show()
 df.printSchema()
 ```
+
+
+### save modes
+
+**append**: add file in existing folder
+
+**overwrite**: overwrites the data in folder
+
+**errorIfExists**: error if folder exist
+
+**ignore**: ignore if folder exist
+
+```scala
+df.write.mode(SaveMode.Overwrite).option("path", "/path").save()
+```
+
+#### spark file layout
+
+ways to control number of files generated when saving data, by default it will be equal to number of partitions in dataframe
+
+**repartiton**: it does full shuffle, not preferred
+
+**partitioning/bucketing**: partitoning will create folder and bucket is number of files
+
+```scala
+df.write.partitionBy("col1").mode(SaveMode.Overwrite).option("path", "/path").save()
+```
+
+**max records**: if this option is set than each file will have that many records only
+
+```scala
+df.write.option("maxRecordsPerFile", 1000).mode(SaveMode.Overwrite).option("path", "/path").save()
+```
+
+
+### sparksql
+
+to work with sql we create view and work on it. example:
+
+```scala
+//lets say we have dataframe already
+
+df.createOrReplaceTempView("dfView")
+val output = spak.sql("select col1, max(col2) from dfView group by col1 order by col1")
+output.show()
+```
+
+**Note**: as per performance sparksql/dataframe are similar as both uses catalyst optimizer
+
+
+### save as table
+
+when we use `save` then it saves directly as file in some folder. But sometimes we want to store as table (data + metadata)
+
+**data**: stored in path used in `spark.sql.warehouse.dir`
+
+**metadata**: stored in memory by default, hive metstore can be used for permanent storage
+
+```scala
+//by default data will be stored in default location & metadata in memory
+df.write.format("csv").mode(SaveMode.Overwrite).saveAsTable("table1")
+```
+
+**Note**:
+* we can enable hive support in config by `enableHiveStore()` to have permanent metadata store. So, we can create database and save tables in that database.
+* save in table benefits if some query needs to be done for example by reporting tools etc.
+* bucketing works on table, so here we can do like `bucketBy(2, "col1")`, this will create 2 files/buckets, it uses hash function so same data will end up in same bucket, it is widely used with `sortBy` for performance

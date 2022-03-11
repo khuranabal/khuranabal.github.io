@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          4 minute read
         
       </span>
     
@@ -461,6 +461,67 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 <span class="nv">df</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
 <span class="nv">df</span><span class="o">.</span><span class="py">printSchema</span><span class="o">()</span>
 </code></pre></div></div>
+
+<h3 id="save-modes">save modes</h3>
+
+<p><strong>append</strong>: add file in existing folder</p>
+
+<p><strong>overwrite</strong>: overwrites the data in folder</p>
+
+<p><strong>errorIfExists</strong>: error if folder exist</p>
+
+<p><strong>ignore</strong>: ignore if folder exist</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">df</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">mode</span><span class="o">(</span><span class="nv">SaveMode</span><span class="o">.</span><span class="py">Overwrite</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">save</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h4 id="spark-file-layout">spark file layout</h4>
+
+<p>ways to control number of files generated when saving data, by default it will be equal to number of partitions in dataframe</p>
+
+<p><strong>repartiton</strong>: it does full shuffle, not preferred</p>
+
+<p><strong>partitioning/bucketing</strong>: partitoning will create folder and bucket is number of files</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">df</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">partitionBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">).</span><span class="py">mode</span><span class="o">(</span><span class="nv">SaveMode</span><span class="o">.</span><span class="py">Overwrite</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">save</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>max records</strong>: if this option is set than each file will have that many records only</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">df</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"maxRecordsPerFile"</span><span class="o">,</span> <span class="mi">1000</span><span class="o">).</span><span class="py">mode</span><span class="o">(</span><span class="nv">SaveMode</span><span class="o">.</span><span class="py">Overwrite</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">save</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="sparksql">sparksql</h3>
+
+<p>to work with sql we create view and work on it. example:</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say we have dataframe already</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">createOrReplaceTempView</span><span class="o">(</span><span class="s">"dfView"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">output</span> <span class="k">=</span> <span class="nv">spak</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select col1, max(col2) from dfView group by col1 order by col1"</span><span class="o">)</span>
+<span class="nv">output</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: as per performance sparksql/dataframe are similar as both uses catalyst optimizer</p>
+
+<h3 id="save-as-table">save as table</h3>
+
+<p>when we use <code class="language-plaintext highlighter-rouge">save</code> then it saves directly as file in some folder. But sometimes we want to store as table (data + metadata)</p>
+
+<p><strong>data</strong>: stored in path used in <code class="language-plaintext highlighter-rouge">spark.sql.warehouse.dir</code></p>
+
+<p><strong>metadata</strong>: stored in memory by default, hive metstore can be used for permanent storage</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//by default data will be stored in default location &amp; metadata in memory</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">write</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">mode</span><span class="o">(</span><span class="nv">SaveMode</span><span class="o">.</span><span class="py">Overwrite</span><span class="o">).</span><span class="py">saveAsTable</span><span class="o">(</span><span class="s">"table1"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>:</p>
+<ul>
+  <li>we can enable hive support in config by <code class="language-plaintext highlighter-rouge">enableHiveStore()</code> to have permanent metadata store. So, we can create database and save tables in that database.</li>
+  <li>save in table benefits if some query needs to be done for example by reporting tools etc.</li>
+  <li>bucketing works on table, so here we can do like <code class="language-plaintext highlighter-rouge">bucketBy(2, "col1")</code>, this will create 2 files/buckets, it uses hash function so same data will end up in same bucket, it is widely used with <code class="language-plaintext highlighter-rouge">sortBy</code> for performance</li>
+</ul>
 
         
       </section>
