@@ -283,7 +283,7 @@ df.selectExpr("col1", "concat(col2, '_suffix')").show()
 
 ```scala
 //lets say we have only data in the path without column names
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 //here column name are decided by spark but we can give name as below
 val df1 = df.toDF("col1", "col2", "col3")
@@ -306,7 +306,7 @@ def func(i:Int):String = {
 val parseFunc = udf(func(_:Int):String)
 
 //read data
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 //step3: call function, driver will serialize function and send to all executors 
 val df1= df.withColumn("col4", parseFunc(col("col1")))
@@ -325,7 +325,7 @@ def func(i:Int):String = {
 spark.udf.register("parseFunc",func(_:Int):String)
 
 //read data
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 //step3: call function, driver will serialize function and send to all executors 
 val df1= df.withColumn("col4", expr("parseFunc(col1)"))
@@ -373,7 +373,7 @@ val df5 = df4.drop("col3")
 * example sum/max/min of all data
 
 ```scala
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 //using column object expression
 df.select(count("*").as("rows"), sum("col3").as("total"), avg("col3").as("avg"), countDistnct("col4").as("distinct")).show()
@@ -394,7 +394,7 @@ spark.sql("select count(*) as rows, sum(col3) as total, avg(col3) as avg, countD
 * groupBy is used
 
 ```scala
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 df.groupBy("col1","col2").agg(sum("col3").as("sum"),sum(expr("col3*col3").as("square"))).show()
 ```
@@ -405,10 +405,63 @@ df.groupBy("col1","col2").agg(sum("col3").as("sum"),sum(expr("col3*col3").as("sq
 * example past 7 days sale
 
 ```scala
-val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+val df = spark.read.format("csv").option("path", "/path").load()
 
 //window need partition, order, window size
 val window = Window.partitionBy("col1").orderBy("col2").rowsBetween(Window.unboundedPreceding, Windows.currentRow)
 
 df.withColumn("runningSum", sum("col3").over(window)).show()
+```
+
+
+### join
+
+#### simple
+
+these are the ones where shuffle is involved, also called as shuffle sort merge join
+
+```scala
+val df1 = spark.read.format("csv").option("path", "/path1").load
+val df2 = spark.read.format("csv").option("path", "/path2").load
+
+val joinCondition = df1.col("col1") === df2.col("col1")
+df1.join(df2, joinCondition, "inner").show()
+```
+
+**type of joins**
+
+* inner: matching records
+* left: matching + non matching from left
+* right: matching + non matching from right
+* outer: matching + non matching from left + non matching from right
+
+**internals of join**
+
+* for join to happen keys needs to be on same executor (reducer)
+* write output to exchange, which is buffer in the executor (mapper)
+* from exchange spark framework will read and do shuffle so as same keys goes to same executor
+
+**Note**:
+* in join, if both dataframes have same column name then selecting that particular column will be ambiguous. either need to rename column in one of the dataframe `withColumnRenamed` before join or drop the column after join.
+* in case of null, use `coalesce` to get some default value or something
+
+#### broadcast
+
+* small tables is broadcasted to all the executors, no shuffle
+* one table should be small enough so as all executors can hold data in memory
+* by default its enabled to broadcast small files
+* can be disabled by `spark.sql("SET spark.sql.autoBroadcastJoinThreshold = -1")`
+* can also be used as `df1.join(broadcast(df2), joinCondition, "inner")`
+
+
+### pivot
+
+```scala
+//lets say temp view dfView exist
+//here pivot on col2 have to query to find distinct
+val df = spark.sql("select col1, col2 from dfView").groupBy("col1").pivot("col2").count().show()
+
+//we can fix the data in pivot so as it does not have to do distinct query
+val columns = List("Yes", "No")
+val df = spark.sql("select col1, col2 from dfView").groupBy("col1").pivot("col2", columns).count().show()
 ```

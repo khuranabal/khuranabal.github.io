@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          8 minute read
         
       </span>
     
@@ -565,7 +565,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 <h3 id="attach-column-names-to-dataframe">attach column names to dataframe</h3>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say we have only data in the path without column names</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="c1">//here column name are decided by spark but we can give name as below</span>
 <span class="k">val</span> <span class="nv">df1</span> <span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span> <span class="s">"col2"</span><span class="o">,</span> <span class="s">"col3"</span><span class="o">)</span>
@@ -586,7 +586,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 <span class="k">val</span> <span class="nv">parseFunc</span> <span class="k">=</span> <span class="nf">udf</span><span class="o">(</span><span class="nf">func</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span>
 
 <span class="c1">//read data</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="c1">//step3: call function, driver will serialize function and send to all executors </span>
 <span class="k">val</span> <span class="nv">df1</span><span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"col4"</span><span class="o">,</span> <span class="nf">parseFunc</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"col1"</span><span class="o">)))</span>
@@ -604,7 +604,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 <span class="nv">spark</span><span class="o">.</span><span class="py">udf</span><span class="o">.</span><span class="py">register</span><span class="o">(</span><span class="s">"parseFunc"</span><span class="o">,</span><span class="nf">func</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span>
 
 <span class="c1">//read data</span>
-<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="c1">//step3: call function, driver will serialize function and send to all executors </span>
 <span class="k">val</span> <span class="nv">df1</span><span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"col4"</span><span class="o">,</span> <span class="nf">expr</span><span class="o">(</span><span class="s">"parseFunc(col1)"</span><span class="o">))</span>
@@ -650,7 +650,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   <li>example sum/max/min of all data</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="c1">//using column object expression</span>
 <span class="nv">df</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">count</span><span class="o">(</span><span class="s">"*"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"rows"</span><span class="o">),</span> <span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"total"</span><span class="o">),</span> <span class="nf">avg</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"avg"</span><span class="o">),</span> <span class="nf">countDistnct</span><span class="o">(</span><span class="s">"col4"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"distinct"</span><span class="o">)).</span><span class="py">show</span><span class="o">()</span>
@@ -672,7 +672,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   <li>groupBy is used</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="nv">df</span><span class="o">.</span><span class="py">groupBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span><span class="s">"col2"</span><span class="o">).</span><span class="py">agg</span><span class="o">(</span><span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"sum"</span><span class="o">),</span><span class="nf">sum</span><span class="o">(</span><span class="nf">expr</span><span class="o">(</span><span class="s">"col3*col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"square"</span><span class="o">))).</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div></div>
@@ -684,12 +684,69 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   <li>example past 7 days sale</li>
 </ul>
 
-<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
 
 <span class="c1">//window need partition, order, window size</span>
 <span class="k">val</span> <span class="nv">window</span> <span class="k">=</span> <span class="nv">Window</span><span class="o">.</span><span class="py">partitionBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">).</span><span class="py">orderBy</span><span class="o">(</span><span class="s">"col2"</span><span class="o">).</span><span class="py">rowsBetween</span><span class="o">(</span><span class="nv">Window</span><span class="o">.</span><span class="py">unboundedPreceding</span><span class="o">,</span> <span class="nv">Windows</span><span class="o">.</span><span class="py">currentRow</span><span class="o">)</span>
 
 <span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"runningSum"</span><span class="o">,</span> <span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">over</span><span class="o">(</span><span class="n">window</span><span class="o">)).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="join">join</h3>
+
+<h4 id="simple-1">simple</h4>
+
+<p>these are the ones where shuffle is involved, also called as shuffle sort merge join</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df1</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path1"</span><span class="o">).</span><span class="py">load</span>
+<span class="k">val</span> <span class="nv">df2</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path2"</span><span class="o">).</span><span class="py">load</span>
+
+<span class="k">val</span> <span class="nv">joinCondition</span> <span class="k">=</span> <span class="nv">df1</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"col1"</span><span class="o">)</span> <span class="o">===</span> <span class="nv">df2</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"col1"</span><span class="o">)</span>
+<span class="nv">df1</span><span class="o">.</span><span class="py">join</span><span class="o">(</span><span class="n">df2</span><span class="o">,</span> <span class="n">joinCondition</span><span class="o">,</span> <span class="s">"inner"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>type of joins</strong></p>
+
+<ul>
+  <li>inner: matching records</li>
+  <li>left: matching + non matching from left</li>
+  <li>right: matching + non matching from right</li>
+  <li>outer: matching + non matching from left + non matching from right</li>
+</ul>
+
+<p><strong>internals of join</strong></p>
+
+<ul>
+  <li>for join to happen keys needs to be on same executor (reducer)</li>
+  <li>write output to exchange, which is buffer in the executor (mapper)</li>
+  <li>from exchange spark framework will read and do shuffle so as same keys goes to same executor</li>
+</ul>
+
+<p><strong>Note</strong>:</p>
+<ul>
+  <li>in join, if both dataframes have same column name then selecting that particular column will be ambiguous. either need to rename column in one of the dataframe <code class="language-plaintext highlighter-rouge">withColumnRenamed</code> before join or drop the column after join.</li>
+  <li>in case of null, use <code class="language-plaintext highlighter-rouge">coalesce</code> to get some default value or something</li>
+</ul>
+
+<h4 id="broadcast">broadcast</h4>
+
+<ul>
+  <li>small tables is broadcasted to all the executors, no shuffle</li>
+  <li>one table should be small enough so as all executors can hold data in memory</li>
+  <li>by default its enabled to broadcast small files</li>
+  <li>can be disabled by <code class="language-plaintext highlighter-rouge">spark.sql("SET spark.sql.autoBroadcastJoinThreshold = -1")</code></li>
+  <li>can also be used as <code class="language-plaintext highlighter-rouge">df1.join(broadcast(df2), joinCondition, "inner")</code></li>
+</ul>
+
+<h3 id="pivot">pivot</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say temp view dfView exist</span>
+<span class="c1">//here pivot on col2 have to query to find distinct</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select col1, col2 from dfView"</span><span class="o">).</span><span class="py">groupBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">).</span><span class="py">pivot</span><span class="o">(</span><span class="s">"col2"</span><span class="o">).</span><span class="py">count</span><span class="o">().</span><span class="py">show</span><span class="o">()</span>
+
+<span class="c1">//we can fix the data in pivot so as it does not have to do distinct query</span>
+<span class="k">val</span> <span class="nv">columns</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">"Yes"</span><span class="o">,</span> <span class="s">"No"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select col1, col2 from dfView"</span><span class="o">).</span><span class="py">groupBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">).</span><span class="py">pivot</span><span class="o">(</span><span class="s">"col2"</span><span class="o">,</span> <span class="n">columns</span><span class="o">).</span><span class="py">count</span><span class="o">().</span><span class="py">show</span><span class="o">()</span>
 </code></pre></div></div>
 
         
