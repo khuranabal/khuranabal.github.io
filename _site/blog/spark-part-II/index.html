@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          7 minute read
         
       </span>
     
@@ -561,6 +561,136 @@ dataframe/dataset code optimized and converted to low level before sending to ex
 </code></pre></div></div>
 
 <p><strong>Note</strong>: columns strings/object can not be used together with column expression</p>
+
+<h3 id="attach-column-names-to-dataframe">attach column names to dataframe</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say we have only data in the path without column names</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="c1">//here column name are decided by spark but we can give name as below</span>
+<span class="k">val</span> <span class="nv">df1</span> <span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span> <span class="s">"col2"</span><span class="o">,</span> <span class="s">"col3"</span><span class="o">)</span>
+
+<span class="nv">df1</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="udf">udf</h3>
+
+<h4 id="column-object-expression-udf">column object expression udf</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//step1: define function</span>
+<span class="k">def</span> <span class="nf">func</span><span class="o">(</span><span class="n">i</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">90</span><span class="o">)</span> <span class="s">"Y"</span> <span class="k">else</span> <span class="s">"N"</span>
+<span class="o">}</span>
+
+<span class="c1">//step2: register function</span>
+<span class="k">val</span> <span class="nv">parseFunc</span> <span class="k">=</span> <span class="nf">udf</span><span class="o">(</span><span class="nf">func</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span>
+
+<span class="c1">//read data</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="c1">//step3: call function, driver will serialize function and send to all executors </span>
+<span class="k">val</span> <span class="nv">df1</span><span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"col4"</span><span class="o">,</span> <span class="nf">parseFunc</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"col1"</span><span class="o">)))</span>
+<span class="nv">df1</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h4 id="column-stringsql-udf">column string/sql udf</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//step1: define function</span>
+<span class="k">def</span> <span class="nf">func</span><span class="o">(</span><span class="n">i</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="nf">if</span> <span class="o">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">90</span><span class="o">)</span> <span class="s">"Y"</span> <span class="k">else</span> <span class="s">"N"</span>
+<span class="o">}</span>
+
+<span class="c1">//step2: register function, this will register in catalog and normal spark sql can also be done on it</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">udf</span><span class="o">.</span><span class="py">register</span><span class="o">(</span><span class="s">"parseFunc"</span><span class="o">,</span><span class="nf">func</span><span class="o">(</span><span class="k">_:</span><span class="kt">Int</span><span class="o">)</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span>
+
+<span class="c1">//read data</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="c1">//step3: call function, driver will serialize function and send to all executors </span>
+<span class="k">val</span> <span class="nv">df1</span><span class="k">=</span> <span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"col4"</span><span class="o">,</span> <span class="nf">expr</span><span class="o">(</span><span class="s">"parseFunc(col1)"</span><span class="o">))</span>
+<span class="nv">df1</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="example-with-test-data-in-code">example with test data in code</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//test data in list</span>
+<span class="k">val</span> <span class="nv">l1</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span>
+  <span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"2001-01-15"</span><span class="o">,</span><span class="mi">98</span><span class="o">,</span><span class="s">"PASS"</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"2001-01-15"</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="s">"FAIL"</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"2001-01-15"</span><span class="o">,</span><span class="mi">60</span><span class="o">,</span><span class="s">"PASS"</span><span class="o">)</span>
+<span class="o">)</span>
+
+<span class="c1">//one way to get data in rdd than convert to df</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">val</span> <span class="nv">rdd</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">sparkContext</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="n">l1</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">rdd</span><span class="o">.</span><span class="py">toDF</span><span class="o">()</span>
+
+<span class="c1">//other way to directly get in df</span>
+<span class="k">val</span> <span class="nv">df1</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="n">l1</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span><span class="s">"col2"</span><span class="o">,</span><span class="s">"col3"</span><span class="o">,</span><span class="s">"col4"</span><span class="o">)</span>
+
+<span class="c1">//convert date column col2 (string) to epoch time</span>
+<span class="k">val</span> <span class="nv">df2</span> <span class="k">=</span> <span class="nv">df1</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"col2"</span><span class="o">,</span> <span class="nf">unix_timestamp</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"col2"</span><span class="o">).</span><span class="py">cast</span><span class="o">(</span><span class="nc">DateType</span><span class="o">)))</span>
+
+<span class="c1">//add new column with unique data</span>
+<span class="k">val</span> <span class="nv">df3</span> <span class="k">=</span> <span class="nv">df2</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"new"</span><span class="o">,</span> <span class="n">monotonically_increasing_id</span><span class="o">)</span>
+
+<span class="c1">//drop duplicates based on col1 and col2</span>
+<span class="k">val</span> <span class="nv">df4</span> <span class="k">=</span> <span class="nv">df3</span><span class="o">.</span><span class="py">dropDuplicates</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span><span class="s">"col2"</span><span class="o">)</span>
+
+<span class="c1">//drop col3</span>
+<span class="k">val</span> <span class="nv">df5</span> <span class="k">=</span> <span class="nv">df4</span><span class="o">.</span><span class="py">drop</span><span class="o">(</span><span class="s">"col3"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="aggregartions">aggregartions</h3>
+
+<h4 id="simple">simple</h4>
+
+<ul>
+  <li>output is single row</li>
+  <li>example sum/max/min of all data</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="c1">//using column object expression</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">count</span><span class="o">(</span><span class="s">"*"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"rows"</span><span class="o">),</span> <span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"total"</span><span class="o">),</span> <span class="nf">avg</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"avg"</span><span class="o">),</span> <span class="nf">countDistnct</span><span class="o">(</span><span class="s">"col4"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"distinct"</span><span class="o">)).</span><span class="py">show</span><span class="o">()</span>
+
+<span class="c1">//using string expression</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"count(*) as rows"</span><span class="o">,</span> <span class="s">"sum(col3) as total"</span><span class="o">,</span> <span class="s">"avg(col3) as avg"</span><span class="o">,</span> <span class="s">"countDistnct(col4) as distinct"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+
+<span class="c1">//using spark sql</span>
+<span class="nv">df</span><span class="o">.</span><span class="py">createOrReplaceTempView</span><span class="o">(</span><span class="s">"dfView"</span><span class="o">)</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select count(*) as rows, sum(col3) as total, avg(col3) as avg, countDistnct(col4) as distinct from dfView"</span><span class="o">).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>Note</strong>: when count is done on particular column than only non null will be counted</p>
+
+<h4 id="grouping">grouping</h4>
+
+<ul>
+  <li>output is more than one record</li>
+  <li>groupBy is used</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">groupBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">,</span><span class="s">"col2"</span><span class="o">).</span><span class="py">agg</span><span class="o">(</span><span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"sum"</span><span class="o">),</span><span class="nf">sum</span><span class="o">(</span><span class="nf">expr</span><span class="o">(</span><span class="s">"col3*col3"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"square"</span><span class="o">))).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h4 id="window">window</h4>
+
+<ul>
+  <li>some fixed size window is used</li>
+  <li>example past 7 days sale</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">df</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">schema</span><span class="o">(</span><span class="n">dfSchema</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span> <span class="s">"/path"</span><span class="o">).</span><span class="py">load</span><span class="o">()</span>
+
+<span class="c1">//window need partition, order, window size</span>
+<span class="k">val</span> <span class="nv">window</span> <span class="k">=</span> <span class="nv">Window</span><span class="o">.</span><span class="py">partitionBy</span><span class="o">(</span><span class="s">"col1"</span><span class="o">).</span><span class="py">orderBy</span><span class="o">(</span><span class="s">"col2"</span><span class="o">).</span><span class="py">rowsBetween</span><span class="o">(</span><span class="nv">Window</span><span class="o">.</span><span class="py">unboundedPreceding</span><span class="o">,</span> <span class="nv">Windows</span><span class="o">.</span><span class="py">currentRow</span><span class="o">)</span>
+
+<span class="nv">df</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"runningSum"</span><span class="o">,</span> <span class="nf">sum</span><span class="o">(</span><span class="s">"col3"</span><span class="o">).</span><span class="py">over</span><span class="o">(</span><span class="n">window</span><span class="o">)).</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
 
         
       </section>

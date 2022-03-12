@@ -277,3 +277,138 @@ df.selectExpr("col1", "concat(col2, '_suffix')").show()
 ```
 
 **Note**: columns strings/object can not be used together with column expression
+
+
+### attach column names to dataframe
+
+```scala
+//lets say we have only data in the path without column names
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+//here column name are decided by spark but we can give name as below
+val df1 = df.toDF("col1", "col2", "col3")
+
+df1.show()
+```
+
+
+### udf
+
+#### column object expression udf
+
+```scala
+//step1: define function
+def func(i:Int):String = {
+  if (i>90) "Y" else "N"
+}
+
+//step2: register function
+val parseFunc = udf(func(_:Int):String)
+
+//read data
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+//step3: call function, driver will serialize function and send to all executors 
+val df1= df.withColumn("col4", parseFunc(col("col1")))
+df1.show()
+```
+
+#### column string/sql udf
+
+```scala
+//step1: define function
+def func(i:Int):String = {
+  if (i>90) "Y" else "N"
+}
+
+//step2: register function, this will register in catalog and normal spark sql can also be done on it
+spark.udf.register("parseFunc",func(_:Int):String)
+
+//read data
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+//step3: call function, driver will serialize function and send to all executors 
+val df1= df.withColumn("col4", expr("parseFunc(col1)"))
+df1.show()
+```
+
+
+### example with test data in code
+
+```scala
+//test data in list
+val l1 = List(
+  (1,"2001-01-15",98,"PASS"),
+  (2,"2001-01-15",9,"FAIL"),
+  (3,"2001-01-15",60,"PASS")
+)
+
+//one way to get data in rdd than convert to df
+import spark.implicits._
+val rdd = spark.sparkContext.parallelize(l1)
+val df = rdd.toDF()
+
+//other way to directly get in df
+val df1 = spark.createDataFrame(l1).toDF("col1","col2","col3","col4")
+
+//convert date column col2 (string) to epoch time
+val df2 = df1.withColumn("col2", unix_timestamp(col("col2").cast(DateType)))
+
+//add new column with unique data
+val df3 = df2.withColumn("new", monotonically_increasing_id)
+
+//drop duplicates based on col1 and col2
+val df4 = df3.dropDuplicates("col1","col2")
+
+//drop col3
+val df5 = df4.drop("col3")
+```
+
+
+### aggregartions
+
+#### simple
+
+* output is single row
+* example sum/max/min of all data
+
+```scala
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+//using column object expression
+df.select(count("*").as("rows"), sum("col3").as("total"), avg("col3").as("avg"), countDistnct("col4").as("distinct")).show()
+
+//using string expression
+df.selectExpr("count(*) as rows", "sum(col3) as total", "avg(col3) as avg", "countDistnct(col4) as distinct").show()
+
+//using spark sql
+df.createOrReplaceTempView("dfView")
+spark.sql("select count(*) as rows, sum(col3) as total, avg(col3) as avg, countDistnct(col4) as distinct from dfView").show()
+```
+
+**Note**: when count is done on particular column than only non null will be counted
+
+#### grouping
+
+* output is more than one record
+* groupBy is used
+
+```scala
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+df.groupBy("col1","col2").agg(sum("col3").as("sum"),sum(expr("col3*col3").as("square"))).show()
+```
+
+#### window
+
+* some fixed size window is used
+* example past 7 days sale
+
+```scala
+val df = spark.read.format("csv").schema(dfSchema).option("path", "/path").load()
+
+//window need partition, order, window size
+val window = Window.partitionBy("col1").orderBy("col2").rowsBetween(Window.unboundedPreceding, Windows.currentRow)
+
+df.withColumn("runningSum", sum("col3").over(window)).show()
+```
