@@ -1,4 +1,83 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-12T14:19:54+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark part-II</title><link href="http://localhost:4000/blog/spark-part-II/" rel="alternate" type="text/html" title="spark part-II" /><published>2022-03-09T17:00:00+01:00</published><updated>2022-03-09T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-part-II</id><content type="html" xml:base="http://localhost:4000/blog/spark-part-II/">&lt;p&gt;spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-12T21:20:42+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
+
+&lt;h3 id=&quot;application-code-level&quot;&gt;application code level&lt;/h3&gt;
+
+&lt;p&gt;few of the things which can be configured/used, when doing application code are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;partitiong&lt;/li&gt;
+  &lt;li&gt;bucketing&lt;/li&gt;
+  &lt;li&gt;cache/persist&lt;/li&gt;
+  &lt;li&gt;avoid/minimize shuffling&lt;/li&gt;
+  &lt;li&gt;join optimizations&lt;/li&gt;
+  &lt;li&gt;optimized file format&lt;/li&gt;
+  &lt;li&gt;using reduceByKey instead of groupByKey&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cluster-configuration&quot;&gt;cluster configuration&lt;/h3&gt;
+
+&lt;p&gt;to understand the cluster level configuration, lets say we have 10 node cluster (worker) with 16 core &amp;amp; 64GB ram each.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;executor, is a container which holds some core &amp;amp; memory&lt;/li&gt;
+  &lt;li&gt;one node can have more than one executor&lt;/li&gt;
+  &lt;li&gt;executor/container/jvm is same in this context&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;thin executor&lt;/strong&gt;: intention is to create more executors with each executor having minimum possible resources.&lt;/p&gt;
+
+&lt;p&gt;one core will be always be required by node for daemon threads and one gb memory will be required for operating system.&lt;/p&gt;
+
+&lt;p&gt;for above example, 15 executors can be created with one core each.&lt;/p&gt;
+
+&lt;p&gt;cons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;we loose on mutithreading as each executor get one core&lt;/li&gt;
+  &lt;li&gt;for broadcast lot of copies need to be done as there will be a lot of executors&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;fat executor&lt;/strong&gt;: intention is to give maximum possible resources.&lt;/p&gt;
+
+&lt;p&gt;one core will be always be required by node for daemon threads and one gb memory will be required for operating system.&lt;/p&gt;
+
+&lt;p&gt;for above example, all 15 cores in one executor.&lt;/p&gt;
+
+&lt;p&gt;cons:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;it is observed if executor hold more than 5 core then hdfs throughput suffers&lt;/li&gt;
+  &lt;li&gt;if executor holds large memory, garbage collection (removing unused objects from memory) takes lot of time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;balanced approach&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;for example above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor.&lt;/p&gt;
+
+&lt;p&gt;So, we can have 3 executors with 5 cores &amp;amp; 21GB ram&lt;/p&gt;
+
+&lt;p&gt;Out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory). max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor.&lt;/p&gt;
+
+&lt;p&gt;So, 3 executor per node in 10 node cluster we will have 30 executors.
+one executor out of 30 will be taken up by yarn, so total 29 executor for application&lt;/p&gt;
+
+&lt;p&gt;tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor&lt;/p&gt;
+
+&lt;h4 id=&quot;on-heap-memory&quot;&gt;on heap memory&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;local to the executor&lt;/li&gt;
+  &lt;li&gt;jvm manages and does the garbage collection&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;off-heap-memory&quot;&gt;off heap memory&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;used for some optimizations as garbage collection is not required&lt;/li&gt;
+  &lt;li&gt;but need to do memory management programmatically to use off heap&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/spark/spark-node.png&quot; alt=&quot;spark-node&quot; /&gt;&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><summary type="html">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations</summary></entry><entry><title type="html">spark part-II</title><link href="http://localhost:4000/blog/spark-part-II/" rel="alternate" type="text/html" title="spark part-II" /><published>2022-03-09T17:00:00+01:00</published><updated>2022-03-09T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-part-II</id><content type="html" xml:base="http://localhost:4000/blog/spark-part-II/">&lt;p&gt;spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets&lt;/p&gt;
 
 &lt;p&gt;dataframe is distributed collection of data organized into named columns. It was available in spark 1 also but in spark 2 and onwards we have better support for dataframe/datasets and both are merged into single api (datset api)&lt;/p&gt;
 
@@ -2583,38 +2662,4 @@ A: options-&lt;/p&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: cassandra has its own query language cql, its similar to sql&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cassandra" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">features</summary></entry><entry><title type="html">hive for processing and hbase for low latency read</title><link href="http://localhost:4000/blog/hive-hbase/" rel="alternate" type="text/html" title="hive for processing and hbase for low latency read" /><published>2022-01-26T15:25:00+01:00</published><updated>2022-01-26T15:25:00+01:00</updated><id>http://localhost:4000/blog/hive-hbase</id><content type="html" xml:base="http://localhost:4000/blog/hive-hbase/">&lt;p&gt;creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.&lt;/p&gt;
-
-&lt;p&gt;steps:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;create table in hive
-    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create table integration (a int, b string);
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;load data in hive table
-    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;load data local inpath '/path/to/data/data.csv'
-overwrite into table integration;
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;create hive-hbase table
-    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;create table hive_table(key int, value string) stored by
-'org.apache.hadoop.hive.hbase.HBaseStorageHandler' with
-SERDEPROPERTIES (&quot;hbase.table.name&quot;=&quot;hbase_table&quot;);
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;insert data in hive-hbase table
-    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;insert overwrite table hive_table select * from integration;
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;verify data from hive
-    &lt;pre&gt;&lt;code class=&quot;language-hive&quot;&gt;select * from hive_table;
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;verify data from hbase
-    &lt;pre&gt;&lt;code class=&quot;language-hbase&quot;&gt;scan 'hbase_table'
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then it updates the same key with new timestamp and by default latest one will be shown.&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="hive" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.</summary></entry></feed>
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: cassandra has its own query language cql, its similar to sql&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="cassandra" /><category term="nosql" /><category term="hbase" /><category term="database" /><summary type="html">features</summary></entry></feed>

@@ -19,34 +19,34 @@
   gtag('config', 'G-82G1S3103X');
 </script>
 
-<!-- begin _includes/seo.html --><title>hive for processing and hbase for low latency read - Balpreet Singh</title>
-<meta name="description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
+<!-- begin _includes/seo.html --><title>spark optimizations - Balpreet Singh</title>
+<meta name="description" content="optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations">
 
 
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Balpreet Singh">
-<meta property="og:title" content="hive for processing and hbase for low latency read">
-<meta property="og:url" content="http://localhost:4000/blog/hive-hbase/">
+<meta property="og:title" content="spark optimizations">
+<meta property="og:url" content="http://localhost:4000/blog/spark-optimizations/">
 
 
-  <meta property="og:description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2022-01-26T15:25:00+01:00">
+  <meta property="og:description" content="optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/hive-hbase/">
+
+  <meta property="article:published_time" content="2022-03-12T17:00:00+01:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/spark-optimizations/">
 
 
 
@@ -266,15 +266,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="hive for processing and hbase for low latency read">
-    <meta itemprop="description" content="creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.">
-    <meta itemprop="datePublished" content="2022-01-26T15:25:00+01:00">
+    <meta itemprop="headline" content="spark optimizations">
+    <meta itemprop="description" content="optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations">
+    <meta itemprop="datePublished" content="2022-03-12T17:00:00+01:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">hive for processing and hbase for low latency read
+          <h1 id="page-title" class="page__title" itemprop="headline">spark optimizations
 </h1>
           
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          2 minute read
         
       </span>
     
@@ -302,41 +302,86 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>creating table which can be accessed both by hive and hbase, this is done in cases where we require quick (low latency) searches and faster processing of data. In this case we can use hive for processing and hbase for quick searches with same underlying table.</p>
+        <p>optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations</p>
 
-<p>steps:</p>
+<h3 id="application-code-level">application code level</h3>
 
-<ol>
-  <li>create table in hive
-    <pre><code class="language-hive">create table integration (a int, b string);
-</code></pre>
-  </li>
-  <li>load data in hive table
-    <pre><code class="language-hive">load data local inpath '/path/to/data/data.csv'
-overwrite into table integration;
-</code></pre>
-  </li>
-  <li>create hive-hbase table
-    <pre><code class="language-hive">create table hive_table(key int, value string) stored by
-'org.apache.hadoop.hive.hbase.HBaseStorageHandler' with
-SERDEPROPERTIES ("hbase.table.name"="hbase_table");
-</code></pre>
-  </li>
-  <li>insert data in hive-hbase table
-    <pre><code class="language-hive">insert overwrite table hive_table select * from integration;
-</code></pre>
-  </li>
-  <li>verify data from hive
-    <pre><code class="language-hive">select * from hive_table;
-</code></pre>
-  </li>
-  <li>verify data from hbase
-    <pre><code class="language-hbase">scan 'hbase_table'
-</code></pre>
-  </li>
-</ol>
+<p>few of the things which can be configured/used, when doing application code are:</p>
 
-<p><strong>Note</strong>: in hive we can have duplicate keys but in hbase we can have only unique keys so when we load data in the table which is hive-hbase then it updates the same key with new timestamp and by default latest one will be shown.</p>
+<ul>
+  <li>partitiong</li>
+  <li>bucketing</li>
+  <li>cache/persist</li>
+  <li>avoid/minimize shuffling</li>
+  <li>join optimizations</li>
+  <li>optimized file format</li>
+  <li>using reduceByKey instead of groupByKey</li>
+</ul>
+
+<h3 id="cluster-configuration">cluster configuration</h3>
+
+<p>to understand the cluster level configuration, lets say we have 10 node cluster (worker) with 16 core &amp; 64GB ram each.</p>
+
+<ul>
+  <li>executor, is a container which holds some core &amp; memory</li>
+  <li>one node can have more than one executor</li>
+  <li>executor/container/jvm is same in this context</li>
+</ul>
+
+<p><strong>thin executor</strong>: intention is to create more executors with each executor having minimum possible resources.</p>
+
+<p>one core will be always be required by node for daemon threads and one gb memory will be required for operating system.</p>
+
+<p>for above example, 15 executors can be created with one core each.</p>
+
+<p>cons:</p>
+
+<ul>
+  <li>we loose on mutithreading as each executor get one core</li>
+  <li>for broadcast lot of copies need to be done as there will be a lot of executors</li>
+</ul>
+
+<p><strong>fat executor</strong>: intention is to give maximum possible resources.</p>
+
+<p>one core will be always be required by node for daemon threads and one gb memory will be required for operating system.</p>
+
+<p>for above example, all 15 cores in one executor.</p>
+
+<p>cons:</p>
+
+<ul>
+  <li>it is observed if executor hold more than 5 core then hdfs throughput suffers</li>
+  <li>if executor holds large memory, garbage collection (removing unused objects from memory) takes lot of time</li>
+</ul>
+
+<p><strong>balanced approach</strong>:</p>
+
+<p>for example above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor.</p>
+
+<p>So, we can have 3 executors with 5 cores &amp; 21GB ram</p>
+
+<p>Out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory). max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor.</p>
+
+<p>So, 3 executor per node in 10 node cluster we will have 30 executors.
+one executor out of 30 will be taken up by yarn, so total 29 executor for application</p>
+
+<p>tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor</p>
+
+<h4 id="on-heap-memory">on heap memory</h4>
+
+<ul>
+  <li>local to the executor</li>
+  <li>jvm manages and does the garbage collection</li>
+</ul>
+
+<h4 id="off-heap-memory">off heap memory</h4>
+
+<ul>
+  <li>used for some optimizations as garbage collection is not required</li>
+  <li>but need to do memory management programmatically to use off heap</li>
+</ul>
+
+<p><img src="/assets/images/spark/spark-node.png" alt="spark-node" /></p>
 
         
       </section>
@@ -353,13 +398,7 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
-    
-      <a href="/tags/#hbase" class="page__taxonomy-item" rel="tag">hbase</a><span class="sep">, </span>
-    
-      <a href="/tags/#hive" class="page__taxonomy-item" rel="tag">hive</a><span class="sep">, </span>
-    
-      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">nosql</a>
+      <a href="/tags/#spark" class="page__taxonomy-item" rel="tag">spark</a>
     
     </span>
   </p>
@@ -384,7 +423,7 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-26T15:25:00+01:00">January 26, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-03-12T17:00:00+01:00">March 12, 2022</time></p>
 
 
       </footer>
@@ -394,12 +433,11 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
       
   <nav class="pagination">
     
-      <a href="/blog/cassandra/" class="pagination--pager" title="cassandra
+      <a href="/blog/spark-part-II/" class="pagination--pager" title="spark part-II
 ">Previous</a>
     
     
-      <a href="/blog/scala-part-I/" class="pagination--pager" title="scala part I
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -413,47 +451,6 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
     <div class="page__related">
       <h4 class="page__related-title">You May Also Enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/blog/spark-optimizations/" rel="permalink">spark optimizations
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -482,7 +479,7 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          9 minute read
+          8 minute read
         
       </span>
     
@@ -523,7 +520,7 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          7 minute read
+          6 minute read
         
       </span>
     
@@ -573,6 +570,47 @@ SERDEPROPERTIES ("hbase.table.name"="hbase_table");
 
     <p class="archive__item-excerpt" itemprop="description">Yet Another Resource Negotiator
 Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/python/" rel="permalink">python basics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">module
 
 </p>
   </article>

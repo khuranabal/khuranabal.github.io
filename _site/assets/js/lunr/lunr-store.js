@@ -124,4 +124,10 @@ var store = [{
         "tags": ["spark"],
         "url": "/blog/spark-part-II/",
         "teaser": null
+      },{
+        "title": "spark optimizations",
+        "excerpt":"optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations application code level few of the things which can be configured/used, when doing application code are: partitiong bucketing cache/persist avoid/minimize shuffling join optimizations optimized file format using reduceByKey instead of...","categories": ["blog"],
+        "tags": ["spark"],
+        "url": "/blog/spark-optimizations/",
+        "teaser": null
       }]
