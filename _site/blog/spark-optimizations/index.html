@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          5 minute read
         
       </span>
     
@@ -328,44 +328,47 @@
   <li>executor/container/jvm is same in this context</li>
 </ul>
 
-<p><strong>thin executor</strong>: intention is to create more executors with each executor having minimum possible resources.</p>
+<p><strong>thin executor</strong></p>
 
-<p>one core will be always be required by node for daemon threads and one gb memory will be required for operating system.</p>
-
-<p>for above example, 15 executors can be created with one core each.</p>
+<ul>
+  <li>create more executors with each executor having minimum possible resources</li>
+  <li>one core will always be required by node for daemon threads and one gb memory will be required for operating system</li>
+  <li>for above example, 15 executors can be created with one core each</li>
+</ul>
 
 <p>cons:</p>
 
 <ul>
   <li>we loose on mutithreading as each executor get one core</li>
-  <li>for broadcast lot of copies need to be done as there will be a lot of executors</li>
+  <li>for broadcast, n copies need to be done for n executors</li>
 </ul>
 
-<p><strong>fat executor</strong>: intention is to give maximum possible resources.</p>
+<p><strong>fat executor</strong></p>
 
-<p>one core will be always be required by node for daemon threads and one gb memory will be required for operating system.</p>
-
-<p>for above example, all 15 cores in one executor.</p>
+<ul>
+  <li>give maximum possible resources</li>
+  <li>one core will be always be required by node for daemon threads and one gb memory will be required for operating system</li>
+  <li>for above example, all 15 cores in one executor</li>
+</ul>
 
 <p>cons:</p>
 
 <ul>
-  <li>it is observed if executor hold more than 5 core then hdfs throughput suffers</li>
+  <li>if executor hold more than 5 core then hdfs throughput suffers</li>
   <li>if executor holds large memory, garbage collection (removing unused objects from memory) takes lot of time</li>
 </ul>
 
-<p><strong>balanced approach</strong>:</p>
+<p><strong>balanced approach</strong></p>
 
-<p>for example above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor.</p>
-
-<p>So, we can have 3 executors with 5 cores &amp; 21GB ram</p>
-
-<p>Out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory). max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor.</p>
-
-<p>So, 3 executor per node in 10 node cluster we will have 30 executors.
-one executor out of 30 will be taken up by yarn, so total 29 executor for application</p>
-
-<p>tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor</p>
+<ul>
+  <li>for exmple above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor</li>
+  <li>we can have 3 executors with 5 cores &amp; 21GB ram</li>
+  <li>out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory)</li>
+  <li>max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor</li>
+  <li>3 executor per node in 10 node cluster we will have 30 executors</li>
+  <li>one executor out of 30 will be taken up by yarn, total 29 executor for application</li>
+  <li>tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor</li>
+</ul>
 
 <h4 id="on-heap-memory">on heap memory</h4>
 
@@ -382,6 +385,131 @@ one executor out of 30 will be taken up by yarn, so total 29 executor for applic
 </ul>
 
 <p><img src="/assets/images/spark/spark-node.png" alt="spark-node" /></p>
+
+<h3 id="understanding-running-on-cluster">understanding running on cluster</h3>
+
+<ul>
+  <li>in hadoop setup like cloudera we have edge nodes which we can connect to</li>
+  <li>with edge node we can do some interactive querying and if setting is to <code class="language-plaintext highlighter-rouge">local</code> then it will have just one executor acting as driver &amp; executor both</li>
+  <li>we can set master <code class="language-plaintext highlighter-rouge">yarn</code> to run it on full cluster</li>
+  <li>use <code class="language-plaintext highlighter-rouge">spark-shell</code> to run <code class="language-plaintext highlighter-rouge">scala</code> code</li>
+  <li>to run in local mode: <code class="language-plaintext highlighter-rouge">spark-shell --master local[*]</code></li>
+  <li>to run on cluster: <code class="language-plaintext highlighter-rouge">spark-shell --master yarn</code></li>
+</ul>
+
+<h4 id="ways-to-allocate-resources">ways to allocate resources</h4>
+
+<p><strong>dynamic</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">spark.dynamicAllocation.enabled</code> is set to true, can be checked in environment tab in spark ui</li>
+  <li>few more properties it require</li>
+  <li>for long running jobs if it has to work on different number of tasks in different stages then dynamic is good</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#app will start with initial number of executors as per this property</span>
+spark.dynamicAllocation.initialExecutors
+
+<span class="c">#app can use maximum number of executors as per this property</span>
+spark.dynamicAllocation.maxExecutors
+
+<span class="c">#app can use minimum number of executors as per this property</span>
+spark.dynamicAllocation.minExecutors
+
+<span class="c">#app can use free number of executors as per this property</span>
+spark.dynamicAllocation.executorIdleTimeout
+</code></pre></div></div>
+
+<p><strong>static</strong></p>
+
+<ul>
+  <li>to use it need to disable dynamic allocation</li>
+  <li>we cannot ask for more memory then set max in resource negotiator (take in consideration off heap as well 7%)</li>
+  <li>same for core</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">spark-shell --conf spark.dynamicAllocation.enabled=false --master yarn --num-executors 20 --executor-cores 2 --executor-memory 2G</code></p>
+
+<h4 id="example-application">example application</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say data(coloun delimited) we have is: state, date</span>
+<span class="c1">//lets say size of file is 10GB</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/file"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">0</span><span class="o">),</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">1</span><span class="o">)))</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">rdd2</span><span class="o">.</span><span class="py">groupByKey</span>
+<span class="k">val</span> <span class="nv">rdd4</span> <span class="k">=</span> <span class="nv">rdd3</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span><span class="o">,</span> <span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">.</span><span class="py">size</span><span class="o">))</span>
+<span class="nv">rdd4</span><span class="o">.</span><span class="py">collect</span>
+</code></pre></div></div>
+
+<ul>
+  <li>whatever memory is set, 300MB goes for some overhead</li>
+  <li>remaining is divided in two parts: storage &amp; execution memory- 60 percent of remaining, additional buffer- 40 percent of remaining</li>
+  <li>partitions are decided by number of blocks of data, 10GB file will have 10*1024/128 = 80 partitions</li>
+  <li>tasks will be equal to number of partitions, per stage it will be 80 tasks</li>
+  <li>executors can execute multiple tasks one after other</li>
+  <li>multiple executor cannot work on same partition</li>
+  <li>if executor has n core then only n task can be performed at a time</li>
+  <li>total parrellism = number of executors * number of cores in each executor</li>
+  <li>if groupByKey used, shuffle will happen and if we have 2 distinct keys then no matter cluster size it will have to be processed by only 2 executors</li>
+  <li>in case above (2 distinct keys) if input file is 10GB then one executor has to process atleast 5GB and at max ~10GB</li>
+  <li>and if memory is not enough on executor it will fail with OOM</li>
+  <li>salting can be used to solve such issue, so as less cardinality column can have more distinct keys to have filled partitions to run in parallel</li>
+</ul>
+
+<h4 id="salting">salting</h4>
+
+<ul>
+  <li>above problem where we have only few partitions to process like only 2 partitions then we underutilize cluster, and it will take more time.</li>
+  <li>we can increase container size but still only 2 executors will work, so another options is to use salting</li>
+  <li>add random number to the key and increase cardinality(distinct keys) to get parellelism</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">random</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">scala</span><span class="o">.</span><span class="py">util</span><span class="o">.</span><span class="py">Random</span>
+<span class="k">val</span> <span class="nv">start</span> <span class="k">=</span> <span class="mi">1</span>
+<span class="k">val</span> <span class="nv">end</span> <span class="k">=</span> <span class="mi">60</span>
+<span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/file"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="k">var</span> <span class="n">num</span> <span class="k">=</span> <span class="n">start</span> <span class="o">+</span> <span class="nv">random</span><span class="o">.</span><span class="py">nextInt</span><span class="o">(</span> <span class="o">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="o">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">)</span>
+  <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="n">num</span><span class="o">,</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">1</span><span class="o">))</span>
+  <span class="o">})</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">rdd2</span><span class="o">.</span><span class="py">groupByKey</span>
+<span class="k">val</span> <span class="nv">rdd4</span> <span class="k">=</span> <span class="nv">rdd3</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span> <span class="o">,</span> <span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">.</span><span class="py">size</span><span class="o">))</span>
+<span class="nv">rdd4</span><span class="o">.</span><span class="py">cache</span>
+<span class="k">val</span> <span class="nv">rdd5</span> <span class="k">=</span> <span class="nv">rdd4</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">{</span>
+  <span class="nf">if</span><span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span><span class="o">.</span><span class="py">substring</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">4</span><span class="o">)==</span><span class="s">"WARN"</span><span class="o">)</span>
+  <span class="o">(</span><span class="s">"WARN"</span><span class="o">,</span><span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">)</span>
+  <span class="nf">else</span>
+  <span class="o">(</span><span class="s">"ERROR"</span><span class="o">,</span><span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">)</span>   
+  <span class="o">})</span>
+<span class="k">val</span> <span class="nv">rdd6</span> <span class="k">=</span> <span class="nv">rdd5</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">(</span><span class="k">_</span><span class="o">+</span><span class="k">_</span><span class="o">)</span>
+<span class="nv">rdd6</span><span class="o">.</span><span class="py">collect</span><span class="o">.</span><span class="py">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="memory">memory</h3>
+
+<ul>
+  <li>execution memory: memory required for computations like shuffle, join, sort, agg</li>
+  <li>storage memory: used for cache</li>
+  <li>both share common region</li>
+  <li>when no execution running then storage can acquire all memory and vice versa</li>
+  <li>execution may evict storage if necessary, it happens until some threshold only</li>
+  <li>storage cannot evict execution memory</li>
+  <li>max of 384MB or 10% (depends on admin previous case above we used 7%) spark executor memory (memory overhead): off heap memory for vm overhead</li>
+  <li>execution (shuffle, join, sort, agg) &amp; storage memory (for cache, broadcast)</li>
+  <li>user memory (for data structure, safegaud against OOM)</li>
+  <li>reserved memory (storage for running executor): 300MB</li>
+</ul>
+
+<p><strong>example</strong>: 4GB we assign to executor then</p>
+
+<ul>
+  <li>total: 4096MB</li>
+  <li>off heap: 10% of 4GB is 409MB, so 4096+409MB should be avaialble to make executor run</li>
+  <li>reserved: 300MB</li>
+  <li>execution&amp;storage: 60% of (total-reserved) = 3796MB * .6 = 2277MB</li>
+  <li>user memory: 40% of (total-reserved) = 3796MB * .4 = 1518MB</li>
+  <li>storage memory is around 50% of storage&amp;execution, so we can have around 2277MB * .5 = 1138MB for cache &amp; broadcast</li>
+</ul>
 
         
       </section>

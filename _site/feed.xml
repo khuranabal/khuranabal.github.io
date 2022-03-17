@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-12T21:20:42+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-17T16:26:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
 
 &lt;h3 id=&quot;application-code-level&quot;&gt;application code level&lt;/h3&gt;
 
@@ -24,44 +24,47 @@
   &lt;li&gt;executor/container/jvm is same in this context&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;strong&gt;thin executor&lt;/strong&gt;: intention is to create more executors with each executor having minimum possible resources.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;thin executor&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;one core will be always be required by node for daemon threads and one gb memory will be required for operating system.&lt;/p&gt;
-
-&lt;p&gt;for above example, 15 executors can be created with one core each.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;create more executors with each executor having minimum possible resources&lt;/li&gt;
+  &lt;li&gt;one core will always be required by node for daemon threads and one gb memory will be required for operating system&lt;/li&gt;
+  &lt;li&gt;for above example, 15 executors can be created with one core each&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;cons:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;we loose on mutithreading as each executor get one core&lt;/li&gt;
-  &lt;li&gt;for broadcast lot of copies need to be done as there will be a lot of executors&lt;/li&gt;
+  &lt;li&gt;for broadcast, n copies need to be done for n executors&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;strong&gt;fat executor&lt;/strong&gt;: intention is to give maximum possible resources.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;fat executor&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;one core will be always be required by node for daemon threads and one gb memory will be required for operating system.&lt;/p&gt;
-
-&lt;p&gt;for above example, all 15 cores in one executor.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;give maximum possible resources&lt;/li&gt;
+  &lt;li&gt;one core will be always be required by node for daemon threads and one gb memory will be required for operating system&lt;/li&gt;
+  &lt;li&gt;for above example, all 15 cores in one executor&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;cons:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;it is observed if executor hold more than 5 core then hdfs throughput suffers&lt;/li&gt;
+  &lt;li&gt;if executor hold more than 5 core then hdfs throughput suffers&lt;/li&gt;
   &lt;li&gt;if executor holds large memory, garbage collection (removing unused objects from memory) takes lot of time&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;strong&gt;balanced approach&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;balanced approach&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;for example above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor.&lt;/p&gt;
-
-&lt;p&gt;So, we can have 3 executors with 5 cores &amp;amp; 21GB ram&lt;/p&gt;
-
-&lt;p&gt;Out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory). max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor.&lt;/p&gt;
-
-&lt;p&gt;So, 3 executor per node in 10 node cluster we will have 30 executors.
-one executor out of 30 will be taken up by yarn, so total 29 executor for application&lt;/p&gt;
-
-&lt;p&gt;tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;for exmple above as mentioned, one core for daemon threads and one gb for operating system. So we left with 15 cores and 63GB ram. We want mutithreading and hdfs through be optimal, hence we can use 5 cores in executor&lt;/li&gt;
+  &lt;li&gt;we can have 3 executors with 5 cores &amp;amp; 21GB ram&lt;/li&gt;
+  &lt;li&gt;out of 21GB ram, some of it is part of overhead(off heap memory aka raw memory)&lt;/li&gt;
+  &lt;li&gt;max of 348MB/7% of executor memory is off heap memory, it is overhead not part of container, so here approx 1.5GB is overhead, hence around 19GB will be avaialble for each executor&lt;/li&gt;
+  &lt;li&gt;3 executor per node in 10 node cluster we will have 30 executors&lt;/li&gt;
+  &lt;li&gt;one executor out of 30 will be taken up by yarn, total 29 executor for application&lt;/li&gt;
+  &lt;li&gt;tasks in executor is equal to number of cores, so 5 tasks can run parallelly in our case in each executor&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h4 id=&quot;on-heap-memory&quot;&gt;on heap memory&lt;/h4&gt;
 
@@ -77,7 +80,132 @@ one executor out of 30 will be taken up by yarn, so total 29 executor for applic
   &lt;li&gt;but need to do memory management programmatically to use off heap&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/spark/spark-node.png&quot; alt=&quot;spark-node&quot; /&gt;&lt;/p&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><summary type="html">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations</summary></entry><entry><title type="html">spark part-II</title><link href="http://localhost:4000/blog/spark-part-II/" rel="alternate" type="text/html" title="spark part-II" /><published>2022-03-09T17:00:00+01:00</published><updated>2022-03-09T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-part-II</id><content type="html" xml:base="http://localhost:4000/blog/spark-part-II/">&lt;p&gt;spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/spark/spark-node.png&quot; alt=&quot;spark-node&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;understanding-running-on-cluster&quot;&gt;understanding running on cluster&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;in hadoop setup like cloudera we have edge nodes which we can connect to&lt;/li&gt;
+  &lt;li&gt;with edge node we can do some interactive querying and if setting is to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;local&lt;/code&gt; then it will have just one executor acting as driver &amp;amp; executor both&lt;/li&gt;
+  &lt;li&gt;we can set master &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yarn&lt;/code&gt; to run it on full cluster&lt;/li&gt;
+  &lt;li&gt;use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-shell&lt;/code&gt; to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scala&lt;/code&gt; code&lt;/li&gt;
+  &lt;li&gt;to run in local mode: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-shell --master local[*]&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;to run on cluster: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-shell --master yarn&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;ways-to-allocate-resources&quot;&gt;ways to allocate resources&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;dynamic&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark.dynamicAllocation.enabled&lt;/code&gt; is set to true, can be checked in environment tab in spark ui&lt;/li&gt;
+  &lt;li&gt;few more properties it require&lt;/li&gt;
+  &lt;li&gt;for long running jobs if it has to work on different number of tasks in different stages then dynamic is good&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#app will start with initial number of executors as per this property&lt;/span&gt;
+spark.dynamicAllocation.initialExecutors
+
+&lt;span class=&quot;c&quot;&gt;#app can use maximum number of executors as per this property&lt;/span&gt;
+spark.dynamicAllocation.maxExecutors
+
+&lt;span class=&quot;c&quot;&gt;#app can use minimum number of executors as per this property&lt;/span&gt;
+spark.dynamicAllocation.minExecutors
+
+&lt;span class=&quot;c&quot;&gt;#app can use free number of executors as per this property&lt;/span&gt;
+spark.dynamicAllocation.executorIdleTimeout
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;static&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;to use it need to disable dynamic allocation&lt;/li&gt;
+  &lt;li&gt;we cannot ask for more memory then set max in resource negotiator (take in consideration off heap as well 7%)&lt;/li&gt;
+  &lt;li&gt;same for core&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-shell --conf spark.dynamicAllocation.enabled=false --master yarn --num-executors 20 --executor-cores 2 --executor-memory 2G&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;example-application&quot;&gt;example application&lt;/h4&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//lets say data(coloun delimited) we have is: state, date&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//lets say size of file is 10GB&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;textFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/path/to/file&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;groupByKey&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;collect&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;whatever memory is set, 300MB goes for some overhead&lt;/li&gt;
+  &lt;li&gt;remaining is divided in two parts: storage &amp;amp; execution memory- 60 percent of remaining, additional buffer- 40 percent of remaining&lt;/li&gt;
+  &lt;li&gt;partitions are decided by number of blocks of data, 10GB file will have 10*1024/128 = 80 partitions&lt;/li&gt;
+  &lt;li&gt;tasks will be equal to number of partitions, per stage it will be 80 tasks&lt;/li&gt;
+  &lt;li&gt;executors can execute multiple tasks one after other&lt;/li&gt;
+  &lt;li&gt;multiple executor cannot work on same partition&lt;/li&gt;
+  &lt;li&gt;if executor has n core then only n task can be performed at a time&lt;/li&gt;
+  &lt;li&gt;total parrellism = number of executors * number of cores in each executor&lt;/li&gt;
+  &lt;li&gt;if groupByKey used, shuffle will happen and if we have 2 distinct keys then no matter cluster size it will have to be processed by only 2 executors&lt;/li&gt;
+  &lt;li&gt;in case above (2 distinct keys) if input file is 10GB then one executor has to process atleast 5GB and at max ~10GB&lt;/li&gt;
+  &lt;li&gt;and if memory is not enough on executor it will fail with OOM&lt;/li&gt;
+  &lt;li&gt;salting can be used to solve such issue, so as less cardinality column can have more distinct keys to have filled partitions to run in parallel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;salting&quot;&gt;salting&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;above problem where we have only few partitions to process like only 2 partitions then we underutilize cluster, and it will take more time.&lt;/li&gt;
+  &lt;li&gt;we can increase container size but still only 2 executors will work, so another options is to use salting&lt;/li&gt;
+  &lt;li&gt;add random number to the key and increase cardinality(distinct keys) to get parellelism&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;random&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scala&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;Random&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;textFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/path/to/file&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;nextInt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;groupByKey&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;cache&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd5&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nf&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;substring&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)==&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;WARN&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;WARN&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nf&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ERROR&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;   
+  &lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd6&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;reduceByKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;collect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;memory&quot;&gt;memory&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;execution memory: memory required for computations like shuffle, join, sort, agg&lt;/li&gt;
+  &lt;li&gt;storage memory: used for cache&lt;/li&gt;
+  &lt;li&gt;both share common region&lt;/li&gt;
+  &lt;li&gt;when no execution running then storage can acquire all memory and vice versa&lt;/li&gt;
+  &lt;li&gt;execution may evict storage if necessary, it happens until some threshold only&lt;/li&gt;
+  &lt;li&gt;storage cannot evict execution memory&lt;/li&gt;
+  &lt;li&gt;max of 384MB or 10% (depends on admin previous case above we used 7%) spark executor memory (memory overhead): off heap memory for vm overhead&lt;/li&gt;
+  &lt;li&gt;execution (shuffle, join, sort, agg) &amp;amp; storage memory (for cache, broadcast)&lt;/li&gt;
+  &lt;li&gt;user memory (for data structure, safegaud against OOM)&lt;/li&gt;
+  &lt;li&gt;reserved memory (storage for running executor): 300MB&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;example&lt;/strong&gt;: 4GB we assign to executor then&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;total: 4096MB&lt;/li&gt;
+  &lt;li&gt;off heap: 10% of 4GB is 409MB, so 4096+409MB should be avaialble to make executor run&lt;/li&gt;
+  &lt;li&gt;reserved: 300MB&lt;/li&gt;
+  &lt;li&gt;execution&amp;amp;storage: 60% of (total-reserved) = 3796MB * .6 = 2277MB&lt;/li&gt;
+  &lt;li&gt;user memory: 40% of (total-reserved) = 3796MB * .4 = 1518MB&lt;/li&gt;
+  &lt;li&gt;storage memory is around 50% of storage&amp;amp;execution, so we can have around 2277MB * .5 = 1138MB for cache &amp;amp; broadcast&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><summary type="html">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations</summary></entry><entry><title type="html">spark part-II</title><link href="http://localhost:4000/blog/spark-part-II/" rel="alternate" type="text/html" title="spark part-II" /><published>2022-03-09T17:00:00+01:00</published><updated>2022-03-09T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-part-II</id><content type="html" xml:base="http://localhost:4000/blog/spark-part-II/">&lt;p&gt;spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets&lt;/p&gt;
 
 &lt;p&gt;dataframe is distributed collection of data organized into named columns. It was available in spark 1 also but in spark 2 and onwards we have better support for dataframe/datasets and both are merged into single api (datset api)&lt;/p&gt;
 
@@ -1549,8 +1677,15 @@ am good, 30
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;In memory only if we dont have enough memory then it will not fail rather will skip caching it.&lt;/li&gt;
+  &lt;li&gt;in memory only if we dont have enough memory then it will not fail rather will skip caching it, so it cache partitions as much as it can until full&lt;/li&gt;
   &lt;li&gt;serialized saves space as it stores in binary but will require more processing&lt;/li&gt;
+  &lt;li&gt;in memory it will be memory deserialized&lt;/li&gt;
+  &lt;li&gt;can cache in memory &amp;amp; remaining on disk&lt;/li&gt;
+  &lt;li&gt;can cache in memory serialized it will take more in processing&lt;/li&gt;
+  &lt;li&gt;can unpersist&lt;/li&gt;
+  &lt;li&gt;prefer kryo serializer over java serializer&lt;/li&gt;
+  &lt;li&gt;whenever the data is stored on disk or has to be transferred over the disk it has to be in serialized form, if we use kryo serializer then size will be much lesser than in the case of java serializer&lt;/li&gt;
+  &lt;li&gt;kryo is significantly faster and more compact than java serialization (often as much as 10times&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;run-jar&quot;&gt;run jar&lt;/h3&gt;

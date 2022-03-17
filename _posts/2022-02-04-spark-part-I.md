@@ -392,9 +392,15 @@ cache will always be in memory, persist have option of various storage levels. p
 **MEMORY_ONLY_2**: same as memory only but with 2 replicas on different worker nodes, t speed up recovery
 
 **Note**:
-* In memory only if we dont have enough memory then it will not fail rather will skip caching it.
+* in memory only if we dont have enough memory then it will not fail rather will skip caching it, so it cache partitions as much as it can until full
 * serialized saves space as it stores in binary but will require more processing
-
+* in memory it will be memory deserialized
+* can cache in memory & remaining on disk
+* can cache in memory serialized it will take more in processing
+* can unpersist
+* prefer kryo serializer over java serializer
+* whenever the data is stored on disk or has to be transferred over the disk it has to be in serialized form, if we use kryo serializer then size will be much lesser than in the case of java serializer
+* kryo is significantly faster and more compact than java serialization (often as much as 10times
 
 ### run jar
 
