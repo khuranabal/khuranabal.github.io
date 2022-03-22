@@ -738,6 +738,25 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   <li>can also be used as <code class="language-plaintext highlighter-rouge">df1.join(broadcast(df2), joinCondition, "inner")</code></li>
 </ul>
 
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">rdd1</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">textFile</span><span class="o">(</span><span class="s">"/path/to/big_file/"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd2</span> <span class="k">=</span> <span class="nv">rdd1</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">0</span><span class="o">),</span><span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">":"</span><span class="o">)(</span><span class="mi">1</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">a</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">((</span><span class="s">"key1"</span><span class="o">,</span><span class="mi">0</span><span class="o">),(</span><span class="s">"key2"</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
+
+<span class="c1">//partitions will be based on default parallelism</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">parallelize</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+
+<span class="c1">//shuffle needs to be done, another stage will be created</span>
+<span class="k">val</span> <span class="nv">rdd4</span> <span class="k">=</span> <span class="nv">rdd2</span><span class="o">.</span><span class="py">join</span><span class="o">(</span><span class="n">rdd3</span><span class="o">)</span>
+<span class="nv">rdd4</span><span class="o">.</span><span class="py">saveAsTextFile</span><span class="o">(</span><span class="s">"result1"</span><span class="o">)</span>
+
+<span class="c1">//here we can use broadcast for small table to avoid shuffling and save time</span>
+<span class="k">val</span> <span class="nv">toBroadcast</span> <span class="k">=</span> <span class="nv">a</span><span class="o">.</span><span class="py">toMap</span>
+<span class="k">val</span> <span class="nv">dataBroadcast</span> <span class="k">=</span> <span class="nv">sc</span><span class="o">.</span><span class="py">broadcast</span><span class="o">(</span><span class="n">toBroadcast</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">rdd3</span> <span class="k">=</span> <span class="nv">rdd2</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span><span class="o">,</span><span class="nv">x</span><span class="o">.</span><span class="py">_2</span><span class="o">,</span><span class="nv">dataBroadcast</span><span class="o">.</span><span class="py">value</span><span class="o">(</span><span class="nv">x</span><span class="o">.</span><span class="py">_1</span><span class="o">)))</span>
+<span class="nv">rdd3</span><span class="o">.</span><span class="py">saveAsTextFile</span><span class="o">(</span><span class="s">"result2"</span><span class="o">)</span>
+</code></pre></div></div>
+
 <h3 id="pivot">pivot</h3>
 
 <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//lets say temp view dfView exist</span>
@@ -846,7 +865,7 @@ dataframe/dataset code optimized and converted to low level before sending to ex
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     

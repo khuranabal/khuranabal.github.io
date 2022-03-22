@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-17T16:26:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-03-22T19:38:48+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
 
 &lt;h3 id=&quot;application-code-level&quot;&gt;application code level&lt;/h3&gt;
 
@@ -205,6 +205,138 @@ spark.dynamicAllocation.executorIdleTimeout
   &lt;li&gt;execution&amp;amp;storage: 60% of (total-reserved) = 3796MB * .6 = 2277MB&lt;/li&gt;
   &lt;li&gt;user memory: 40% of (total-reserved) = 3796MB * .4 = 1518MB&lt;/li&gt;
   &lt;li&gt;storage memory is around 50% of storage&amp;amp;execution, so we can have around 2277MB * .5 = 1138MB for cache &amp;amp; broadcast&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;important-internals&quot;&gt;important internals&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;when working with rdd then after shuffle number of partitions remain same but in dataframe/dataset after shuffle it will create default number of partitions (200), which can be changed&lt;/li&gt;
+  &lt;li&gt;if we use take/collect action then driver should have that much memory to handle data else it will fail with OOM, it can be configured while invoking spark shell via parameter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--driver-memory&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;join&quot;&gt;join&lt;/h4&gt;
+
+&lt;p&gt;we should aim to avoid/less shuffling &amp;amp; increase parallelism to process faster
+for joins we can have either:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;one large table and other small then should use broadcast for small&lt;/li&gt;
+  &lt;li&gt;both small table, spark not the way&lt;/li&gt;
+  &lt;li&gt;both tables large then filter &amp;amp; aggregations of data as much as possible before join&lt;/li&gt;
+  &lt;li&gt;at max how many parallel task can run = min(number of partitions set, distinct keys, total cores)&lt;/li&gt;
+  &lt;li&gt;skew partitions, this happens due to less distinct keys then we can solve using salting&lt;/li&gt;
+  &lt;li&gt;bucketing &amp;amp; sorting on join column on both the tables can make join faster, this is same as SMB (Sort Merge Bucket) join&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;example&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;if we have 250 cores in cluster, default after shuffling 200 partitions will be there, and we have more than 250 partitions to process initially, in this case:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;50 cores left will be wasted&lt;/li&gt;
+  &lt;li&gt;if distinct keys are only 100 then other 150 will be wasted&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;sort-aggregate-vs-hash-aggregate&quot;&gt;sort aggregate vs hash aggregate&lt;/h4&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;orderDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inferSchema&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;path&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;orders.csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;orderDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;createOrReplaceTempView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;orders&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//long running&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//plan, it uses sort aggregate&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;explain&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//optimized query&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//plan, it uses hash aggregate&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;explain&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;sort aggregate&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;first the data is sorted based on the grouping columns, which takes time&lt;/li&gt;
+  &lt;li&gt;for sorting complexity will be O(nlogn)&lt;/li&gt;
+  &lt;li&gt;if data is doubled then time it takes will be more than double&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;hash aggregate&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;no sorting is required, as same value will be overwritten for the unique key as aggregate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;first&lt;/code&gt; is used&lt;/li&gt;
+  &lt;li&gt;additional memory is required to have the hashtable kind of structure&lt;/li&gt;
+  &lt;li&gt;if distinct keys are not much then should always go for hash aggregates&lt;/li&gt;
+  &lt;li&gt;complexity will be O(n)&lt;/li&gt;
+  &lt;li&gt;hash table kind of structure is not a part of container, rather this additional memory is grabbed as part of off heap memory, not the part of your jvm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;why in query 1 it took sort aggregate&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;month number is string, which is immutable. when we are using hash aggregate we should have mutable types in the values&lt;/p&gt;
+
+&lt;h3 id=&quot;catalyst-optimizer&quot;&gt;catalyst optimizer&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;structured apis (dataframe/dataset/sparksql) performs better than rdds&lt;/li&gt;
+  &lt;li&gt;optimizes execution plan for structured apis&lt;/li&gt;
+  &lt;li&gt;rule based optimization&lt;/li&gt;
+  &lt;li&gt;new optimization rules can be added&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/spark/catalyst-optimizer.png&quot; alt=&quot;catalyst-optimizer&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;parsed logical plan&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;unresolved&lt;/li&gt;
+  &lt;li&gt;our query is parsed and we get a parsed logical plan&lt;/li&gt;
+  &lt;li&gt;it checks for any of the syntax errors&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;resolved/analysed logical plan&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;resolve the table name, column names etc.&lt;/li&gt;
+  &lt;li&gt;if column name or table name is not available then analysis exception is raised&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;optimized logical plan&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;catalyst optimizer&lt;/li&gt;
+  &lt;li&gt;filter push down&lt;/li&gt;
+  &lt;li&gt;combining of filters&lt;/li&gt;
+  &lt;li&gt;combining of projections&lt;/li&gt;
+  &lt;li&gt;many such rules which are already in place&lt;/li&gt;
+  &lt;li&gt;we can add our own rules in the catalyst optimizer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;physical plan&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;creates mutiple physical plans like Sortaggregate, HashAggregate&lt;/li&gt;
+  &lt;li&gt;select the physical plan which is the most optimized one with minimum cost&lt;/li&gt;
+  &lt;li&gt;selected physical plan is converted to rdd code&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;connect-external-source&quot;&gt;connect external source&lt;/h3&gt;
+
+&lt;p&gt;create dataframe by connectin to mysql table, requires jar &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mysql-connector-java.jar&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spark-shell &lt;span class=&quot;nt&quot;&gt;--driver-class-path&lt;/span&gt; /usr/share/java/mysql-connector-java.jar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;connection_url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;jdbc:mysql://servername/databasename&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;mysqlProperty&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;Properties&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;mysqlProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;username&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;mysqlProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;orderDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;jdbc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connection_url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;tablename&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mysqlProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;orderDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;sources&quot;&gt;Sources&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://databricks.com/glossary/catalyst-optimizer&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark" /><summary type="html">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations</summary></entry><entry><title type="html">spark part-II</title><link href="http://localhost:4000/blog/spark-part-II/" rel="alternate" type="text/html" title="spark part-II" /><published>2022-03-09T17:00:00+01:00</published><updated>2022-03-09T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-part-II</id><content type="html" xml:base="http://localhost:4000/blog/spark-part-II/">&lt;p&gt;spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets&lt;/p&gt;
 
 &lt;p&gt;dataframe is distributed collection of data organized into named columns. It was available in spark 1 also but in spark 2 and onwards we have better support for dataframe/datasets and both are merged into single api (datset api)&lt;/p&gt;
@@ -640,6 +772,25 @@ dataframe/dataset code optimized and converted to low level before sending to ex
   &lt;li&gt;can be disabled by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark.sql(&quot;SET spark.sql.autoBroadcastJoinThreshold = -1&quot;)&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;can also be used as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;df1.join(broadcast(df2), joinCondition, &quot;inner&quot;)&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;textFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/path/to/big_file/&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//partitions will be based on default parallelism&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;parallelize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//shuffle needs to be done, another stage will be created&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rdd3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;saveAsTextFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;result1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//here we can use broadcast for small table to avoid shuffling and save time&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;toBroadcast&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toMap&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dataBroadcast&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;broadcast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toBroadcast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dataBroadcast&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)))&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;rdd3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;saveAsTextFile&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;result2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;pivot&quot;&gt;pivot&lt;/h3&gt;
 
@@ -1649,7 +1800,13 @@ am good, 30
 &lt;span class=&quot;nv&quot;&gt;rdd2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getNumPartitions&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;to decrease partitions, repartition and coalesce both can be used but coalesce is preferred as it minimizes shuffling by trying to combine partitions within the node&lt;/li&gt;
+  &lt;li&gt;when using coalesce, we can get unequal partitions&lt;/li&gt;
+  &lt;li&gt;when using repartition, full shuffling will be done but we get equal size partitions&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&quot;cache--persist&quot;&gt;cache &amp;amp; persist&lt;/h3&gt;
 
@@ -1694,8 +1851,23 @@ am good, 30
 
 &lt;p&gt;to run from terminal we can submit like below&lt;/p&gt;
 
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;spark-submit &lt;span class=&quot;nt&quot;&gt;--class&lt;/span&gt; ClassName path/to/jar
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#step1: prepare jar from preffered IDE (path to files should be in args, spark context should not have local)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#step2: move jar to the edge/gateway machine using scp&lt;/span&gt;
+spark-submit &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--class&lt;/span&gt; ClassName &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--master&lt;/span&gt; yarn &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--deploy-mode&lt;/span&gt; cluster &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--executor-memory&lt;/span&gt; 2G &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--num-executors&lt;/span&gt; 2 &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+path/to/jar path/to/file
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;deploy-mode&quot;&gt;deploy-mode&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cluster&lt;/code&gt; then driver will be on one of the worker node, logs can be viewed from the worker node where its executing&lt;/li&gt;
+  &lt;li&gt;when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;client&lt;/code&gt; then driver will be on the edge/gateway machine where we are running the command, logs will be printed directly on shell&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h3 id=&quot;map-vs-map-partition&quot;&gt;map vs map partition&lt;/h3&gt;
 

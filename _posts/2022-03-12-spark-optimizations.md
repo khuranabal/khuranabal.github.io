@@ -190,3 +190,120 @@ rdd6.collect.foreach(println)
 * execution&storage: 60% of (total-reserved) = 3796MB * .6 = 2277MB
 * user memory: 40% of (total-reserved) = 3796MB * .4 = 1518MB
 * storage memory is around 50% of storage&execution, so we can have around 2277MB * .5 = 1138MB for cache & broadcast
+
+
+### important internals
+
+* when working with rdd then after shuffle number of partitions remain same but in dataframe/dataset after shuffle it will create default number of partitions (200), which can be changed
+* if we use take/collect action then driver should have that much memory to handle data else it will fail with OOM, it can be configured while invoking spark shell via parameter `--driver-memory`
+
+#### join
+
+we should aim to avoid/less shuffling & increase parallelism to process faster
+for joins we can have either:
+* one large table and other small then should use broadcast for small
+* both small table, spark not the way
+* both tables large then filter & aggregations of data as much as possible before join
+* at max how many parallel task can run = min(number of partitions set, distinct keys, total cores)
+* skew partitions, this happens due to less distinct keys then we can solve using salting
+* bucketing & sorting on join column on both the tables can make join faster, this is same as SMB (Sort Merge Bucket) join
+
+**example**:
+
+if we have 250 cores in cluster, default after shuffling 200 partitions will be there, and we have more than 250 partitions to process initially, in this case:
+
+* 50 cores left will be wasted
+* if distinct keys are only 100 then other 150 will be wasted
+
+#### sort aggregate vs hash aggregate
+
+```scala
+val orderDF = spark.read.format("csv").option("inferSchema",true).option("header",true).option("path","orders.csv").load
+orderDF.createOrReplaceTempView("orders")
+
+//long running
+spark.sql("select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)").show
+//plan, it uses sort aggregate
+spark.sql("select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)").explain
+
+//optimized query
+spark.sql("select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum").show
+//plan, it uses hash aggregate
+spark.sql("select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum").explain
+```
+
+**sort aggregate**
+
+* first the data is sorted based on the grouping columns, which takes time
+* for sorting complexity will be O(nlogn)
+* if data is doubled then time it takes will be more than double
+
+**hash aggregate**
+
+* no sorting is required, as same value will be overwritten for the unique key as aggregate `first` is used
+* additional memory is required to have the hashtable kind of structure
+* if distinct keys are not much then should always go for hash aggregates
+* complexity will be O(n)
+* hash table kind of structure is not a part of container, rather this additional memory is grabbed as part of off heap memory, not the part of your jvm
+
+**why in query 1 it took sort aggregate**
+
+month number is string, which is immutable. when we are using hash aggregate we should have mutable types in the values
+
+
+### catalyst optimizer
+
+* structured apis (dataframe/dataset/sparksql) performs better than rdds
+* optimizes execution plan for structured apis
+* rule based optimization
+* new optimization rules can be added
+
+![catalyst-optimizer](/assets/images/spark/catalyst-optimizer.png)
+
+**parsed logical plan**
+
+* unresolved
+* our query is parsed and we get a parsed logical plan 
+* it checks for any of the syntax errors
+
+**resolved/analysed logical plan**
+
+* resolve the table name, column names etc.
+* if column name or table name is not available then analysis exception is raised
+
+**optimized logical plan**
+
+* catalyst optimizer
+* filter push down
+* combining of filters
+* combining of projections 
+* many such rules which are already in place
+* we can add our own rules in the catalyst optimizer
+
+**physical plan**
+
+* creates mutiple physical plans like Sortaggregate, HashAggregate
+* select the physical plan which is the most optimized one with minimum cost
+* selected physical plan is converted to rdd code
+
+
+### connect external source
+
+create dataframe by connectin to mysql table, requires jar `mysql-connector-java.jar`
+
+```shell
+spark-shell --driver-class-path /usr/share/java/mysql-connector-java.jar
+```
+
+```scala
+val connection_url ="jdbc:mysql://servername/databasename"
+val mysqlProperty = new java.util.Properties
+mysqlProperty.setProperty("user","username")
+mysqlProperty.setProperty("password","password")
+val orderDF = spark.read.jdbc(connection_url,"tablename",mysqlProperty)orderDF.show()
+```
+
+
+### Sources
+
+* https://databricks.com/glossary/catalyst-optimizer

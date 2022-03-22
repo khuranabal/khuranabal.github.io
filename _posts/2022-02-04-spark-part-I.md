@@ -364,7 +364,11 @@ val rdd2 = rdd1.coalesce(1)
 rdd2.getNumPartitions
 ```
 
-**Note**: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first
+**Note**
+
+* to decrease partitions, repartition and coalesce both can be used but coalesce is preferred as it minimizes shuffling by trying to combine partitions within the node
+* when using coalesce, we can get unequal partitions
+* when using repartition, full shuffling will be done but we get equal size partitions
 
 
 ### cache & persist
@@ -409,8 +413,21 @@ jar is Java ARchive, a package file format typically used to aggregate many java
 to run from terminal we can submit like below
 
 ```shell
-spark-submit --class ClassName path/to/jar
+#step1: prepare jar from preffered IDE (path to files should be in args, spark context should not have local)
+#step2: move jar to the edge/gateway machine using scp
+spark-submit \
+--class ClassName \
+--master yarn \
+--deploy-mode cluster \
+--executor-memory 2G \
+--num-executors 2 \
+path/to/jar path/to/file
 ```
+
+#### deploy-mode
+
+* when `cluster` then driver will be on one of the worker node, logs can be viewed from the worker node where its executing
+* when `client` then driver will be on the edge/gateway machine where we are running the command, logs will be printed directly on shell
 
 [jar-wiki]: https://en.wikipedia.org/wiki/JAR_(file_format)
 

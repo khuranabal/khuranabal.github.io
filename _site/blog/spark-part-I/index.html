@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          10 minute read
+          11 minute read
         
       </span>
     
@@ -659,7 +659,13 @@ am good, 30
 <span class="nv">rdd2</span><span class="o">.</span><span class="py">getNumPartitions</span>
 </code></pre></div></div>
 
-<p><strong>Note</strong>: to decrease repartition and coalesce both can be used but coalesce if preferred as it minimizes shuffling by trying to combine partitions within the node first</p>
+<p><strong>Note</strong></p>
+
+<ul>
+  <li>to decrease partitions, repartition and coalesce both can be used but coalesce is preferred as it minimizes shuffling by trying to combine partitions within the node</li>
+  <li>when using coalesce, we can get unequal partitions</li>
+  <li>when using repartition, full shuffling will be done but we get equal size partitions</li>
+</ul>
 
 <h3 id="cache--persist">cache &amp; persist</h3>
 
@@ -704,8 +710,23 @@ am good, 30
 
 <p>to run from terminal we can submit like below</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-submit <span class="nt">--class</span> ClassName path/to/jar
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#step1: prepare jar from preffered IDE (path to files should be in args, spark context should not have local)</span>
+<span class="c">#step2: move jar to the edge/gateway machine using scp</span>
+spark-submit <span class="se">\</span>
+<span class="nt">--class</span> ClassName <span class="se">\</span>
+<span class="nt">--master</span> yarn <span class="se">\</span>
+<span class="nt">--deploy-mode</span> cluster <span class="se">\</span>
+<span class="nt">--executor-memory</span> 2G <span class="se">\</span>
+<span class="nt">--num-executors</span> 2 <span class="se">\</span>
+path/to/jar path/to/file
 </code></pre></div></div>
+
+<h4 id="deploy-mode">deploy-mode</h4>
+
+<ul>
+  <li>when <code class="language-plaintext highlighter-rouge">cluster</code> then driver will be on one of the worker node, logs can be viewed from the worker node where its executing</li>
+  <li>when <code class="language-plaintext highlighter-rouge">client</code> then driver will be on the edge/gateway machine where we are running the command, logs will be printed directly on shell</li>
+</ul>
 
 <h3 id="map-vs-map-partition">map vs map partition</h3>
 
@@ -818,7 +839,7 @@ am good, 30
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          6 minute read
+          9 minute read
         
       </span>
     

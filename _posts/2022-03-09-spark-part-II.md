@@ -453,6 +453,25 @@ df1.join(df2, joinCondition, "inner").show()
 * can be disabled by `spark.sql("SET spark.sql.autoBroadcastJoinThreshold = -1")`
 * can also be used as `df1.join(broadcast(df2), joinCondition, "inner")`
 
+```scala
+val rdd1 = sc.textFile("/path/to/big_file/")
+val rdd2 = rdd1.map(x => (x.split(":")(0),x.split(":")(1))
+
+val a = Array(("key1",0),("key2",1))
+
+//partitions will be based on default parallelism
+val rdd3 = sc.parallelize(a)
+
+//shuffle needs to be done, another stage will be created
+val rdd4 = rdd2.join(rdd3)
+rdd4.saveAsTextFile("result1")
+
+//here we can use broadcast for small table to avoid shuffling and save time
+val toBroadcast = a.toMap
+val dataBroadcast = sc.broadcast(toBroadcast)
+val rdd3 = rdd2.map(x => (x._1,x._2,dataBroadcast.value(x._1)))
+rdd3.saveAsTextFile("result2")
+```
 
 ### pivot
 

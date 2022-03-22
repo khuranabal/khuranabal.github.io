@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          5 minute read
+          8 minute read
         
       </span>
     
@@ -509,6 +509,138 @@ spark.dynamicAllocation.executorIdleTimeout
   <li>execution&amp;storage: 60% of (total-reserved) = 3796MB * .6 = 2277MB</li>
   <li>user memory: 40% of (total-reserved) = 3796MB * .4 = 1518MB</li>
   <li>storage memory is around 50% of storage&amp;execution, so we can have around 2277MB * .5 = 1138MB for cache &amp; broadcast</li>
+</ul>
+
+<h3 id="important-internals">important internals</h3>
+
+<ul>
+  <li>when working with rdd then after shuffle number of partitions remain same but in dataframe/dataset after shuffle it will create default number of partitions (200), which can be changed</li>
+  <li>if we use take/collect action then driver should have that much memory to handle data else it will fail with OOM, it can be configured while invoking spark shell via parameter <code class="language-plaintext highlighter-rouge">--driver-memory</code></li>
+</ul>
+
+<h4 id="join">join</h4>
+
+<p>we should aim to avoid/less shuffling &amp; increase parallelism to process faster
+for joins we can have either:</p>
+<ul>
+  <li>one large table and other small then should use broadcast for small</li>
+  <li>both small table, spark not the way</li>
+  <li>both tables large then filter &amp; aggregations of data as much as possible before join</li>
+  <li>at max how many parallel task can run = min(number of partitions set, distinct keys, total cores)</li>
+  <li>skew partitions, this happens due to less distinct keys then we can solve using salting</li>
+  <li>bucketing &amp; sorting on join column on both the tables can make join faster, this is same as SMB (Sort Merge Bucket) join</li>
+</ul>
+
+<p><strong>example</strong>:</p>
+
+<p>if we have 250 cores in cluster, default after shuffling 200 partitions will be there, and we have more than 250 partitions to process initially, in this case:</p>
+
+<ul>
+  <li>50 cores left will be wasted</li>
+  <li>if distinct keys are only 100 then other 150 will be wasted</li>
+</ul>
+
+<h4 id="sort-aggregate-vs-hash-aggregate">sort aggregate vs hash aggregate</h4>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">orderDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span><span class="kc">true</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span><span class="kc">true</span><span class="o">).</span><span class="py">option</span><span class="o">(</span><span class="s">"path"</span><span class="o">,</span><span class="s">"orders.csv"</span><span class="o">).</span><span class="py">load</span>
+<span class="nv">orderDF</span><span class="o">.</span><span class="py">createOrReplaceTempView</span><span class="o">(</span><span class="s">"orders"</span><span class="o">)</span>
+
+<span class="c1">//long running</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)"</span><span class="o">).</span><span class="py">show</span>
+<span class="c1">//plan, it uses sort aggregate</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(date_format(order_date,'M')) monthnum  from orders group by order_customer_id, orderdt order by cast(monthnum as int)"</span><span class="o">).</span><span class="py">explain</span>
+
+<span class="c1">//optimized query</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum"</span><span class="o">).</span><span class="py">show</span>
+<span class="c1">//plan, it uses hash aggregate</span>
+<span class="nv">spark</span><span class="o">.</span><span class="py">sql</span><span class="o">(</span><span class="s">"select order_customer_id, date_format(order_date, 'MMMM') orderdt,  count(1) cnt,first(cast(date_format(order_date,'M') as int)) monthnum  from orders group byorder_customer_id, orderdt order by monthnum"</span><span class="o">).</span><span class="py">explain</span>
+</code></pre></div></div>
+
+<p><strong>sort aggregate</strong></p>
+
+<ul>
+  <li>first the data is sorted based on the grouping columns, which takes time</li>
+  <li>for sorting complexity will be O(nlogn)</li>
+  <li>if data is doubled then time it takes will be more than double</li>
+</ul>
+
+<p><strong>hash aggregate</strong></p>
+
+<ul>
+  <li>no sorting is required, as same value will be overwritten for the unique key as aggregate <code class="language-plaintext highlighter-rouge">first</code> is used</li>
+  <li>additional memory is required to have the hashtable kind of structure</li>
+  <li>if distinct keys are not much then should always go for hash aggregates</li>
+  <li>complexity will be O(n)</li>
+  <li>hash table kind of structure is not a part of container, rather this additional memory is grabbed as part of off heap memory, not the part of your jvm</li>
+</ul>
+
+<p><strong>why in query 1 it took sort aggregate</strong></p>
+
+<p>month number is string, which is immutable. when we are using hash aggregate we should have mutable types in the values</p>
+
+<h3 id="catalyst-optimizer">catalyst optimizer</h3>
+
+<ul>
+  <li>structured apis (dataframe/dataset/sparksql) performs better than rdds</li>
+  <li>optimizes execution plan for structured apis</li>
+  <li>rule based optimization</li>
+  <li>new optimization rules can be added</li>
+</ul>
+
+<p><img src="/assets/images/spark/catalyst-optimizer.png" alt="catalyst-optimizer" /></p>
+
+<p><strong>parsed logical plan</strong></p>
+
+<ul>
+  <li>unresolved</li>
+  <li>our query is parsed and we get a parsed logical plan</li>
+  <li>it checks for any of the syntax errors</li>
+</ul>
+
+<p><strong>resolved/analysed logical plan</strong></p>
+
+<ul>
+  <li>resolve the table name, column names etc.</li>
+  <li>if column name or table name is not available then analysis exception is raised</li>
+</ul>
+
+<p><strong>optimized logical plan</strong></p>
+
+<ul>
+  <li>catalyst optimizer</li>
+  <li>filter push down</li>
+  <li>combining of filters</li>
+  <li>combining of projections</li>
+  <li>many such rules which are already in place</li>
+  <li>we can add our own rules in the catalyst optimizer</li>
+</ul>
+
+<p><strong>physical plan</strong></p>
+
+<ul>
+  <li>creates mutiple physical plans like Sortaggregate, HashAggregate</li>
+  <li>select the physical plan which is the most optimized one with minimum cost</li>
+  <li>selected physical plan is converted to rdd code</li>
+</ul>
+
+<h3 id="connect-external-source">connect external source</h3>
+
+<p>create dataframe by connectin to mysql table, requires jar <code class="language-plaintext highlighter-rouge">mysql-connector-java.jar</code></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="nt">--driver-class-path</span> /usr/share/java/mysql-connector-java.jar
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">connection_url</span> <span class="o">=</span><span class="s">"jdbc:mysql://servername/databasename"</span>
+<span class="k">val</span> <span class="nv">mysqlProperty</span> <span class="k">=</span> <span class="k">new</span> <span class="nv">java</span><span class="o">.</span><span class="py">util</span><span class="o">.</span><span class="py">Properties</span>
+<span class="nv">mysqlProperty</span><span class="o">.</span><span class="py">setProperty</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span><span class="s">"username"</span><span class="o">)</span>
+<span class="nv">mysqlProperty</span><span class="o">.</span><span class="py">setProperty</span><span class="o">(</span><span class="s">"password"</span><span class="o">,</span><span class="s">"password"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">orderDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">jdbc</span><span class="o">(</span><span class="n">connection_url</span><span class="o">,</span><span class="s">"tablename"</span><span class="o">,</span><span class="n">mysqlProperty</span><span class="o">)</span><span class="nv">orderDF</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h3 id="sources">Sources</h3>
+
+<ul>
+  <li>https://databricks.com/glossary/catalyst-optimizer</li>
 </ul>
 
         
