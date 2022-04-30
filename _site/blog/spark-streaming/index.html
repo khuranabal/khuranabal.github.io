@@ -1,0 +1,766 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-82G1S3103X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-82G1S3103X');
+</script>
+
+<!-- begin _includes/seo.html --><title>spark optimizations - Balpreet Singh</title>
+<meta name="description" content="processing on continous flowing data, example card fraud detection, find something trending   MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data   data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in   so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval   transformations will be performed on Dstream which does batch processing on all the rdds in Dstream   with batch size of 1 sec it will be near real time">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Balpreet Singh">
+<meta property="og:title" content="spark optimizations">
+<meta property="og:url" content="http://localhost:4000/blog/spark-streaming/">
+
+
+  <meta property="og:description" content="processing on continous flowing data, example card fraud detection, find something trending   MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data   data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in   so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval   transformations will be performed on Dstream which does batch processing on all the rdds in Dstream   with batch size of 1 sec it will be near real time">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-04-03T18:00:00+02:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/spark-streaming/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Balpreet Singh Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Balpreet Singh
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.jpg" alt="" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name"></h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Senior Data Engineer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="https://khuranabal.github.io/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/balpreet-singh-654705114" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">Linkedin</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/khuranabal?tab=repositories" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="spark optimizations">
+    <meta itemprop="description" content="  processing on continous flowing data, example card fraud detection, find something trending  MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data  data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in  so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval  transformations will be performed on Dstream which does batch processing on all the rdds in Dstream  with batch size of 1 sec it will be near real time">
+    <meta itemprop="datePublished" content="2022-04-03T18:00:00+02:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">spark optimizations
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <ul>
+  <li>processing on continous flowing data, example card fraud detection, find something trending</li>
+  <li>MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data</li>
+  <li>data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in</li>
+  <li>so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval</li>
+  <li>transformations will be performed on Dstream which does batch processing on all the rdds in Dstream</li>
+  <li>with batch size of 1 sec it will be near real time</li>
+</ul>
+
+<p>Dstream -&gt; rdds -&gt; messages
+1 -&gt; 30 -&gt; data in the form of messages
+we operate at Dstream level</p>
+
+<h3 id="stream-processing">stream processing</h3>
+
+<p><strong>spark streaming</strong>: traditional way (rdds)</p>
+
+<p>example:</p>
+
+<p>step 1. producer write to socket</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#this will open socket and will accept messages</span>
+nc <span class="nt">-lk</span> 9998
+</code></pre></div></div>
+
+<p>step 2. consumer read from the same socket</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#streaming requires 2 cores</span>
+spark-shell <span class="nt">--master</span> <span class="nb">local</span><span class="o">[</span>2]
+</code></pre></div></div>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming.StreamingContext._</span>
+<span class="c1">//streaming context is required</span>
+<span class="k">val</span> <span class="nv">ssc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StreamingContext</span><span class="o">(</span><span class="n">sc</span><span class="o">,</span> <span class="nc">Seconds</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
+<span class="c1">//lines here is Dstream</span>
+<span class="k">val</span> <span class="nv">lines</span> <span class="k">=</span> <span class="nv">ssc</span><span class="o">.</span><span class="py">socketTextStream</span><span class="o">(</span><span class="s">"localhost"</span><span class="o">,</span><span class="mi">9998</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">lines</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pairs</span> <span class="k">=</span> <span class="nv">words</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">count</span> <span class="k">=</span> <span class="nv">pairs</span><span class="o">.</span><span class="py">reduceByKey</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">)</span>
+<span class="nv">count</span><span class="o">.</span><span class="py">print</span><span class="o">()</span>
+<span class="nv">ssc</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>structured streaming</strong>: dataframes/dataset</p>
+
+<h3 id="types-of-transformations-in-streaming">types of transformations in streaming</h3>
+
+<p><strong>stateless</strong>: like previous example, always calculate for new rdds, always done on single rdd. example all transformations used in batch like map, filter, reduceByKey, etc.</p>
+
+<p><strong>stateful</strong>: processing is done on multiple rdds together, this applies to only streaming data, is done on entire stream or windows</p>
+
+<p>sum is stateless transformation, if we need running total than we need to use stateful transformation like</p>
+
+<p>input stream example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2
+5
+7
+1
+</code></pre></div></div>
+
+<p>step 1. convert normal rdd to pair rdd and add dummy key, example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(key,2)
+(key,5)
+(key,7)
+(key,1)
+</code></pre></div></div>
+
+<p>step 2. updateStateByKey</p>
+
+<p>define state to start with and function to update state</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming.StreamingContext._</span>
+<span class="c1">//streaming context is required</span>
+<span class="k">val</span> <span class="nv">ssc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StreamingContext</span><span class="o">(</span><span class="n">sc</span><span class="o">,</span> <span class="nc">Seconds</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
+<span class="c1">//lines here is Dstream</span>
+<span class="k">val</span> <span class="nv">lines</span> <span class="k">=</span> <span class="nv">ssc</span><span class="o">.</span><span class="py">socketTextStream</span><span class="o">(</span><span class="s">"localhost"</span><span class="o">,</span><span class="mi">9998</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">lines</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pairs</span> <span class="k">=</span> <span class="nv">words</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
+
+<span class="nv">ssc</span><span class="o">.</span><span class="py">checkpoint</span><span class="o">(</span><span class="s">"/path/to/checkpoint"</span><span class="o">)</span>
+
+<span class="k">def</span> <span class="nf">updateFunc</span><span class="o">(</span><span class="n">newValues</span><span class="k">:</span><span class="kt">Seq</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span><span class="n">previousState</span><span class="k">:</span><span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="nv">newCount</span> <span class="k">=</span> <span class="nv">previousState</span><span class="o">.</span><span class="py">getOrElse</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="o">+</span> <span class="nv">newValues</span><span class="o">.</span><span class="py">sum</span>
+  <span class="nc">Some</span><span class="o">(</span><span class="n">newCount</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="nv">count</span> <span class="k">=</span> <span class="nv">pairs</span><span class="o">.</span><span class="py">updateStateByKey</span><span class="o">(</span><span class="n">updateFunc</span><span class="o">)</span>
+<span class="nv">count</span><span class="o">.</span><span class="py">print</span><span class="o">()</span>
+<span class="nv">ssc</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p>window:</p>
+
+<ul>
+  <li>batch interval: new rdd created, example 10sec</li>
+  <li>window size: transformation done over a window, example 30sec</li>
+  <li>sliding window: new rdds are considered and old will be ignored, example 20sec</li>
+  <li>new rdds added is known as summary function</li>
+  <li>removing of old rdds is known as inverse function</li>
+  <li>sliding &amp; windows should be integral multiple of batch as full rdd have to be in process.</li>
+  <li>reduceByKeyAndWindow(summary function, inverse function, window size, sliding interval)</li>
+</ul>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming.StreamingContext._</span>
+<span class="c1">//streaming context is required</span>
+<span class="k">val</span> <span class="nv">ssc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StreamingContext</span><span class="o">(</span><span class="n">sc</span><span class="o">,</span> <span class="nc">Seconds</span><span class="o">(</span><span class="mi">5</span><span class="o">))</span>
+<span class="c1">//lines here is Dstream</span>
+<span class="k">val</span> <span class="nv">lines</span> <span class="k">=</span> <span class="nv">ssc</span><span class="o">.</span><span class="py">socketTextStream</span><span class="o">(</span><span class="s">"localhost"</span><span class="o">,</span><span class="mi">9998</span><span class="o">)</span>
+
+<span class="nv">ssc</span><span class="o">.</span><span class="py">checkpoint</span><span class="o">(</span><span class="s">"/path/to/checkpoint"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">lines</span><span class="o">.</span><span class="py">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="nv">x</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pairs</span> <span class="k">=</span> <span class="nv">words</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="mi">1</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">wordsCount</span> <span class="k">=</span> <span class="nv">pairs</span><span class="o">.</span><span class="py">reduceByKeyAndWindow</span><span class="o">((</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">,(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span><span class="k">=&gt;</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="o">,</span><span class="nc">Seconds</span><span class="o">(</span><span class="mi">10</span><span class="o">),</span><span class="nc">Seconds</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+
+<span class="nv">wordsCount</span><span class="o">.</span><span class="py">print</span><span class="o">()</span>
+<span class="nv">ssc</span><span class="o">.</span><span class="py">start</span><span class="o">()</span>
+</code></pre></div></div>
+
+<ul>
+  <li>reduceByKey - stateless</li>
+  <li>updateStateByKey - stateful (considers entire stream</li>
+  <li>reduceByKeyAndWindow - stateful (sliding window) -pair rdd is required</li>
+  <li>reduceByWindow - here pair rdd is not required</li>
+  <li>countByWindow - it will count the number of linesin the window.</li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#spark-streaming" class="page__taxonomy-item" rel="tag">spark streaming</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-04-03T18:00:00+02:00">April 3, 2022</time></p>
+
+
+      </footer>
+
+      
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/spark-optimizations/" class="pagination--pager" title="spark optimizations
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/spark-optimizations/" rel="permalink">spark optimizations
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/spark-part-II/" rel="permalink">spark part-II
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">spark core works on rdds (spark 1 style) but we have high level constructs to query/process data easily, its dataframe/datasets
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/hive-basics/" rel="permalink">hive basics
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          6 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">it is open source datawarehouse to process structured data on top of hadoop
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/yarn/" rel="permalink">yarn
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Yet Another Resource Negotiator
+Lets first go through how things are in hadoop initial version and what the limitations are which is solved by YARN.
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://www.linkedin.com/in/balpreet-singh-654705114" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
+        
+      
+        
+          <li><a href="https://github.com/khuranabal?tab=repositories" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Balpreet Singh. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'khuranabal/khuranabal.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+
+  </body>
+</html>
