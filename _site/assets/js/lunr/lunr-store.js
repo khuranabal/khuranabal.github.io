@@ -130,4 +130,10 @@ var store = [{
         "tags": ["spark"],
         "url": "/blog/spark-optimizations/",
         "teaser": null
+      },{
+        "title": "spark streaming",
+        "excerpt":"processing on continous flowing data, example card fraud detection, find something trending MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data data in spark is stored in rdd, but in streaming there is no static place where data is stored,...","categories": ["blog"],
+        "tags": ["spark streaming"],
+        "url": "/blog/spark-streaming/",
+        "teaser": null
       }]
