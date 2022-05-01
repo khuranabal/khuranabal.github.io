@@ -7,6 +7,22 @@ tags:
   - spark streaming
 ---
 
+In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:
+
+* some data might reach late
+* if previous batch is still running
+* batch failure
+
+stream prosessing have additional set of problems to handle compared to batch processing. All these are provided by spark streaming.
+
+* automatic looping of batches
+* storing intermediate results
+* combining result with previous batch result
+* restart from same place (using checkpoint) in case of failure
+
+
+### stream processing
+
 * processing on continous flowing data, example card fraud detection, find something trending
 * MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data
 * data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in
@@ -17,9 +33,6 @@ tags:
 Dstream -> rdds -> messages
 1 -> 30 -> data in the form of messages
 we operate at Dstream level
-
-
-### stream processing
 
 **spark streaming**: traditional way (rdds)
 
@@ -143,3 +156,70 @@ ssc.start()
 * reduceByKeyAndWindow - stateful (sliding window) -pair rdd is required
 * reduceByWindow - here pair rdd is not required
 * countByWindow - it will count the number of linesin the window.
+
+
+### limitations of lower level constructs
+
+* lack of spark sql engine optimizations
+* only support processing time semantics and do not support event time semantics
+* no further updates or enhancements expected
+
+
+### spark structured streaming
+
+* unified model of batch and stream processing
+* run over spark sql engine
+* supports event time semantics
+* further enhancements expected
+
+example:
+
+step 1. producer write to socket
+
+```shell
+#this will open socket and will accept messages
+nc -lk 9998
+```
+
+step 2. consumer read from the same socket
+
+```scala
+import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.SparkContext
+import org.apache.spark.streaming.Seconds
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+
+object StreamingWordCount {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+  val spark = SparkSession.builder()
+  .master(local[2])
+  .appName("stream app")
+  .getOrCreate()
+
+  //read from stream
+  val lines = spark.readStream
+  .format("socket")
+  .option("host","localhost")
+  .option("port","9998")
+  .load()
+
+  //process
+  //split will give an array, explode will explode array in mutiple rows
+  val words = lines.selectExpr("explode(split(value,' ')) as word")
+  val counts = words.groupBy("word").count()
+
+  //sink
+  val output = counts.writeStream
+  .format("console")
+  .outputMode("complete")
+  .option("checkpointLocation","path")
+  .start()
+
+  output.awaitTermination()
+
+}
+
+```

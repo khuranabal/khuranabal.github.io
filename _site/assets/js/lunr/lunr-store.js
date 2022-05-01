@@ -132,7 +132,7 @@ var store = [{
         "teaser": null
       },{
         "title": "spark streaming",
-        "excerpt":"processing on continous flowing data, example card fraud detection, find something trending MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data data in spark is stored in rdd, but in streaming there is no static place where data is stored,...","categories": ["blog"],
+        "excerpt":"In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will...","categories": ["blog"],
         "tags": ["spark streaming"],
         "url": "/blog/spark-streaming/",
         "teaser": null

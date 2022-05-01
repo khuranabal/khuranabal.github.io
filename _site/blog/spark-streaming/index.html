@@ -20,7 +20,7 @@
 </script>
 
 <!-- begin _includes/seo.html --><title>spark streaming - Balpreet Singh</title>
-<meta name="description" content="processing on continous flowing data, example card fraud detection, find something trending   MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data   data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in   so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval   transformations will be performed on Dstream which does batch processing on all the rdds in Dstream   with batch size of 1 sec it will be near real time">
+<meta name="description" content="In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:">
 
 
 
@@ -31,7 +31,7 @@
 <meta property="og:url" content="http://localhost:4000/blog/spark-streaming/">
 
 
-  <meta property="og:description" content="processing on continous flowing data, example card fraud detection, find something trending   MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data   data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in   so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval   transformations will be performed on Dstream which does batch processing on all the rdds in Dstream   with batch size of 1 sec it will be near real time">
+  <meta property="og:description" content="In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:">
 
 
 
@@ -267,7 +267,7 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="spark streaming">
-    <meta itemprop="description" content="  processing on continous flowing data, example card fraud detection, find something trending  MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data  data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in  so we define stream size, lets say 1 hour and every 2 min we do something then new rdd will be created every 2 min and total 30 rdd will be created. each rdd may have more/less data. here 2 min is batch interval  transformations will be performed on Dstream which does batch processing on all the rdds in Dstream  with batch size of 1 sec it will be near real time">
+    <meta itemprop="description" content="In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:">
     <meta itemprop="datePublished" content="2022-04-03T18:00:00+02:00">
     
 
@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          4 minute read
         
       </span>
     
@@ -302,7 +302,26 @@
 
       <section class="page__content" itemprop="text">
         
-        <ul>
+        <p>In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:</p>
+
+<ul>
+  <li>some data might reach late</li>
+  <li>if previous batch is still running</li>
+  <li>batch failure</li>
+</ul>
+
+<p>stream prosessing have additional set of problems to handle compared to batch processing. All these are provided by spark streaming.</p>
+
+<ul>
+  <li>automatic looping of batches</li>
+  <li>storing intermediate results</li>
+  <li>combining result with previous batch result</li>
+  <li>restart from same place (using checkpoint) in case of failure</li>
+</ul>
+
+<h3 id="stream-processing">stream processing</h3>
+
+<ul>
   <li>processing on continous flowing data, example card fraud detection, find something trending</li>
   <li>MapReduce can only work on batch, not streaming data, spark is general purpose and can also process streaming data</li>
   <li>data in spark is stored in rdd, but in streaming there is no static place where data is stored, its continously flowing in</li>
@@ -314,8 +333,6 @@
 <p>Dstream -&gt; rdds -&gt; messages
 1 -&gt; 30 -&gt; data in the form of messages
 we operate at Dstream level</p>
-
-<h3 id="stream-processing">stream processing</h3>
 
 <p><strong>spark streaming</strong>: traditional way (rdds)</p>
 
@@ -434,6 +451,73 @@ spark-shell <span class="nt">--master</span> <span class="nb">local</span><span 
   <li>reduceByWindow - here pair rdd is not required</li>
   <li>countByWindow - it will count the number of linesin the window.</li>
 </ul>
+
+<h3 id="limitations-of-lower-level-constructs">limitations of lower level constructs</h3>
+
+<ul>
+  <li>lack of spark sql engine optimizations</li>
+  <li>only support processing time semantics and do not support event time semantics</li>
+  <li>no further updates or enhancements expected</li>
+</ul>
+
+<h3 id="spark-structured-streaming">spark structured streaming</h3>
+
+<ul>
+  <li>unified model of batch and stream processing</li>
+  <li>run over spark sql engine</li>
+  <li>supports event time semantics</li>
+  <li>further enhancements expected</li>
+</ul>
+
+<p>example:</p>
+
+<p>step 1. producer write to socket</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#this will open socket and will accept messages</span>
+nc <span class="nt">-lk</span> 9998
+</code></pre></div></div>
+
+<p>step 2. consumer read from the same socket</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">org.apache.spark.streaming.StreamingContext</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkContext</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.streaming.Seconds</span>
+<span class="k">import</span> <span class="nn">org.apache.log4j.Level</span>
+<span class="k">import</span> <span class="nn">org.apache.log4j.Logger</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.SparkConf</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.SparkSession</span>
+
+<span class="k">object</span> <span class="nc">StreamingWordCount</span> <span class="o">{</span>
+  <span class="nv">Logger</span><span class="o">.</span><span class="py">getLogger</span><span class="o">(</span><span class="s">"org"</span><span class="o">).</span><span class="py">setLevel</span><span class="o">(</span><span class="nv">Level</span><span class="o">.</span><span class="py">ERROR</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkSession</span><span class="o">.</span><span class="py">builder</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">master</span><span class="o">(</span><span class="n">local</span><span class="o">[</span><span class="err">2</span><span class="o">])</span>
+  <span class="o">.</span><span class="py">appName</span><span class="o">(</span><span class="s">"stream app"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">getOrCreate</span><span class="o">()</span>
+
+  <span class="c1">//read from stream</span>
+  <span class="k">val</span> <span class="nv">lines</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">readStream</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"socket"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"host"</span><span class="o">,</span><span class="s">"localhost"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"port"</span><span class="o">,</span><span class="s">"9998"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">()</span>
+
+  <span class="c1">//process</span>
+  <span class="c1">//split will give an array, explode will explode array in mutiple rows</span>
+  <span class="k">val</span> <span class="nv">words</span> <span class="k">=</span> <span class="nv">lines</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(split(value,' ')) as word"</span><span class="o">)</span>
+  <span class="k">val</span> <span class="nv">counts</span> <span class="k">=</span> <span class="nv">words</span><span class="o">.</span><span class="py">groupBy</span><span class="o">(</span><span class="s">"word"</span><span class="o">).</span><span class="py">count</span><span class="o">()</span>
+
+  <span class="c1">//sink</span>
+  <span class="k">val</span> <span class="nv">output</span> <span class="k">=</span> <span class="nv">counts</span><span class="o">.</span><span class="py">writeStream</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"console"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">outputMode</span><span class="o">(</span><span class="s">"complete"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"checkpointLocation"</span><span class="o">,</span><span class="s">"path"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">start</span><span class="o">()</span>
+
+  <span class="nv">output</span><span class="o">.</span><span class="py">awaitTermination</span><span class="o">()</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
 
         
       </section>
