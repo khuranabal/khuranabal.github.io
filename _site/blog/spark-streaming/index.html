@@ -290,7 +290,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          8 minute read
         
       </span>
     
@@ -518,6 +518,146 @@ nc <span class="nt">-lk</span> 9998
 <span class="o">}</span>
 
 </code></pre></div></div>
+
+<p>In above example, group by will do shuffle and then shuffle partitions parameter will kick in and with default vaule will create 200 partitions which is over kill for this case, hence it took around 5 seconds</p>
+
+<p>so if we change the shuffle partitions it will give results in less than 1 sec.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">spark</span> <span class="k">=</span> <span class="nv">SparkSession</span><span class="o">.</span><span class="py">builder</span><span class="o">()</span>
+ <span class="o">.</span><span class="py">master</span><span class="o">(</span><span class="n">local</span><span class="o">[</span><span class="err">2</span><span class="o">])</span>
+ <span class="o">.</span><span class="py">appName</span><span class="o">(</span><span class="s">"stream app"</span><span class="o">)</span>
+ <span class="o">.</span><span class="py">config</span><span class="o">(</span><span class="s">"spark.shuffle.partitions"</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+ <span class="o">.</span><span class="py">getOrCreate</span><span class="o">()</span>
+</code></pre></div></div>
+
+<h2 id="output-modes">output modes</h2>
+
+<p><strong>append</strong>: only new data</p>
+
+<p><strong>update</strong>: insert &amp; update only</p>
+
+<p><strong>complete</strong>: it will maintain all state and give output from start till end</p>
+
+<p>exapmle:
+input1: hello hi
+input2: hello no</p>
+
+<p>in complete mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (hi,1) (no,1)</p>
+
+<p>in update mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (no,1)</p>
+
+<p>in append mode:
+output1: (hello,1) (hi,1)
+output2: (hello,1) (no,1)</p>
+
+<p>in agg, append mode is not allowed, and spark streaming will through error as it is not supported.</p>
+
+<h3 id="graceful-shutdown">graceful shutdown</h3>
+
+<p>ideally spark streaming application should run forever but there can be cases where</p>
+
+<ul>
+  <li>manually have to stop it for maintainence or some other reason</li>
+  <li>some exception</li>
+</ul>
+
+<p>we want our spark streaming application to stop and then restart gracefully. for this there is config to enable <code class="language-plaintext highlighter-rouge">stopGracefullyOnShutdown</code> to <code class="language-plaintext highlighter-rouge">true</code></p>
+
+<h3 id="behind-the-scene-when-spark-streaming-starts">behind the scene when spark streaming starts</h3>
+
+<ul>
+  <li>spark driver will take the code from readStream to writeStream and submits it to spark sql engine</li>
+  <li>spark sql engine will analyse it, optimize it and then compile it to generate the execution plan</li>
+  <li>execution plan is made of stages and tasks</li>
+  <li>spark will then start a background thread to execute it</li>
+  <li>this thread will start a new job to repeat the processing and writing operations</li>
+  <li>each job is a micro batch</li>
+  <li>loop is created and managed by the background process/thread</li>
+  <li>whenever new data is processed then in spark UI we can see a new job created</li>
+</ul>
+
+<h3 id="when-new-micro-batch-is-triggered">when new micro batch is triggered</h3>
+
+<p>data Stream writer allows us to define the trigger</p>
+
+<p><strong>unspecified</strong>: new microbatch is triggered as soon as current microbatch is done, however spark is smart enough to wait for new data</p>
+
+<p><strong>time interval</strong>: example if 1 min, then first microbatch will start immediately second will begin first is finished and time is elapsed</p>
+
+<p><code class="language-plaintext highlighter-rouge">.trigger(Trigger.ProcessingTime("30 seconds"))</code></p>
+
+<p>case1: when it takes less than 1 min then next microbatch will wait until 1 min is complete</p>
+
+<p>case2: when it takes more than 1 min then next microbatch will start as soon as previous finishes if there is new data</p>
+
+<p><strong>one time</strong>: similar to batch but provides all features of streaming to process only new data</p>
+
+<p><strong>continous</strong>: still experimental, millisecond latency</p>
+
+<h3 id="built-in-data-sources">built in data sources</h3>
+
+<h4 id="socket">socket</h4>
+
+<p>read streaming data from a socket (IP + port)</p>
+
+<p>if producer is producing at a very fast pace and writing to socket and if consumer is reading from the above socket at a slower pace then we might have data loss. so socket source is not meant for production use cases, as we can end up with data loss</p>
+
+<h4 id="rate">rate</h4>
+
+<p>used for testing and benchmarking purpose, to generate some test data then can generate a configurable number of key value pairs</p>
+
+<h4 id="file">file</h4>
+
+<p>basically have a directory where new files are detected and processed</p>
+
+<p>options like:</p>
+<ul>
+  <li>maxFilesPerTrigger <code class="language-plaintext highlighter-rouge">.option("maxFilesPerTrigger",1)</code></li>
+</ul>
+
+<p>that over the time the number of files in the directory will keep on increasing, if we have a lot of files in directory then it will keep on consuming more time. that is why it is recommended to clean up the directory files as and when required.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cleanSource</code> and <code class="language-plaintext highlighter-rouge">sourceArchiveDir</code> are often used together fro this.</p>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//to delete from source</span>
+<span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"cleanSource"</span><span class="o">,</span><span class="s">"delete"</span><span class="o">)</span>
+
+<span class="c1">//to archive at some path</span>
+<span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"cleanSource"</span><span class="o">,</span><span class="s">"archive"</span><span class="o">)</span>
+<span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"sourceArchiveDir"</span><span class="o">,</span><span class="s">"/path/to/archive"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<p>Note: going with any of the above will increase the processing time, if expected time to process is very quick then we should avoid using any of the above. In such cases we can have batch job scheduled which will take care of this cleanup.</p>
+
+<h4 id="kafka">kafka</h4>
+
+<p>it is event stream source, spark can keep track of offset it has processed from the kafka topic</p>
+
+<h3 id="fault-tolerance-and-exactly-once-guarantee">fault tolerance and exactly once guarantee</h3>
+
+<p>to maintain exactly once semantics</p>
+
+<ul>
+  <li>not to miss any input record</li>
+  <li>not to create duplicate output records</li>
+</ul>
+
+<p>spark structured steaming provides support for these, state is maintained in the checkpoint location, it helps to achieve fault tolerance.</p>
+
+<p>checkpoint location mainly contains read offsets/sources, state information (running total)</p>
+
+<p>to guarantee exactly once 4 requirements should be met</p>
+
+<ul>
+  <li>restart application with same checkpoint location</li>
+  <li>use a replayable source, consider there are 100 records in 3rd microbatch and after processing 30 records it gave some exception, these 30 records should be availble to you when you start reprocessing. replayable means we can still get the same data which is processed earlier. when we are using socket source then we cannot get older data back again, so socket source is not replayable. kafka, file source both of them are replayable</li>
+  <li>use deterministic computation, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. The output should remain same. example sqrt() is deterministic and dollarsToRs() kind of function is not deterministic</li>
+  <li>use an idempotent sink, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. we will be processing these 30 records 2 times and writing this to output 2 times, writing the same output should not impact. Either it should discard the 2nd output or it should overwrite the 1st ouput with the 2nd one.</li>
+</ul>
 
         
       </section>

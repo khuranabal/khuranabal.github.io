@@ -223,3 +223,141 @@ object StreamingWordCount {
 }
 
 ```
+
+In above example, group by will do shuffle and then shuffle partitions parameter will kick in and with default vaule will create 200 partitions which is over kill for this case, hence it took around 5 seconds
+
+so if we change the shuffle partitions it will give results in less than 1 sec.
+
+```scala
+val spark = SparkSession.builder()
+ .master(local[2])
+ .appName("stream app")
+ .config("spark.shuffle.partitions",3)
+ .getOrCreate()
+```
+
+
+## output modes
+
+**append**: only new data
+
+**update**: insert & update only
+
+**complete**: it will maintain all state and give output from start till end
+
+exapmle:
+input1: hello hi
+input2: hello no
+
+in complete mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (hi,1) (no,1)
+
+in update mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (no,1)
+
+in append mode:
+output1: (hello,1) (hi,1)
+output2: (hello,1) (no,1)
+
+in agg, append mode is not allowed, and spark streaming will through error as it is not supported.
+
+
+### graceful shutdown
+
+ideally spark streaming application should run forever but there can be cases where
+
+* manually have to stop it for maintainence or some other reason
+* some exception
+
+we want our spark streaming application to stop and then restart gracefully. for this there is config to enable `stopGracefullyOnShutdown` to `true`
+
+
+### behind the scene when spark streaming starts
+
+* spark driver will take the code from readStream to writeStream and submits it to spark sql engine
+* spark sql engine will analyse it, optimize it and then compile it to generate the execution plan
+* execution plan is made of stages and tasks
+* spark will then start a background thread to execute it
+* this thread will start a new job to repeat the processing and writing operations
+* each job is a micro batch
+* loop is created and managed by the background process/thread
+* whenever new data is processed then in spark UI we can see a new job created
+
+
+### when new micro batch is triggered
+
+data Stream writer allows us to define the trigger
+
+**unspecified**: new microbatch is triggered as soon as current microbatch is done, however spark is smart enough to wait for new data
+
+**time interval**: example if 1 min, then first microbatch will start immediately second will begin first is finished and time is elapsed
+
+`.trigger(Trigger.ProcessingTime("30 seconds"))`
+
+case1: when it takes less than 1 min then next microbatch will wait until 1 min is complete
+
+case2: when it takes more than 1 min then next microbatch will start as soon as previous finishes if there is new data
+
+**one time**: similar to batch but provides all features of streaming to process only new data
+
+**continous**: still experimental, millisecond latency
+
+
+### built in data sources
+
+#### socket
+
+read streaming data from a socket (IP + port)
+
+if producer is producing at a very fast pace and writing to socket and if consumer is reading from the above socket at a slower pace then we might have data loss. so socket source is not meant for production use cases, as we can end up with data loss
+
+#### rate
+
+used for testing and benchmarking purpose, to generate some test data then can generate a configurable number of key value pairs
+
+#### file
+
+basically have a directory where new files are detected and processed
+
+options like:
+* maxFilesPerTrigger `.option("maxFilesPerTrigger",1)`
+
+that over the time the number of files in the directory will keep on increasing, if we have a lot of files in directory then it will keep on consuming more time. that is why it is recommended to clean up the directory files as and when required.
+
+`cleanSource` and `sourceArchiveDir` are often used together fro this.
+
+```scala
+//to delete from source
+.option("cleanSource","delete")
+
+//to archive at some path
+.option("cleanSource","archive")
+.option("sourceArchiveDir","/path/to/archive")
+```
+
+Note: going with any of the above will increase the processing time, if expected time to process is very quick then we should avoid using any of the above. In such cases we can have batch job scheduled which will take care of this cleanup.
+
+#### kafka
+
+it is event stream source, spark can keep track of offset it has processed from the kafka topic
+
+
+### fault tolerance and exactly once guarantee
+
+to maintain exactly once semantics
+
+* not to miss any input record
+* not to create duplicate output records
+
+spark structured steaming provides support for these, state is maintained in the checkpoint location, it helps to achieve fault tolerance.
+
+checkpoint location mainly contains read offsets/sources, state information (running total)
+
+to guarantee exactly once 4 requirements should be met
+
+* restart application with same checkpoint location
+* use a replayable source, consider there are 100 records in 3rd microbatch and after processing 30 records it gave some exception, these 30 records should be availble to you when you start reprocessing. replayable means we can still get the same data which is processed earlier. when we are using socket source then we cannot get older data back again, so socket source is not replayable. kafka, file source both of them are replayable
+* use deterministic computation, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. The output should remain same. example sqrt() is deterministic and dollarsToRs() kind of function is not deterministic
+* use an idempotent sink, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. we will be processing these 30 records 2 times and writing this to output 2 times, writing the same output should not impact. Either it should discard the 2nd output or it should overwrite the 1st ouput with the 2nd one.

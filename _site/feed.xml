@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-05-01T10:32:56+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark streaming</title><link href="http://localhost:4000/blog/spark-streaming/" rel="alternate" type="text/html" title="spark streaming" /><published>2022-04-03T18:00:00+02:00</published><updated>2022-04-03T18:00:00+02:00</updated><id>http://localhost:4000/blog/spark-streaming</id><content type="html" xml:base="http://localhost:4000/blog/spark-streaming/">&lt;p&gt;In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-05-01T14:51:05+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Balpreet Singh</title><subtitle>Technical data engineering blogs. Techologies: Azure data services like data lake, blob, databricks, database, sql server, terraform, docker, kubernetes Tools: git, visual studio code, azure data studio Languages: SQL, Python, HCL Balpreet Singh, Senior Data Engineer</subtitle><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><entry><title type="html">spark streaming</title><link href="http://localhost:4000/blog/spark-streaming/" rel="alternate" type="text/html" title="spark streaming" /><published>2022-04-03T18:00:00+02:00</published><updated>2022-04-03T18:00:00+02:00</updated><id>http://localhost:4000/blog/spark-streaming</id><content type="html" xml:base="http://localhost:4000/blog/spark-streaming/">&lt;p&gt;In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;some data might reach late&lt;/li&gt;
@@ -213,7 +213,147 @@ nc &lt;span class=&quot;nt&quot;&gt;-lk&lt;/span&gt; 9998
 
 &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark streaming" /><summary type="html">In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:</summary></entry><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In above example, group by will do shuffle and then shuffle partitions parameter will kick in and with default vaule will create 200 partitions which is over kill for this case, hence it took around 5 seconds&lt;/p&gt;
+
+&lt;p&gt;so if we change the shuffle partitions it will give results in less than 1 sec.&lt;/p&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;SparkSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;master&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;])&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;appName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;stream app&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;spark.shuffle.partitions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getOrCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;output-modes&quot;&gt;output modes&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;append&lt;/strong&gt;: only new data&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;update&lt;/strong&gt;: insert &amp;amp; update only&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;complete&lt;/strong&gt;: it will maintain all state and give output from start till end&lt;/p&gt;
+
+&lt;p&gt;exapmle:
+input1: hello hi
+input2: hello no&lt;/p&gt;
+
+&lt;p&gt;in complete mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (hi,1) (no,1)&lt;/p&gt;
+
+&lt;p&gt;in update mode:
+output1: (hello,1) (hi,1)
+output2: (hello,2) (no,1)&lt;/p&gt;
+
+&lt;p&gt;in append mode:
+output1: (hello,1) (hi,1)
+output2: (hello,1) (no,1)&lt;/p&gt;
+
+&lt;p&gt;in agg, append mode is not allowed, and spark streaming will through error as it is not supported.&lt;/p&gt;
+
+&lt;h3 id=&quot;graceful-shutdown&quot;&gt;graceful shutdown&lt;/h3&gt;
+
+&lt;p&gt;ideally spark streaming application should run forever but there can be cases where&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;manually have to stop it for maintainence or some other reason&lt;/li&gt;
+  &lt;li&gt;some exception&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;we want our spark streaming application to stop and then restart gracefully. for this there is config to enable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;stopGracefullyOnShutdown&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;behind-the-scene-when-spark-streaming-starts&quot;&gt;behind the scene when spark streaming starts&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;spark driver will take the code from readStream to writeStream and submits it to spark sql engine&lt;/li&gt;
+  &lt;li&gt;spark sql engine will analyse it, optimize it and then compile it to generate the execution plan&lt;/li&gt;
+  &lt;li&gt;execution plan is made of stages and tasks&lt;/li&gt;
+  &lt;li&gt;spark will then start a background thread to execute it&lt;/li&gt;
+  &lt;li&gt;this thread will start a new job to repeat the processing and writing operations&lt;/li&gt;
+  &lt;li&gt;each job is a micro batch&lt;/li&gt;
+  &lt;li&gt;loop is created and managed by the background process/thread&lt;/li&gt;
+  &lt;li&gt;whenever new data is processed then in spark UI we can see a new job created&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;when-new-micro-batch-is-triggered&quot;&gt;when new micro batch is triggered&lt;/h3&gt;
+
+&lt;p&gt;data Stream writer allows us to define the trigger&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;unspecified&lt;/strong&gt;: new microbatch is triggered as soon as current microbatch is done, however spark is smart enough to wait for new data&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;time interval&lt;/strong&gt;: example if 1 min, then first microbatch will start immediately second will begin first is finished and time is elapsed&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.trigger(Trigger.ProcessingTime(&quot;30 seconds&quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;case1: when it takes less than 1 min then next microbatch will wait until 1 min is complete&lt;/p&gt;
+
+&lt;p&gt;case2: when it takes more than 1 min then next microbatch will start as soon as previous finishes if there is new data&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;one time&lt;/strong&gt;: similar to batch but provides all features of streaming to process only new data&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;continous&lt;/strong&gt;: still experimental, millisecond latency&lt;/p&gt;
+
+&lt;h3 id=&quot;built-in-data-sources&quot;&gt;built in data sources&lt;/h3&gt;
+
+&lt;h4 id=&quot;socket&quot;&gt;socket&lt;/h4&gt;
+
+&lt;p&gt;read streaming data from a socket (IP + port)&lt;/p&gt;
+
+&lt;p&gt;if producer is producing at a very fast pace and writing to socket and if consumer is reading from the above socket at a slower pace then we might have data loss. so socket source is not meant for production use cases, as we can end up with data loss&lt;/p&gt;
+
+&lt;h4 id=&quot;rate&quot;&gt;rate&lt;/h4&gt;
+
+&lt;p&gt;used for testing and benchmarking purpose, to generate some test data then can generate a configurable number of key value pairs&lt;/p&gt;
+
+&lt;h4 id=&quot;file&quot;&gt;file&lt;/h4&gt;
+
+&lt;p&gt;basically have a directory where new files are detected and processed&lt;/p&gt;
+
+&lt;p&gt;options like:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;maxFilesPerTrigger &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.option(&quot;maxFilesPerTrigger&quot;,1)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;that over the time the number of files in the directory will keep on increasing, if we have a lot of files in directory then it will keep on consuming more time. that is why it is recommended to clean up the directory files as and when required.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cleanSource&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sourceArchiveDir&lt;/code&gt; are often used together fro this.&lt;/p&gt;
+
+&lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//to delete from source&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cleanSource&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;delete&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//to archive at some path&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cleanSource&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;archive&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sourceArchiveDir&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/path/to/archive&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: going with any of the above will increase the processing time, if expected time to process is very quick then we should avoid using any of the above. In such cases we can have batch job scheduled which will take care of this cleanup.&lt;/p&gt;
+
+&lt;h4 id=&quot;kafka&quot;&gt;kafka&lt;/h4&gt;
+
+&lt;p&gt;it is event stream source, spark can keep track of offset it has processed from the kafka topic&lt;/p&gt;
+
+&lt;h3 id=&quot;fault-tolerance-and-exactly-once-guarantee&quot;&gt;fault tolerance and exactly once guarantee&lt;/h3&gt;
+
+&lt;p&gt;to maintain exactly once semantics&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;not to miss any input record&lt;/li&gt;
+  &lt;li&gt;not to create duplicate output records&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;spark structured steaming provides support for these, state is maintained in the checkpoint location, it helps to achieve fault tolerance.&lt;/p&gt;
+
+&lt;p&gt;checkpoint location mainly contains read offsets/sources, state information (running total)&lt;/p&gt;
+
+&lt;p&gt;to guarantee exactly once 4 requirements should be met&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;restart application with same checkpoint location&lt;/li&gt;
+  &lt;li&gt;use a replayable source, consider there are 100 records in 3rd microbatch and after processing 30 records it gave some exception, these 30 records should be availble to you when you start reprocessing. replayable means we can still get the same data which is processed earlier. when we are using socket source then we cannot get older data back again, so socket source is not replayable. kafka, file source both of them are replayable&lt;/li&gt;
+  &lt;li&gt;use deterministic computation, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. The output should remain same. example sqrt() is deterministic and dollarsToRs() kind of function is not deterministic&lt;/li&gt;
+  &lt;li&gt;use an idempotent sink, same example above, whenever we start again it will start from beginning of 3rd microbatch and these 30 records are also processed again. we will be processing these 30 records 2 times and writing this to output 2 times, writing the same output should not impact. Either it should discard the 2nd output or it should overwrite the 1st ouput with the 2nd one.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>{&quot;avatar&quot;=&gt;&quot;/assets/images/bio-photo.jpg&quot;, &quot;bio&quot;=&gt;&quot;Senior Data Engineer&quot;, &quot;links&quot;=&gt;[{&quot;label&quot;=&gt;&quot;Website&quot;, &quot;icon&quot;=&gt;&quot;fas fa-fw fa-link&quot;, &quot;url&quot;=&gt;&quot;https://khuranabal.github.io/&quot;}, {&quot;label&quot;=&gt;&quot;Linkedin&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-linkedin&quot;, &quot;url&quot;=&gt;&quot;https://www.linkedin.com/in/balpreet-singh-654705114&quot;}, {&quot;label&quot;=&gt;&quot;GitHub&quot;, &quot;icon&quot;=&gt;&quot;fab fa-fw fa-github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/khuranabal?tab=repositories&quot;}]}</name></author><category term="blog" /><category term="spark streaming" /><summary type="html">In batch processing, at certain frequency batch jobs are run but in case we require that batch to be very very small (depending on requirement, lets say we have 5 mins frequency batch jobs) that would be equivalent to stream processing to give near real time. But still there will be some edge cases like how to handle below:</summary></entry><entry><title type="html">spark optimizations</title><link href="http://localhost:4000/blog/spark-optimizations/" rel="alternate" type="text/html" title="spark optimizations" /><published>2022-03-12T17:00:00+01:00</published><updated>2022-03-12T17:00:00+01:00</updated><id>http://localhost:4000/blog/spark-optimizations</id><content type="html" xml:base="http://localhost:4000/blog/spark-optimizations/">&lt;p&gt;optimizations can be at application code level or at cluster level, here we are looking more at cluster level optimizations&lt;/p&gt;
 
 &lt;h3 id=&quot;application-code-level&quot;&gt;application code level&lt;/h3&gt;
 
